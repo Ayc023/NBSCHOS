@@ -81,7 +81,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         </div>
 
         <div class="col-md-4">
-            <a href="medicine_records_page.html" class="card-link">
+            <a href="medicine_record.php" class="card-link">
                 <div class="card">
                     <div class="card-header">
                         Medicine Records
