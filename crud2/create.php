@@ -141,7 +141,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 // Records created successfully. Redirect to landing page
-                header("location: ../add_dental_info.php");
+                header("location: ../nurse/dental_record.php");
                 exit();
             } else{
                 echo "Oops! Something went wrong. Please try again later.";

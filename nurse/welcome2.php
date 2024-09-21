@@ -67,7 +67,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         </div>
 
         <div class="col-md-4">
-            <a href="dental_records_page.html" class="card-link">
+            <a href="dental_record.php" class="card-link">
                 <div class="card">
                     <div class="card-header">
                         Dental Records
