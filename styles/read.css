@@ -1,0 +1,108 @@
+/* General Styling */
+body {
+    background-color: #f0f8ff; /* Light blue background */
+    margin: 0;
+    padding-top: 70px; /* Ensure content starts below the navbar */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Navbar Customization */
+.navbar {
+    background-color: #003366; /* Dark blue background for navbar */
+    padding: 15px 20px; /* Increased padding for a more prominent navbar */
+    position: fixed; /* Fix the navbar to the top */
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Ensure the navbar stays above other elements */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.navbar-brand {
+    color: white; /* White text for brand */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    margin-right: 10px; /* Spacing between logo and text */
+}
+
+.navbar-nav .nav-link {
+    color: white; /* White text for nav links */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f0f8ff; /* Light blue on hover */
+}
+
+.navbar-toggler {
+    border-color: #f0f8ff; /* Light blue border for toggler */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f0f8ff' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Light blue icon */
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    background-color: #f0f8ff; /* Light blue background for dropdown */
+    border: 1px solid #d0d0d0; /* Subtle border for dropdown */
+}
+
+.dropdown-item {
+    color: white; /* DodgerBlue text for dropdown items */
+    padding: 10px 20px; /* Increased padding for dropdown items */
+}
+
+.dropdown-item:hover {
+    background-color: #003366; /* Slightly darker blue on hover */
+    color: white; /* White text on hover */
+}
+
+/* Wrapper Styling */
+.wrapper {
+    width: 90%; /* Increased width for the wrapper */
+    max-width: 1200px; /* Limit the maximum width */
+    margin: 0 auto;
+    padding: 40px; /* Adjusted padding */
+    background-color: #ffffff; /* White background for the container */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Table Container */
+.table-container {
+    margin-top: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Table Styling */
+th {
+    width: 30%;
+    background-color: #003366; /* Dark blue for table header */
+    color: white;
+    font-weight: bold;
+    padding: 15px; /* Added padding for better spacing */
+}
+
+td {
+    padding: 15px; /* Added padding for better spacing */
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #003366; /* Dark blue for button */
+    border-color: #003366; /* Dark blue border */
+    color: white; /* White text for button */
+    padding: 10px 20px; /* Added padding for button */
+    font-size: 1rem; /* Increased font size */
+}
+
+.btn-primary:hover {
+    background-color: #004080; /* Slightly lighter blue on hover */
+    border-color: #004080;
+}

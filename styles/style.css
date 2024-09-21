@@ -1,0 +1,102 @@
+body {
+    background-color: #c4def5; /* Light blue background */
+    padding-top: 70px; /* Space for fixed navbar */
+}
+
+.container {
+    max-width: 1200px; /* Adjusted for larger screens */
+    margin: 0 auto;
+    padding: 50px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: #ffffff; /* White background for content area */
+    border-radius: 8px; /* Rounded corners for container */
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+/* Navbar Styles */
+.navbar-custom {
+    background-color: #1e90ff; /* DodgerBlue background */
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    margin-right: 10px; /* Spacing between logo and text */
+}
+
+.navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f0f8ff;
+}
+
+.navbar-toggler {
+    border-color: #f0f8ff; /* Light blue border for toggler */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f0f8ff' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Light blue icon */
+}
+
+.dropdown-menu {
+    background-color: #f0f8ff; /* Light blue background for dropdown */
+}
+
+.dropdown-item {
+    color: #1e90ff; /* DodgerBlue text for dropdown items */
+}
+
+.dropdown-item:hover {
+    background-color: #1c86ee; /* Slightly darker blue on hover */
+    color: white; /* White text on hover */
+}
+
+/* Card Styles */
+.card {
+    margin-bottom: 20px;
+    border: 1px solid #1e90ff; /* Blue border */
+    box-shadow: 0px 4px 6px rgba(30, 144, 255, 0.1); /* Subtle shadow */
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 24px;
+    color: #1e90ff;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.card-text {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #1e90ff;
+    border-color: #1e90ff;
+}
+
+.btn-primary:hover {
+    background-color: #1c86ee;
+    border-color: #1c86ee;
+}

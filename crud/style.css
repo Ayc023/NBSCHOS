@@ -1,0 +1,64 @@
+* General body styling */
+body {
+    background-color: #cde3f6; /* Light blue background */
+    margin: 0 auto;
+    padding-top: 70px; /* Ensure content starts below the navbar */
+    font-family: Arial, sans-serif;
+}
+/* Navbar custom styling */
+.navbar-custom {
+    background-color: #003366; /* Dark blue */
+    padding: 15px;
+}
+
+.navbar-custom .navbar-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar-custom .navbar-toggler {
+    border-color: #fff;
+}
+
+.navbar-custom .navbar-nav .dropdown-menu {
+    background-color: #003366;
+}
+
+.navbar-custom .dropdown-menu .dropdown-item {
+    color: white;
+}
+
+.navbar-custom .dropdown-menu .dropdown-item:hover {
+    background-color: #004080; /* Lighter shade of dark blue */
+}
+/* container styling */
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 60px);
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .slogan {
+    font-style: italic;
+    color: #888;
+    margin-bottom: 20px;
+  }

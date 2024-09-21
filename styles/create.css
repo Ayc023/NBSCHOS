@@ -1,0 +1,32 @@
+/* Base styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Updated modern font */
+    background-color: #f3f3f3; /* Light blue background */
+    padding: 20px;
+    margin: 0; /* Remove default margin for a cleaner look */
+    line-height: 1.6;
+    color: #333; /* Darker text color for better contrast */
+}
+
+/* Custom navbar styling */
+.navbar-custom {
+    background-color: #003366; /* Dark blue background */
+    margin: 0; /* Ensure no margin on the navbar */
+    padding: 0.5rem 1rem; /* Adjust padding as needed */
+}
+.navbar-custom .navbar-brand {
+    color: white;
+    font-weight: bold;
+}
+.navbar-custom .nav-link {
+    color: white;
+}
+.navbar-custom .dropdown-menu {
+    background-color: #004080; /* Slightly lighter dark blue for dropdown */
+}
+.navbar-custom .dropdown-item {
+    color: white;
+}
+.navbar-custom .dropdown-item:hover {
+    background-color: #1535ee; /* DodgerBlue on hover */
+}

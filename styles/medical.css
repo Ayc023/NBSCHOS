@@ -1,0 +1,162 @@
+/* General Styling */
+body {
+    background-color: #f0f8ff; /* Light blue background */
+    margin: 0 auto;
+    padding-top: 70px; /* Ensure content starts below the navbar */
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar Customization */
+.navbar-custom {
+    background-color: #1535ee; /* DodgerBlue background for navbar */
+    padding: 12px 20px; /* Slightly increased padding for better spacing */
+    position: fixed; /* Fix the navbar to the top */
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Ensure the navbar stays above other elements */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.navbar-brand {
+    color: white; /* White text for brand */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem; /* Slightly larger font for emphasis */
+}
+
+.navbar-brand img {
+    margin-right: 12px; /* Spacing between logo and text */
+    height: 40px; /* Set consistent logo height */
+}
+
+.navbar-nav .nav-link {
+    color: white; /* White text for nav links */
+    font-size: 1.1rem; /* Slightly larger text for readability */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f0f8ff; /* Light blue on hover */
+    transition: color 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+.navbar-toggler {
+    border-color: #f0f8ff; /* Light blue border for toggler */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f0f8ff' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Light blue icon */
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    background-color: #f0f8ff; /* Light blue background for dropdown */
+    border-radius: 6px; /* Rounded corners for dropdown */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.dropdown-item {
+    color: #1e90ff; /* DodgerBlue text for dropdown items */
+    padding: 10px 20px;
+}
+
+.dropdown-item:hover {
+    background-color: #1c86ee; /* Slightly darker blue on hover */
+    color: white; /* White text on hover */
+    border-radius: 4px; /* Soft rounded hover effect */
+}
+
+/* Wrapper Styling */
+.wrapper {
+    width: 90%; /* Use 90% of the screen width */
+    max-width: 1200px; /* Limit the maximum width */
+    margin: 0 auto;
+    padding: 60px;
+    background-color: #ffffff; /* White background */
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 255, 0.2); /* Light blue shadow */
+}
+
+/* Heading Styles */
+h2 {
+    color: #1e90ff; /* DodgerBlue for headings */
+    margin-bottom: 30px; /* Increased space below heading */
+    font-size: 1.8rem; /* Slightly larger heading */
+}
+
+/* Button Success Styling */
+.btn-success {
+    background-color: #1e90ff; /* Blue button background */
+    border-color: #1e90ff; /* Blue button border */
+    padding: 10px 20px;
+    font-size: 1.1rem; /* Larger button text */
+    border-radius: 5px; /* Rounded button edges */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+}
+
+.btn-success:hover {
+    background-color: #1c86ee; /* Slightly darker blue on hover */
+    border-color: #1c86ee;
+}
+
+/* Table Styling */
+.table {
+    background-color: #f8faff; /* Light blue background for table */
+    border-color: #1e90ff; /* Blue borders */
+    margin-bottom: 30px; /* Space below the table */
+}
+
+.table th {
+    background-color: #1e90ff; /* Blue background for table headers */
+    color: white; /* White text for table headers */
+    text-align: center;
+}
+
+.table td {
+    color: #00008b; /* Dark blue text for table cells */
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f0f8ff; /* Light blue for odd rows */
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e0efff; /* Lighter blue on hover */
+}
+
+/* FontAwesome Icons Styling */
+.fa-eye, .fa-pencil, .fa-trash {
+    color: #1e90ff; /* Blue icons */
+    margin-right: 10px;
+}
+
+.fa-eye:hover, .fa-pencil:hover, .fa-trash:hover {
+    color: #1c86ee; /* Darker blue on hover */
+}
+
+/* Alert Danger Styling */
+.alert-danger {
+    background-color: #ffcccc; /* Light red background for alerts */
+    color: #cc0000; /* Dark red text for alerts */
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+    .wrapper {
+        width: 100%; /* Full width for smaller screens */
+        padding: 30px; /* Reduce padding for smaller screens */
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem; /* Smaller brand font on small screens */
+    }
+    
+    .btn-success {
+        padding: 8px 15px; /* Reduce button padding */
+    }
+}
