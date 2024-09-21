@@ -187,3 +187,48 @@ main.content {
         font-size: 16px;
     }
 }
+/* Search Bar Styles */
+.form-control.custom-search-bar {
+    border-radius: 30px 0 0 30px;
+    border: 2px solid #003366; /* DodgerBlue */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    flex: 1; /* Ensures the input grows to take available space */
+}
+
+.custom-search-bar:focus {
+    outline: none;
+    border-color: #003366; /* Dark blue on focus */
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+}
+
+.custom-search-btn {
+    border-radius: 0 30px 30px 0;
+    background-color: #003366; /* DodgerBlue */
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+    border: 2px solid #003366;
+}
+
+.custom-search-btn:hover {
+    background-color: #003366; /* Dark blue hover effect */
+    border-color: #003366;
+}
+
+.input-group {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex; /* Ensure the input and button are on the same line */
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}

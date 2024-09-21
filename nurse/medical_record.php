@@ -57,8 +57,44 @@ if ($result = mysqli_query($link, $sql)) {
 } else {
     echo "Error fetching patient names.";
 }
+// Initialize search term
+$search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : '';
+
+// Fetch all or filtered patient names for the sidebar
+$sidebar_patients = [];
+
+if ($search_term) {
+    // Search based on the first name or last name
+    $sql = "SELECT basic_info_id, basic_info_firstname, basic_info_lastname FROM basic_info WHERE basic_info_firstname LIKE ? OR basic_info_lastname LIKE ?";
+    if ($stmt = mysqli_prepare($link, $sql)) {
+        $search_param = '%' . $search_term . '%';
+        mysqli_stmt_bind_param($stmt, 'ss', $search_param, $search_param);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sidebar_patients[] = $row;
+        }
+        mysqli_stmt_close($stmt);
+    } else {
+        echo "Error preparing search statement.";
+    }
+} else {
+    // If no search term is provided, fetch all patient names
+    $sql = "SELECT basic_info_id, basic_info_firstname, basic_info_lastname FROM basic_info";
+    if ($result = mysqli_query($link, $sql)) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sidebar_patients[] = $row;
+        }
+        mysqli_free_result($result);
+    } else {
+        echo "Error fetching patient names.";
+    }
+}
 
 mysqli_close($link); // Close the connection at the end
+?>
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,9 +142,12 @@ mysqli_close($link); // Close the connection at the end
         <nav class="col-md-3 sidebar">
             <h5>Patient List</h5>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search patient" aria-label="Search patient">
-                <button class="btn btn-outline-secondary" type="button">Search</button>
+                <form method="GET" action="" class="d-flex align-items-center">
+                    <input type="text" class="form-control custom-search-bar" placeholder="Search patient" aria-label="Search patient" value="<?php echo isset($_GET['search_term']) ? htmlspecialchars($_GET['search_term']) : ''; ?>">
+                    <button class="btn btn-primary custom-search-btn" type="submit">Search</button>
+                </form>
             </div>
+
             <ul class="list-group">
                 <?php foreach ($sidebar_patients as $patient) : ?>
                 <li class="list-group-item <?php echo $patient_id == $patient['basic_info_id'] ? 'active' : ''; ?>">
