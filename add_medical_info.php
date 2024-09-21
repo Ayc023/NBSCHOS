@@ -16,6 +16,148 @@ error_reporting(E_ALL);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="crud2/dental.css">
     <script src="../js/formHandler.js" defer></script>
+    <style>
+        /* General Body Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+/* Navbar Customization */
+.navbar-custom {
+    background-color: #003366;
+}
+
+.navbar-custom .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.navbar-custom .nav-link {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #00bfff;
+}
+
+.navbar-custom .dropdown-menu {
+    background-color: #004080;
+    border: none;
+}
+
+.navbar-custom .dropdown-menu .dropdown-item {
+    color: #ffffff;
+}
+
+.navbar-custom .dropdown-menu .dropdown-item:hover {
+    background-color: #1535ee;
+    color: #ffffff;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #1535ee;
+    border-color: #1535ee;
+}
+
+.btn-primary:hover {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+.btn-success {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+.btn-success:hover {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+/* Table Styling */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #004080;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+table td {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+table .fa {
+    font-size: 1.2rem;
+    color: #003366;
+}
+
+table .fa:hover {
+    color: #007bff;
+}
+
+/* Search Form Styling */
+form label {
+    font-weight: 500;
+}
+
+form .form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+}
+
+form button[type="submit"] {
+    background-color: DodgerBlue;
+    color: white;
+    border: none;
+}
+
+form button[type="submit"]:hover {
+    background-color: #003366;
+}
+
+/* Media Query for Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar-custom .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    table th, table td {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+    }
+}
+
+    </style>
 </head>
 <body>
 <header>
@@ -55,7 +197,7 @@ error_reporting(E_ALL);
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Add Medical Information</h2>
-                        <a href="crud/create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Medical Information</a>
+                        <a href="crud/create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add Information</a>
                     </div>
                     
                     <!-- Search Form -->

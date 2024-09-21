@@ -1,61 +1,139 @@
-/* General Styling */
+/* General Body Styling */
 body {
-    background-color: #f8f9fa; /* Light background */
-    font-family: 'Arial', sans-serif;
-    color: #333; /* Improved text color consistency */
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
     margin: 0;
     padding: 0;
 }
-
-h2 {
-    color: #333;
-    font-weight: 600;
-    font-size: 1.75rem;
-    margin-bottom: 20px;
-}
-
 /* Navbar Customization */
 .navbar-custom {
-    background-color: #003366; /* Dark blue */
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    transition: background-color 0.3s ease;
+    background-color: #003366;
 }
 
 .navbar-custom .navbar-brand {
-    color: white;
-    font-weight: bold;
     font-size: 1.5rem;
-    letter-spacing: 0.05em; /* Spacing for a modern look */
+    font-weight: bold;
+    color: #ffffff;
 }
 
-.navbar-custom .navbar-nav .nav-link {
-    color: #fff;
-    font-size: 1rem;
-    padding: 10px;
-    transition: color 0.3s ease;
+.navbar-custom .nav-link {
+    color: #ffffff;
+    font-weight: 500;
 }
 
-.navbar-custom .navbar-nav .nav-link:hover {
-    color: #1c86ee; /* Lighter hover effect for links */
+.navbar-custom .nav-link:hover {
+    color: #00bfff;
 }
 
-.navbar-custom .navbar-toggler {
-    border-color: #fff;
-}
-
-.navbar-custom .navbar-nav .dropdown-menu {
-    background-color: #003366;
-    border-radius: 5px; /* Rounded dropdown corners */
+.navbar-custom .dropdown-menu {
+    background-color: #004080;
+    border: none;
 }
 
 .navbar-custom .dropdown-menu .dropdown-item {
-    color: white;
-    padding: 10px 20px;
-    transition: background-color 0.3s ease;
+    color: #ffffff;
 }
 
 .navbar-custom .dropdown-menu .dropdown-item:hover {
-    background-color: #004080; /* Lighter shade of dark blue */
-    border-radius: 5px; /* Slight rounding */
+    background-color: #1535ee;
+    color: #ffffff;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #1535ee;
+    border-color: #1535ee;
+}
+
+.btn-primary:hover {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+.btn-success {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+.btn-success:hover {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+/* Table Styling */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #004080;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+table td {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+table .fa {
+    font-size: 1.2rem;
+    color: #003366;
+}
+
+table .fa:hover {
+    color: #007bff;
+}
+
+/* Search Form Styling */
+form label {
+    font-weight: 500;
+}
+
+form .form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+}
+
+form button[type="submit"] {
+    background-color: DodgerBlue;
+    color: white;
+    border: none;
+}
+
+form button[type="submit"]:hover {
+    background-color: #003366;
+}
+
+/* Media Query for Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar-custom .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    table th, table td {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+    }
 }
