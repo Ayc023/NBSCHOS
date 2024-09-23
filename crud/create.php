@@ -206,7 +206,7 @@ $input_basic_info_smoking_years = trim($_POST["basic_info_smoking_years"]);
 
 if(empty($firstname_err) && empty($middlename_err) && empty($lastname_err) && empty($date_err) && empty($birthday_err) && empty($sex_err) && empty($age_err) && empty($home_address_err) && empty($college_course_err) && empty($college_clinic_file_number_err) && empty($contact_number_err) && empty($religion_err) && empty($occupation_err) && empty($civil_status_err) && empty($basic_complete_name_err) && empty($basic_address_err) && empty($basic_contact_err) && empty($basic_relationship_err) && empty($basic_info_smoking_err) && empty($basic_info_smoking_pack_day_err)&& empty($basic_info_smoking_years_err) && empty($basic_info_alcohol_drinking_err)){
     
-    $sql = "INSERT INTO basic_info (basic_info_firstname, basic_info_middlename, basic_info_lastname, basic_info_date, basic_info_birthday, basic_info_sex, basic_info_age, basic_info_home_address, basic_college_course, basic_college_clinic_file_number, basic_contact_number, basic_religion, basic_occupation, basic_civil_status, basic_complete_name, basic_address, basic_contact, basic_relationship, basic_info_smoking, basic_info_smoking_pack_day, basic_info_smoking_years, basic_info_alcohol_drinking) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO basic_info (basic_info_firstname, basic_info_middlename, basic_info_lastname, basic_info_date, basic_info_birthday, basic_info_sex, basic_info_age, basic_info_home_address, basic_college_course, basic_college_clinic_file_number, basic_contact_number, basic_religion, basic_occupation, basic_civil_status, basic_complete_name, basic_address, basic_contact, basic_relationship, basic_info_smoking, basic_info_smoking_pack_day, basic_info_smoking_years, basic_info_alcohol_drinking) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     if($stmt = mysqli_prepare($link, $sql)){
         mysqli_stmt_bind_param($stmt, "ssssssisissssssssssiii", 
@@ -325,12 +325,13 @@ mysqli_close($link);
                 document.getElementById('basic_contact').value = data.basic_contact || '';
                 document.getElementById('basic_relationship').value = data.basic_relationship || '';
                 document.getElementById('basic_info_smoking').value = data.basic_info_smoking || '';
-
+                document.getElementById('basic_info_smoking_pack_day').value = data.basic_info_smoking_pack_day || '';
+                document.getElementById('basic_info_smoking_years').value = data.basic_info_smoking_years || '';
+                document.getElementById('basic_info_alcohol_drinking').value = data.basic_info_alcohol_drinking|| '';
             })
             .catch(error => console.error('Error fetching patient data:', error));
     });
     </script>
-
 </head>
 <body>
     <div class="wrapper">
@@ -455,26 +456,39 @@ mysqli_close($link);
                             </div>
                         </div>
                         <h4>Life Choice</h4>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Smoking Status</label>
-                                <select id="basic_info_smoking" name="basic_info_smoking" class="form-control <?php echo (!empty($basic_info_smoking_err)) ? 'is-invalid' : ''; ?>">
-                                    <option value="">Select</option>
-                                    <option value="Yes" <?php echo ($basic_info_smoking == "Yes") ? 'selected' : ''; ?>>Yes</option>
-                                    <option value="No" <?php echo ($basic_info_smoking == "No") ? 'selected' : ''; ?>>No</option>
-                                </select>
-                                <span class="invalid-feedback"><?php echo $basic_info_smoking_err;?></span>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Smoking Status</label>
+                                    <select id="basic_info_smoking" name="basic_info_smoking" class="form-control <?php echo (!empty($basic_info_smoking_err)) ? 'is-invalid' : ''; ?>">
+                                        <option value="">Select</option>
+                                        <option value="Yes" <?php echo ($basic_info_smoking == "Yes") ? 'selected' : ''; ?>>Yes</option>
+                                        <option value="No" <?php echo ($basic_info_smoking == "No") ? 'selected' : ''; ?>>No</option>
+                                    </select>
+                                    <span class="invalid-feedback"><?php echo $basic_info_smoking_err;?></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Smoking Pack/Day</label>
+                                    <input type="text" id="basic_info_smoking_pack_day" name="basic_info_smoking_pack_day" class="form-control <?php echo (!empty($basic_info_smoking_pack_day_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_smoking_pack_day; ?>">
+                                    <span class="invalid-feedback"><?php echo $basic_info_smoking_pack_day_err; ?></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Smoking Years</label>
+                                    <input type="text" id="basic_info_smoking_years" name="basic_info_smoking_years" class="form-control <?php echo (!empty($basic_info_smoking_years_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_smoking_years; ?>">
+                                    <span class="invalid-feedback"><?php echo $basic_info_smoking_years_err;?></span>
+                                </div>
                             </div>
-                        </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label>Smoking Pack/Day</label>
-                            <input type="text" id="basic_info_smoking_pack_day" name="basic_info_smoking_pack_day" class="form-control <?php echo (!empty($basic_info_smoking_pack_day_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_smoking_pack_day; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_info_smoking_pack_day_err; ?></span>
-                        </div>
-                    </div>
 
-
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Alcohol Drinking</label>
+                                    <select id="basic_info_alcohol_drinking" name="basic_info_alcohol_drinking" class="form-control <?php echo (!empty($basic_info_alcohol_drinking_err)) ? 'is-invalid' : ''; ?>">
+                                        <option value="">Select</option>
+                                        <option value="Yes" <?php echo ($basic_info_alcohol_drinking == "Yes") ? 'selected' : ''; ?>>Yes</option>
+                                        <option value="No" <?php echo ($basic_info_alcohol_drinking == "No") ? 'selected' : ''; ?>>No</option>
+                                    </select>
+                                    <span class="invalid-feedback"><?php echo $basic_info_alcohol_drinking_err;?></span>
+                                </div>
+                            </div>
 
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary" value="Submit">
