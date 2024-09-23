@@ -95,7 +95,6 @@ if ($search_term) {
 mysqli_close($link); // Close the connection at the end
 ?>
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
