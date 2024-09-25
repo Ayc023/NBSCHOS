@@ -35,7 +35,8 @@ if ($patient_id) {
             $smoking_pack_day = $row['basic_info_smoking_pack_day']; // Fetch smoking pack/day data
             $smoking_years = $row['basic_info_smoking_years']; // Fetch years smoking data
             $alcohol_drinking = $row['basic_info_alcohol_drinking']; // Fetch alcohol drinking data
-            $alcohol_drink_types = $row['basic_info_alcohol_drink_types']; // Fetch alcohol drink types data
+            $alcohol_drink_types = $row['basic_info_alcohol_drink_types']; 
+             $alcohol_drink_types = $row['basic_info_alcohol_drink_types']; // Fetch alcohol drink types data
         } else {
             echo "No record found for the given ID.";
         }
@@ -176,6 +177,7 @@ mysqli_close($link); // Close the connection at the end
                 <h4>Basic Information</h4>
                 <div class="row">
                     <div class="col-md-6">
+                    <div>Patient ID: <span><?php echo htmlspecialchars($patient_id); ?></span></div>
                         <div>First Name: <span><?php echo htmlspecialchars($firstname); ?></span></div>
                         <div>Middle Name: <span><?php echo htmlspecialchars($middlename); ?></span></div>
                         <div>Last Name: <span><?php echo htmlspecialchars($lastname); ?></span></div>

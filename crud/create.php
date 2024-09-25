@@ -3,12 +3,22 @@
 require_once "../config.php";
  
 
-$firstname = $middlename = $lastname = $date = $birthday = $sex = $age = $home_address = $college_course = $college_clinic_file_number = $contact_number = $religion = $occupation = $civil_status = $basic_complete_name = $basic_address = $basic_contact = $basic_relationship = $basic_info_smoking = $basic_info_smoking_pack_day = $basic_info_smoking_years = $basic_info_alcohol_drinking = "";
-$firstname_err = $middlename_err = $lastname_err = $date_err = $birthday_err = $sex_err = $age_err = $home_address_err = $college_course_err = $college_clinic_file_number_err = $contact_number_err = $religion_err = $occupation_err = $civil_status_err = $basic_complete_name_err = $basic_address_err = $basic_contact_err = $basic_relationship_err = $basic_info_smoking_err = $basic_info_smoking_pack_day_err = $basic_info_smoking_years_err = $basic_info_alcohol_drinking_err = "";
+$firstname = $middlename = $lastname = $date = $birthday = $sex = $age = $home_address = $college_course = $college_clinic_file_number = $contact_number = $religion = $occupation = $civil_status = $basic_complete_name = $basic_address = $basic_contact = $basic_relationship = $basic_info_smoking = $basic_info_smoking_pack_day = $basic_info_smoking_years = $basic_info_alcohol_drinking = $patient_id = "";
+$firstname_err = $middlename_err = $lastname_err = $date_err = $birthday_err = $sex_err = $age_err = $home_address_err = $college_course_err = $college_clinic_file_number_err = $contact_number_err = $religion_err = $occupation_err = $civil_status_err = $basic_complete_name_err = $basic_address_err = $basic_contact_err = $basic_relationship_err = $basic_info_smoking_err = $basic_info_smoking_pack_day_err = $basic_info_smoking_years_err = $basic_info_alcohol_drinking_err = $patient_id_err = "";
  
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     var_dump($_POST);
+    
+    $input_patient_id = trim($_POST["patient_id"]);
+    if(empty($input_patient_id)){
+        $patient_id_err = "Please enter the patient ID.";
+    } elseif(!ctype_digit($input_patient_id)){
+        $patient_id_err = "Please enter a valid patient ID.";
+    } else{
+        $patient_id = $input_patient_id;
+    }
+
     $input_firstname = trim($_POST["firstname"]);
     if(empty($input_firstname)){
         $firstname_err = "Please enter a first name.";
@@ -204,36 +214,27 @@ $input_basic_info_smoking_years = trim($_POST["basic_info_smoking_years"]);
 
 
 
-if(empty($firstname_err) && empty($middlename_err) && empty($lastname_err) && empty($date_err) && empty($birthday_err) && empty($sex_err) && empty($age_err) && empty($home_address_err) && empty($college_course_err) && empty($college_clinic_file_number_err) && empty($contact_number_err) && empty($religion_err) && empty($occupation_err) && empty($civil_status_err) && empty($basic_complete_name_err) && empty($basic_address_err) && empty($basic_contact_err) && empty($basic_relationship_err) && empty($basic_info_smoking_err) && empty($basic_info_smoking_pack_day_err)&& empty($basic_info_smoking_years_err) && empty($basic_info_alcohol_drinking_err)){
-    
-    $sql = "INSERT INTO basic_info (basic_info_firstname, basic_info_middlename, basic_info_lastname, basic_info_date, basic_info_birthday, basic_info_sex, basic_info_age, basic_info_home_address, basic_college_course, basic_college_clinic_file_number, basic_contact_number, basic_religion, basic_occupation, basic_civil_status, basic_complete_name, basic_address, basic_contact, basic_relationship, basic_info_smoking, basic_info_smoking_pack_day, basic_info_smoking_years, basic_info_alcohol_drinking) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    if (empty($firstname_err) && empty($middlename_err) && empty($lastname_err) && empty($date_err) && 
+    empty($birthday_err) && empty($sex_err) && empty($age_err) && empty($home_address_err) && 
+    empty($college_course_err) && empty($college_clinic_file_number_err) && empty($contact_number_err) && 
+    empty($religion_err) && empty($occupation_err) && empty($civil_status_err) && 
+    empty($basic_complete_name_err) && empty($basic_address_err) && empty($basic_contact_err) && 
+    empty($basic_relationship_err) && empty($basic_info_smoking_err) && 
+    empty($basic_info_smoking_pack_day_err) && empty($basic_info_smoking_years_err) && 
+    empty($basic_info_alcohol_drinking_err) && empty($patient_id_err)) {
 
-    if($stmt = mysqli_prepare($link, $sql)){
-        mysqli_stmt_bind_param($stmt, "ssssssisissssssssssiii", 
-            $param_firstname, 
-            $param_middlename, 
-            $param_lastname, 
-            $param_date, 
-            $param_birthday, 
-            $param_sex, 
-            $param_age, 
-            $param_home_address, 
-            $param_college_course, 
-            $param_college_clinic_file_number, 
-            $param_contact_number, 
-            $param_religion, 
-            $param_occupation, 
-            $param_civil_status, 
-            $param_complete_name, 
-            $param_address, 
-            $param_contact, 
-            $param_relationship, 
-            $param_smoking, 
-            $param_smoking_pack_day, 
-            $param_smoking_years, 
-            $param_alcohol_drinking
-        );
+    // Updated SQL query to include patient_id
+    $sql = "INSERT INTO basic_info 
+            (basic_info_firstname, basic_info_middlename, basic_info_lastname, basic_info_date, 
+            basic_info_birthday, basic_info_sex, basic_info_age, basic_info_home_address, 
+            basic_college_course, basic_college_clinic_file_number, basic_contact_number, 
+            basic_religion, basic_occupation, basic_civil_status, basic_complete_name, 
+            basic_address, basic_contact, basic_relationship, 
+            basic_info_smoking, basic_info_smoking_pack_day, 
+            basic_info_smoking_years, basic_info_alcohol_drinking, patient_id) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+    if ($stmt = mysqli_prepare($link, $sql)) {
         // Set parameters
         $param_firstname = $firstname;
         $param_middlename = $middlename;
@@ -257,31 +258,58 @@ if(empty($firstname_err) && empty($middlename_err) && empty($lastname_err) && em
         $param_smoking_pack_day = (int)$basic_info_smoking_pack_day;
         $param_smoking_years = (int)$basic_info_smoking_years;
         $param_alcohol_drinking = $basic_info_alcohol_drinking;
+        $param_patient_id = (int)$patient_id;
 
-        if(mysqli_stmt_execute($stmt)){
-            header("location: ../nurse/medical_record.php");
+        // Bind parameters (the number of variables must match the type string)
+        mysqli_stmt_bind_param($stmt, 
+            "ssssssisssssssssssiisi", 
+            $param_firstname, 
+            $param_middlename, 
+            $param_lastname, 
+            $param_date, 
+            $param_birthday, 
+            $param_sex, 
+            $param_age, 
+            $param_home_address, 
+            $param_college_course, 
+            $param_college_clinic_file_number, 
+            $param_contact_number, 
+            $param_religion, 
+            $param_occupation, 
+            $param_civil_status, 
+            $param_complete_name, 
+            $param_address, 
+            $param_contact, 
+            $param_relationship, 
+            $param_smoking, 
+            $param_smoking_pack_day, 
+            $param_smoking_years, 
+            $param_alcohol_drinking,
+            $param_patient_id
+        );
+
+        // Execute the statement
+        if (mysqli_stmt_execute($stmt)) {
+            // Redirect to medical_record.php with patient_id
+            header("location: ../nurse/medical_record.php?patient_id=" . urlencode($patient_id));
             exit();
         } else {
-            echo "Oops! Something went wrong. Please try again later.";
+            echo "Oops! Something went wrong while executing the statement: " . mysqli_stmt_error($stmt);
         }
+        
+
+        // Close statement
+        mysqli_stmt_close($stmt);
     } else {
         echo "Error preparing statement: " . mysqli_error($link);
     }
 
-    // Close statement
-    if (isset($stmt) && $stmt) {
-        mysqli_stmt_close($stmt);
-    }
+    // Close connection
+    mysqli_close($link);
 }
-
-// Close connection
-mysqli_close($link);
 }
 ?>
 
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Create Record</title>
@@ -306,6 +334,7 @@ mysqli_close($link);
                 }
 
                 // Populate form fields with patient data
+                document.getElementById('patient_id').value = data.patient_id || '';
                 document.getElementById('firstname').value = data.basic_info_firstname || '';
                 document.getElementById('middlename').value = data.basic_info_middlename || '';
                 document.getElementById('lastname').value = data.basic_info_lastname || '';
@@ -327,7 +356,7 @@ mysqli_close($link);
                 document.getElementById('basic_info_smoking').value = data.basic_info_smoking || '';
                 document.getElementById('basic_info_smoking_pack_day').value = data.basic_info_smoking_pack_day || '';
                 document.getElementById('basic_info_smoking_years').value = data.basic_info_smoking_years || '';
-                document.getElementById('basic_info_alcohol_drinking').value = data.basic_info_alcohol_drinking|| '';
+                document.getElementById('basic_info_alcohol_drinking').value = data.basic_info_alcohol_drinking || '';
             })
             .catch(error => console.error('Error fetching patient data:', error));
     });
@@ -341,6 +370,13 @@ mysqli_close($link);
                     <h2 class="mt-5">Create Record</h2>
                     <p>Please fill this form.</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                          <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Patient ID</label>
+                                    <input type="text" id="patient_id" name="patient_id" class="form-control <?php echo (!empty($patient_id_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $patient_id; ?>">
+                                    <span class="invalid-feedback"><?php echo $patient_id_err; ?></span>
+                                </div>
+                            </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label>First Name</label>

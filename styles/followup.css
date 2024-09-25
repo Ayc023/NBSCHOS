@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9; /* Light background for better contrast */
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+/* Headings Style */
+h1, h2 {
+    color: #003366; /* Match your preferred dark blue color */
+    margin-bottom: 10px; /* Added space below headings */
+}
+
+/* Navbar Customization */
+.navbar-custom {
+    background-color: #003366; /* Dark blue background for navbar */
+    padding: 10px 15px; /* Reduced padding for a smaller navbar */
+    position: fixed; /* Fix the navbar to the top */
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Ensure the navbar stays above other elements */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Lighter shadow for less height */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.navbar-custom:hover {
+    background-color: #003366; /* Darker blue on hover */
+}
+
+.navbar-brand {
+    color: white; /* White text for brand */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem; /* Slightly smaller font size for brand */
+}
+
+.navbar-brand img {
+    margin-right: 8px; /* Adjusted spacing between logo and text */
+    height: 30px; /* Reduced logo height */
+}
+
+.navbar-nav .nav-link {
+    color: white; /* White text for nav links */
+    font-size: 1rem; /* Slightly smaller text for readability */
+    padding: 8px 12px; /* Reduced padding for smaller clickable area */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f0f8ff; /* Light blue on hover */
+    text-decoration: underline; /* Underline effect on hover */
+}
+
+/* Toggler Button */
+.navbar-toggler {
+    border-color: #f0f8ff; /* Light blue border for toggler */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f0f8ff' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Light blue icon */
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    background-color: #003366; /* Light blue background for dropdown */
+    border-radius: 6px; /* Rounded corners for dropdown */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Soft shadow for dropdown */
+}
+
+.dropdown-item {
+    color: #ffffff; /* DodgerBlue text for dropdown items */
+    padding: 8px 16px; /* Reduced padding for dropdown items */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.dropdown-item:hover {
+    background-color: #1c86ee; /* Slightly darker blue on hover */
+    color: white; /* White text on hover */
+    border-radius: 4px; /* Soft rounded hover effect */
+}
+
+/* Additional styles for better overall aesthetics */
+a {
+    text-decoration: none; /* Remove underline from links */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover for clarity */
+}
+
+.container {
+    padding-top: 70px; /* Space below the fixed navbar */
+}
