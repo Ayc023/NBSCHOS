@@ -4,7 +4,7 @@ require_once "../config.php";
 // Initialize variables for patient data
 $patient_id = isset($_GET['basic_info_id']) ? trim($_GET['basic_info_id']) : '';
 $firstname = $middlename = $lastname = $age = $sex = $birthday = $home_address = $contact_number = $religion = $occupation = $civil_status = $complete_name = $address = $emergency_contact_number = $emergency_contact_relationship = $college_clinic_file_number = '';
-$smoking = $smoking_pack_day = $smoking_years = $alcohol_drinking = $alcohol_drink_types = ''; // Initialize new variables
+$smoking = $smoking_pack_day = $smoking_years = $alcohol_drinking = $alcohol_drink_types = '';
 
 // Fetch patient data from the database
 if ($patient_id) {
@@ -31,11 +31,11 @@ if ($patient_id) {
             $emergency_contact_number = $row['basic_contact'];
             $emergency_contact_relationship = $row['basic_relationship'];
             $college_clinic_file_number = $row['basic_college_clinic_file_number'];
-            $smoking = $row['basic_info_smoking']; // Fetch smoking data
-            $smoking_pack_day = $row['basic_info_smoking_pack_day']; // Fetch smoking pack/day data
-            $smoking_years = $row['basic_info_smoking_years']; // Fetch years smoking data
-            $alcohol_drinking = $row['basic_info_alcohol_drinking']; // Fetch alcohol drinking data
-            $alcohol_drink_types = $row['basic_info_alcohol_drink_types']; // Fetch alcohol drink types data
+            $smoking = $row['basic_info_smoking'];
+            $smoking_pack_day = $row['basic_info_smoking_pack_day'];
+            $smoking_years = $row['basic_info_smoking_years'];
+            $alcohol_drinking = $row['basic_info_alcohol_drinking'];
+            $alcohol_drink_types = $row['basic_info_alcohol_drink_types'];
         } else {
             echo "No record found for the given ID.";
         }
@@ -48,23 +48,10 @@ if ($patient_id) {
 
 // Fetch all patient names for the sidebar
 $sidebar_patients = [];
-$sql = "SELECT basic_info_id, basic_info_firstname, basic_info_lastname FROM basic_info";
-if ($result = mysqli_query($link, $sql)) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $sidebar_patients[] = $row;
-    }
-    mysqli_free_result($result);
-} else {
-    echo "Error fetching patient names.";
-}
-// Initialize search term
 $search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : '';
 
 // Fetch all or filtered patient names for the sidebar
-$sidebar_patients = [];
-
 if ($search_term) {
-    // Search based on the first name or last name
     $sql = "SELECT basic_info_id, basic_info_firstname, basic_info_lastname FROM basic_info WHERE basic_info_firstname LIKE ? OR basic_info_lastname LIKE ?";
     if ($stmt = mysqli_prepare($link, $sql)) {
         $search_param = '%' . $search_term . '%';
@@ -80,7 +67,6 @@ if ($search_term) {
         echo "Error preparing search statement.";
     }
 } else {
-    // If no search term is provided, fetch all patient names
     $sql = "SELECT basic_info_id, basic_info_firstname, basic_info_lastname FROM basic_info";
     if ($result = mysqli_query($link, $sql)) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -95,33 +81,69 @@ if ($search_term) {
 mysqli_close($link); // Close the connection at the end
 ?>
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Profile</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-DCUO7MBcNPiqP+DdC6sK2jVSXyCegiRvqvwAa9xHvNGXKtyq6vy9WRbTCodQI" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9jEO9G5C0EYyIvJraSgx70fF97uFJRAZsZ91zDFVP2EjT2Vr5A5" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-DSB3mYFi3LBGDS0sEkDqGzFz7sU8nYFcSQkXtE8pKIC5sP06Upu9ROd1NNFw1nmbd" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-M/V3k3sFulpfWZKR/u2XFuDqhKVGiSbS2CtnRa1vNhQFkxhxRFtHv/OVzfVJQ8cjgwtdzNdTtKQsKhcEUpmjQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../styles/medicalrecs.css">
     <style>
-  
+        /* Add custom styles if needed */
+
+        /* Print Styles */
+        @media print {
+            body * {
+                visibility: hidden; /* Hide everything */
+            }
+
+            #printableProfile, #printableProfile * {
+                visibility: visible; /* Show only the profile */
+            }
+
+            #printableProfile {
+                position: absolute; /* Position profile for print */
+                left: 0;
+                top: 0;
+                background: #fff; /* White background for print */
+                padding: 20px; /* Add padding for better layout */
+                margin: 0; /* Ensure there's no margin */
+                box-shadow: none; /* Remove any box shadow */
+            }
+
+            .print-button {
+                display: none; /* Hide print button during printing */
+            }
+        }
+
+        /* Additional styles for profile formatting */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile h4 {
+            margin-top: 20px;
+        }
+
+        .profile div {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none; /* Hide sidebar on small screens */
+            }
+        }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <a class="navbar-brand" href="#">
-        <img src="../src/Nbsc_logo-removebg-preview.png" alt="NBSC HOS" width="50" height="50">
-        NBSC HOS
+        <img src="../src/Nbsc_logo-removebg-preview.png" alt="NBSC HOS" width="50" height="50"> NBSC HOS
     </a>
-    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -147,7 +169,6 @@ mysqli_close($link); // Close the connection at the end
                     <button class="btn btn-primary custom-search-btn" type="submit">Search</button>
                 </form>
             </div>
-
             <ul class="list-group">
                 <?php foreach ($sidebar_patients as $patient) : ?>
                 <li class="list-group-item <?php echo $patient_id == $patient['basic_info_id'] ? 'active' : ''; ?>">
@@ -162,65 +183,74 @@ mysqli_close($link); // Close the connection at the end
             <div class="profile-header">
                 <img src="../src/Nbsc_logo-removebg-preview.png" alt="Profile Logo">
                 <h5>
-                Republic of the Philippines
-                <br/>
-                Province of Bukidnon
-                <br/>
-                NORTHERN BUKIDNON STATE COLLEGE
-                <br/>
-                Municipality of Manolo Fortich
-                <br/>
-                HEALTH PROFILE
+                    Republic of the Philippines
+                    <br/>
+                    Province of Bukidnon
+                    <br/>
+                    NORTHERN BUKIDNON STATE COLLEGE
+                    <br/>
+                    Municipality of Manolo Fortich
+                    <br/>
+                    HEALTH PROFILE
                 </h5>
             </div>
-            <div class="profile">
+            <div class="profile" id="printableProfile">
                 <h4>Basic Information</h4>
                 <div class="row">
                     <div class="col-md-6">
                         <div>First Name: <span><?php echo htmlspecialchars($firstname); ?></span></div>
                         <div>Middle Name: <span><?php echo htmlspecialchars($middlename); ?></span></div>
                         <div>Last Name: <span><?php echo htmlspecialchars($lastname); ?></span></div>
+                        <div>Occupation: <span><?php echo htmlspecialchars($occupation); ?></span></div>
+                    </div>
+                    <div class="col-md-6">
                         <div>Age: <span><?php echo htmlspecialchars($age); ?></span></div>
                         <div>Sex: <span><?php echo htmlspecialchars($sex); ?></span></div>
                         <div>Birthday: <span><?php echo htmlspecialchars($birthday); ?></span></div>
-                    </div>
-                    <div class="col-md-6">
                         <div>Home Address: <span><?php echo htmlspecialchars($home_address); ?></span></div>
+                    </div>
+                </div>
+                <h4>Contact Information</h4>
+                <div class="row">
+                    <div class="col-md-6">
                         <div>Contact Number: <span><?php echo htmlspecialchars($contact_number); ?></span></div>
                         <div>Religion: <span><?php echo htmlspecialchars($religion); ?></span></div>
-                        <div>Occupation: <span><?php echo htmlspecialchars($occupation); ?></span></div>
                         <div>Civil Status: <span><?php echo htmlspecialchars($civil_status); ?></span></div>
                     </div>
                 </div>
-                <h4>In Case of Emergency</h4>
+                <h4>Emergency Contact</h4>
                 <div class="row">
                     <div class="col-md-6">
-                        <div>Complete Name: <span><?php echo htmlspecialchars($complete_name); ?></span></div>
-                        <div>Address: <span><?php echo htmlspecialchars($address); ?></span></div>
+                    <div>Complete Name: <span><?php echo htmlspecialchars($complete_name); ?></span></div>
+                    <div>Address: <span><?php echo htmlspecialchars($address); ?></span></div>
                     </div>
                     <div class="col-md-6">
-                        <div>Contact: <span><?php echo htmlspecialchars($contact_number); ?></span></div>
+                        <div>Contact Number: <span><?php echo htmlspecialchars($emergency_contact_number); ?></span></div>
                         <div>Relationship: <span><?php echo htmlspecialchars($emergency_contact_relationship); ?></span></div>
                     </div>
                 </div>
-
-                <h4>Additional Information</h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div>Smoking: <span><?php echo htmlspecialchars($smoking); ?></span></div>
-                        <div>Smoking Pack/Day: <span><?php echo htmlspecialchars($smoking_pack_day); ?></span></div>
-                        <div>Years Smoking: <span><?php echo htmlspecialchars($smoking_years); ?></span></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Alcohol Drinking: <span><?php echo htmlspecialchars($alcohol_drinking); ?></span></div>
-                        <div>Alcohol Drink Types: <span><?php echo htmlspecialchars($alcohol_drink_types); ?></span></div>
-                    </div>
-                </div>
+                <h4>College Clinic File Number</h4>
+                <div><?php echo htmlspecialchars($college_clinic_file_number); ?></div>
+                <h4>Health Habits</h4>
+                <div>Smoking: <span><?php echo htmlspecialchars($smoking); ?></span></div>
+                <div>Smoking Pack/Day: <span><?php echo htmlspecialchars($smoking_pack_day); ?></span></div>
+                <div>Smoking Years: <span><?php echo htmlspecialchars($smoking_years); ?></span></div>
+                <div>Alcohol Drinking: <span><?php echo htmlspecialchars($alcohol_drinking); ?></span></div>
+                <div>Alcohol Drink Types: <span><?php echo htmlspecialchars($alcohol_drink_types); ?></span></div>
+            </div>
+            <div class="print-button mt-3">
+                <button class="btn btn-success" id="printButton">Print</button>
             </div>
         </main>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9jEO9G5C0EYyIvJraSgx70fF97uFJRAZsZ91zDFVP2EjT2Vr5A5" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-DSB3mYFi3LBGDS0sEkDqGzFz7sU8nYFcSQkXtE8pKIC5sP06Upu9ROd1NNFw1nmbd" crossorigin="anonymous"></script>
+
+<script>
+document.getElementById('printButton').addEventListener('click', function() {
+    window.print(); // Directly trigger the print dialog
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

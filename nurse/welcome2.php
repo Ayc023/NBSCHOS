@@ -111,7 +111,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         </div>
 
         <div class="col-md-4">
-            <a href="../charts-main/index.html" class="card-link">
+            <a href="../charts-main/chartdisplay.html" class="card-link">
                 <div class="card">
                     <div class="card-header">
                         Statistical Dashboard
