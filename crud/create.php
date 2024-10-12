@@ -285,18 +285,17 @@ mysqli_close($link);
 <head>
     <meta charset="UTF-8">
     <title>Create Record</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href="../styles/create.css">
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Replace with the actual patient ID you want to fetch
         const patientId = 1;
 
-        // Fetch patient data from the server
         fetch(`get_patient_data.php?patient_id=${patientId}`)
             .then(response => response.json())
             .then(data => {
@@ -305,7 +304,6 @@ mysqli_close($link);
                     return;
                 }
 
-                // Populate form fields with patient data
                 document.getElementById('firstname').value = data.basic_info_firstname || '';
                 document.getElementById('middlename').value = data.basic_info_middlename || '';
                 document.getElementById('lastname').value = data.basic_info_lastname || '';
@@ -328,183 +326,189 @@ mysqli_close($link);
                 document.getElementById('basic_info_smoking_pack_day').value = data.basic_info_smoking_pack_day || '';
                 document.getElementById('basic_info_smoking_years').value = data.basic_info_smoking_years || '';
                 document.getElementById('basic_info_alcohol_drinking').value = data.basic_info_alcohol_drinking || '';
-
             })
             .catch(error => console.error('Error fetching patient data:', error));
     });
     </script>
-
 </head>
-<body>
-    <div class="wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="mt-5">Create Record</h2>
-                    <p>Please fill this form.</p>
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>First Name</label>
-                                <input type="text" id="firstname" name="firstname" class="form-control <?php echo (!empty($firstname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $firstname; ?>">
-                                <span class="invalid-feedback"><?php echo $firstname_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Middle Name</label>
-                                <input type="text" id="middlename" name="middlename" class="form-control <?php echo (!empty($middlename_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $middlename; ?>">
-                                <span class="invalid-feedback"><?php echo $middlename_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Last Name</label>
-                                <input type="text" id="lastname" name="lastname" class="form-control <?php echo (!empty($lastname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $lastname; ?>">
-                                <span class="invalid-feedback"><?php echo $lastname_err;?></span>
-                            </div>
+<body class="bg-gray-100">
+<h10 class="text-lg font-bold mb-10">Create Record</h10>
+<p class="text-gray-600 mb-4">Please fill this form.</p>
+    <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="col-span-1 md:col-span-3">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block font-semibold">First Name</label>
+                            <input type="text" id="firstname" name="firstname" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($firstname_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $firstname; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $firstname_err;?></span>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Date</label>
-                                <input type="text" id="date" name="date" class="form-control <?php echo (!empty($date_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $date; ?>" placeholder="YYYY-MM-DD">
-                                <span class="invalid-feedback"><?php echo $date_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Birthday</label>
-                                <input type="text" id="birthday" name="birthday" class="form-control <?php echo (!empty($birthday_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $birthday; ?>" placeholder="YYYY-MM-DD">
-                                <span class="invalid-feedback"><?php echo $birthday_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Sex</label>
-                                <select id="sex" name="sex" class="form-control <?php echo (!empty($sex_err)) ? 'is-invalid' : ''; ?>">
-                                    <option value="">Select</option>
-                                    <option value="Male" <?php echo ($sex == "Male") ? 'selected' : ''; ?>>Male</option>
-                                    <option value="Female" <?php echo ($sex == "Female") ? 'selected' : ''; ?>>Female</option>
-                                </select>
-                                <span class="invalid-feedback"><?php echo $sex_err;?></span>
-                            </div>
+                        <div>
+                            <label class="block font-semibold">Middle Name</label>
+                            <input type="text" id="middlename" name="middlename" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($middlename_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $middlename; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $middlename_err;?></span>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Age</label>
-                                <input type="text" id="age" name="age" class="form-control <?php echo (!empty($age_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $age; ?>">
-                                <span class="invalid-feedback"><?php echo $age_err;?></span>
-                            </div>
-                            <div class="form-group col-md-8">
-                                <label>Home Address</label>
-                                <input type="text" id="home_address" name="home_address" class="form-control <?php echo (!empty($home_address_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $home_address; ?>">
-                                <span class="invalid-feedback"><?php echo $home_address_err;?></span>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>College Course</label>
-                                <input type="text" id="college_course" name="college_course" class="form-control <?php echo (!empty($college_course_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $college_course; ?>">
-                                <span class="invalid-feedback"><?php echo $college_course_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>College Clinic File Number</label>
-                                <input type="text" id="college_clinic_file_number" name="college_clinic_file_number" class="form-control <?php echo (!empty($college_clinic_file_number_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $college_clinic_file_number; ?>">
-                                <span class="invalid-feedback"><?php echo $college_clinic_file_number_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Contact Number</label>
-                                <input type="text" id="contact_number" name="contact_number" class="form-control <?php echo (!empty($contact_number_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $contact_number; ?>">
-                                <span class="invalid-feedback"><?php echo $contact_number_err;?></span>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Religion</label>
-                                <input type="text" id="religion" name="religion" class="form-control <?php echo (!empty($religion_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $religion; ?>">
-                                <span class="invalid-feedback"><?php echo $religion_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Occupation</label>
-                                <input type="text" id="occupation" name="occupation" class="form-control <?php echo (!empty($occupation_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $occupation; ?>">
-                                <span class="invalid-feedback"><?php echo $occupation_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Civil Status</label>
-                                <input type="text" id="civil_status" name="civil_status" class="form-control <?php echo (!empty($civil_status_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $civil_status; ?>">
-                                <span class="invalid-feedback"><?php echo $civil_status_err;?></span>
-                            </div>
-                        </div>
-                        <h4>Incase of Emergency</h4>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Complete Name</label>
-                                <input type="text" id="basic_complete_name" name="basic_complete_name" class="form-control <?php echo (!empty($basic_complete_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_complete_name; ?>">
-                                <span class="invalid-feedback"><?php echo $basic_complete_name_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Address</label>
-                                <input type="text" id="basic_address" name="basic_address" class="form-control <?php echo (!empty($basic_address_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_address; ?>">
-                                <span class="invalid-feedback"><?php echo $basic_address_err;?></span>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Contact</label>
-                                <input type="text" id="basic_contact" name="basic_contact" class="form-control <?php echo (!empty($basic_contact_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_contact; ?>">
-                                <span class="invalid-feedback"><?php echo $basic_contact_err;?></span>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Relationship</label>
-                                <input type="text" id="basic_relationship" name="basic_relationship" class="form-control <?php echo (!empty($basic_relationship_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_relationship; ?>">
-                                <span class="invalid-feedback"><?php echo $basic_relationship_err;?></span>
-                            </div>
-                        </div>
-                        <h4>Life Choice</h4>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Smoking Status</label>
-                                <select id="basic_info_smoking" name="basic_info_smoking" class="form-control <?php echo (!empty($basic_info_smoking_err)) ? 'is-invalid' : ''; ?>">
-                                    <option value="">Select</option>
-                                    <option value="Yes" <?php echo ($basic_info_smoking == "Yes") ? 'selected' : ''; ?>>Yes</option>
-                                    <option value="No" <?php echo ($basic_info_smoking == "No") ? 'selected' : ''; ?>>No</option>
-                                </select>
-                                <span class="invalid-feedback"><?php echo $basic_info_smoking_err;?></span>
-                            </div>
-                        </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label>Smoking Pack/Day</label>
-                            <input type="text" id="basic_info_smoking_pack_day" name="basic_info_smoking_pack_day" class="form-control <?php echo (!empty($basic_info_smoking_pack_day_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_smoking_pack_day; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_info_smoking_pack_day_err; ?></span>
+                        <div>
+                            <label class="block font-semibold">Last Name</label>
+                            <input type="text" id="lastname" name="lastname" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($lastname_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $lastname; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $lastname_err;?></span>
                         </div>
                     </div>
-                
-                    <div class="form-group col-md-4">
-                                    <label>Smoking Years</label>
-                                    <input type="text" id="basic_info_smoking_years" name="basic_info_smoking_years" class="form-control <?php echo (!empty($basic_info_smoking_years_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_smoking_years; ?>">
-                                    <span class="invalid-feedback"><?php echo $basic_info_smoking_years_err;?></span>
-                                </div>
-                            </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label>Alcohol Drinking</label>
-                                    <select id="basic_info_alcohol_drinking" name="basic_info_alcohol_drinking" class="form-control <?php echo (!empty($basic_info_alcohol_drinking_err)) ? 'is-invalid' : ''; ?>">
-                                        <option value="">Select</option>
-                                        <option value="Yes" <?php echo ($basic_info_alcohol_drinking == "Yes") ? 'selected' : ''; ?>>Yes</option>
-                                        <option value="No" <?php echo ($basic_info_alcohol_drinking == "No") ? 'selected' : ''; ?>>No</option>
-                                    </select>
-                                    <span class="invalid-feedback"><?php echo $basic_info_alcohol_drinking_err;?></span>
-                                </div>
-                            </div>
-
-
-
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-primary" value="Submit">
-                            <a href="../welcome.php" class="btn btn-secondary ml-2">Cancel</a>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <div>
+                            <label class="block font-semibold">Date</label>
+                            <input type="text" id="date" name="date" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($date_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $date; ?>" placeholder="YYYY-MM-DD">
+                            <span class="text-red-500 text-sm"><?php echo $date_err;?></span>
                         </div>
-                    </form>
-                </div>
-            </div>        
+                        <div>
+                            <label class="block font-semibold">Birthday</label>
+                            <input type="text" id="birthday" name="birthday" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($birthday_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $birthday; ?>" placeholder="YYYY-MM-DD">
+                            <span class="text-red-500 text-sm"><?php echo $birthday_err;?></span>
+                        </div>
+                        <div>
+                            <label class="block font-semibold">Sex</label>
+                            <select id="sex" name="sex" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($sex_err)) ? 'border-red-500' : ''; ?>">
+                                <option value="">Select</option>
+                                <option value="Male" <?php echo ($sex == "Male") ? 'selected' : ''; ?>>Male</option>
+                                <option value="Female" <?php echo ($sex == "Female") ? 'selected' : ''; ?>>Female</option>
+                            </select>
+                            <span class="text-red-500 text-sm"><?php echo $sex_err;?></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <div>
+                            <label class="block font-semibold">Age</label>
+                            <input type="text" id="age" name="age" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($age_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $age; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $age_err;?></span>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block font-semibold">Home Address</label>
+                            <input type="text" id="home_address" name="home_address" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($home_address_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $home_address; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $home_address_err;?></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block font-semibold">College Course</label>
+                            <input type="text" id="college_course" name="college_course" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($college_course_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $college_course; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $college_course_err;?></span>
+                        </div>
+                        <div>
+                            <label class="block font-semibold">Clinic File Number</label>
+                            <input type="text" id="college_clinic_file_number" name="college_clinic_file_number" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($college_clinic_file_number_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $college_clinic_file_number; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $college_clinic_file_number_err;?></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block font-semibold">Contact Number</label>
+                            <input type="text" id="contact_number" name="contact_number" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($contact_number_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $contact_number; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $contact_number_err;?></span>
+                        </div>
+                        <div>
+                            <label class="block font-semibold">Religion</label>
+                            <input type="text" id="religion" name="religion" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($religion_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $religion; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $religion_err;?></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block font-semibold">Occupation</label>
+                            <input type="text" id="occupation" name="occupation" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($occupation_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $occupation; ?>">
+                            <span class="text-red-500 text-sm"><?php echo $occupation_err;?></span>
+                        </div>
+                        <div>
+                            <label class="block font-semibold">Civil Status</label>
+                            <select id="civil_status" name="civil_status" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($civil_status_err)) ? 'border-red-500' : ''; ?>">
+                                <option value="">Select</option>
+                                <option value="Single" <?php echo ($civil_status == "Single") ? 'selected' : ''; ?>>Single</option>
+                                <option value="Married" <?php echo ($civil_status == "Married") ? 'selected' : ''; ?>>Married</option>
+                                <option value="Divorced" <?php echo ($civil_status == "Divorced") ? 'selected' : ''; ?>>Divorced</option>
+                                <option value="Widowed" <?php echo ($civil_status == "Widowed") ? 'selected' : ''; ?>>Widowed</option>
+                            </select>
+                            <span class="text-red-500 text-sm"><?php echo $civil_status_err;?></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <label class="block font-semibold">Emergency Contact Name</label>
+                                <input type="text" id="basic_complete_name" name="basic_complete_name" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($basic_complete_name_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $basic_complete_name; ?>">
+                                <span class="text-red-500 text-sm"><?php echo $basic_complete_name_err;?></span>
+                            </div>
+                            <div>
+                                <label class="block font-semibold">Emergency Contact Number</label>
+                                <input type="text" id="basic_contact" name="basic_contact" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($basic_contact_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $basic_contact; ?>">
+                                <span class="text-red-500 text-sm"><?php echo $basic_contact_err;?></span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <label class="block font-semibold">Emergency Contact Address</label>
+                                <input type="text" id="basic_address" name="basic_address" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($basic_address_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $basic_address; ?>">
+                                <span class="text-red-500 text-sm"><?php echo $basic_address_err;?></span>
+                            </div>
+                            <div>
+                                <label class="block font-semibold">Emergency Contact Relationship</label>
+                                <input type="text" id="basic_relationship" name="basic_relationship" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($basic_relationship_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $basic_relationship; ?>">
+                                <span class="text-red-500 text-sm"><?php echo $basic_relationship_err;?></span>
+                            </div>
+                        </div>
+
+                        <!-- Add more fields as needed -->
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block font-semibold">Smoking</label>
+                            <select id="basic_info_smoking" name="basic_info_smoking" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($basic_info_smoking_err)) ? 'border-red-500' : ''; ?>">
+                                <option value="">Select</option>
+                                <option value="Yes" <?php echo ($basic_info_smoking == "Yes") ? 'selected' : ''; ?>>Yes</option>
+                                <option value="No" <?php echo ($basic_info_smoking == "No") ? 'selected' : ''; ?>>No</option>
+                            </select>
+                            <span class="text-red-500 text-sm"><?php echo $basic_info_smoking_err;?></span>
+                        </div>
+
+                        <!-- Smoking Details: Pack per Day and Smoking Years -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-semibold">Smoking Pack per Day</label>
+                                <input type="number" id="basic_info_smoking_pack_day" name="basic_info_smoking_pack_day" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($basic_info_smoking_pack_day_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $basic_info_smoking_pack_day; ?>" min="0" step="1">
+                                <span class="text-red-500 text-sm"><?php echo $basic_info_smoking_pack_day_err;?></span>
+                            </div>
+                            <div>
+                                <label class="block font-semibold">Smoking Years</label>
+                                <input type="number" id="basic_info_smoking_years" name="basic_info_smoking_years" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($basic_info_smoking_years_err)) ? 'border-red-500' : ''; ?>" value="<?php echo $basic_info_smoking_years; ?>" min="0" step="1">
+                                <span class="text-red-500 text-sm"><?php echo $basic_info_smoking_years_err;?></span>
+                            </div>
+                        </div>
+
+                        <!-- Alcohol Drinking Field -->
+                        <div>
+                            <label class="block font-semibold">Alcohol Drinking</label>
+                            <select id="basic_info_alcohol_drinking" name="basic_info_alcohol_drinking" class="block w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 <?php echo (!empty($basic_info_alcohol_drinking_err)) ? 'border-red-500' : ''; ?>">
+                                <option value="">Select</option>
+                                <option value="Yes" <?php echo ($basic_info_alcohol_drinking == "Yes") ? 'selected' : ''; ?>>Yes</option>
+                                <option value="No" <?php echo ($basic_info_alcohol_drinking == "No") ? 'selected' : ''; ?>>No</option>
+                            </select>
+                            <span class="text-red-500 text-sm"><?php echo $basic_info_alcohol_drinking_err;?></span>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <button type="submit" class="w-full bg-blue-500 text-white rounded-lg py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </body>

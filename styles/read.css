@@ -51,7 +51,7 @@ body {
 }
 
 .dropdown-item {
-    color: white; /* DodgerBlue text for dropdown items */
+    color: #003366; /* DodgerBlue text for dropdown items */
     padding: 10px 20px; /* Increased padding for dropdown items */
 }
 

@@ -197,7 +197,7 @@ form button[type="submit"]:hover {
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Add Medical Information</h2>
-                        <a href="crud/create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add Information</a>
+                        <a href="crud/personalhistory.html" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add Information</a>
                     </div>
                     
                     <!-- Search Form -->
@@ -217,10 +217,10 @@ form button[type="submit"]:hover {
                     $search = isset($_GET['search']) ? mysqli_real_escape_string($link, $_GET['search']) : '';
 
                     // Attempt select query execution
-                    $sql = "SELECT basic_info_id, basic_info_date, basic_info_firstname, basic_info_middlename, basic_info_lastname, basic_info_birthday, basic_info_sex, basic_info_age, basic_info_home_address FROM basic_info";
+                    $sql = "SELECT medical_id, date,  clinic_file_number, college_course, name, age_sex, birthday, home_address, religion, municipal_address, occupation FROM personal_health_profile";
 
                     if ($search) {
-                        $sql .= " WHERE basic_info_firstname LIKE '%$search%' OR basic_info_lastname LIKE '%$search%' OR basic_info_home_address LIKE '%$search%'";
+                        $sql .= " WHERE name LIKE '%$search%' OR clinic_file_number LIKE '%$search%' OR home_address LIKE '%$search%'";
                     }
 
                     if ($result = mysqli_query($link, $sql)) {
@@ -230,32 +230,36 @@ form button[type="submit"]:hover {
                                     echo "<tr>";
                                         echo "<th>#</th>";
                                         echo "<th>Date</th>";
-                                        echo "<th>Firstname</th>";
-                                        echo "<th>Middlename</th>";
-                                        echo "<th>Lastname</th>";
+                                        echo "<th>Clinic File Number</th>";
+                                        echo "<th>College Course</th>";
+                                        echo "<th>Name</th>";
+                                        echo "<th>Age/Sex</th>";
                                         echo "<th>Birthday</th>";
-                                        echo "<th>Sex</th>";
-                                        echo "<th>Age</th>";
                                         echo "<th>Home Address</th>";
+                                        echo "<th>Religion</th>";
+                                        echo "<th>Municipal Address</th>";
+                                        echo "<th>Occupation</th>";
                                         echo "<th>Action</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
                                 while ($row = mysqli_fetch_array($result)) {
                                     echo "<tr>";
-                                        echo "<td>" . $row['basic_info_id'] . "</td>";
-                                        echo "<td>" . $row['basic_info_date'] . "</td>";
-                                        echo "<td>" . $row['basic_info_firstname'] . "</td>";
-                                        echo "<td>" . $row['basic_info_middlename'] . "</td>";
-                                        echo "<td>" . $row['basic_info_lastname'] . "</td>";
-                                        echo "<td>" . $row['basic_info_birthday'] . "</td>";
-                                        echo "<td>" . $row['basic_info_sex'] . "</td>";
-                                        echo "<td>" . $row['basic_info_age'] . "</td>";
-                                        echo "<td>" . $row['basic_info_home_address'] . "</td>";
+                                        echo "<td>" . $row['medical_id'] . "</td>";
+                                        echo "<td>" . $row['date'] . "</td>";
+                                        echo "<td>" . $row['clinic_file_number'] . "</td>";
+                                        echo "<td>" . $row['college_course'] . "</td>";
+                                        echo "<td>" . $row['name'] . "</td>";
+                                        echo "<td>" . $row['age_sex'] . "</td>";
+                                        echo "<td>" . $row['birthday'] . "</td>";
+                                        echo "<td>" . $row['home_address'] . "</td>";
+                                        echo "<td>" . $row['religion'] . "</td>";
+                                        echo "<td>" . $row['municipal_address'] . "</td>";
+                                        echo "<td>" . $row['occupation'] . "</td>";
                                         echo "<td>";
-                                            echo '<a href="crud/read.php?id=' . $row['basic_info_id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                            echo '<a href="crud/update.php?id=' . $row['basic_info_id'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="crud/delete.php?id=' . $row['basic_info_id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                            echo '<a href="crud/read.php?id=' . $row['medical_id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                            echo '<a href="crud/update.php?id=' . $row['medical_id'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                            echo '<a href="crud/delete.php?id=' . $row['medical_id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }

@@ -65,6 +65,9 @@
     </button>
     <div class="collapse navbar-collapse" id="main_nav">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+                <a class="nav-link" href="nurse/medical_record.php">Health Profile</a>
+            </li> 
             <li class="nav-item">
                 <a class="nav-link" href="add_medical_info.php">Medical</a>
             </li> 
