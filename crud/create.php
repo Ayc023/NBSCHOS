@@ -206,10 +206,11 @@ $input_basic_info_smoking_years = trim($_POST["basic_info_smoking_years"]);
 
 if(empty($firstname_err) && empty($middlename_err) && empty($lastname_err) && empty($date_err) && empty($birthday_err) && empty($sex_err) && empty($age_err) && empty($home_address_err) && empty($college_course_err) && empty($college_clinic_file_number_err) && empty($contact_number_err) && empty($religion_err) && empty($occupation_err) && empty($civil_status_err) && empty($basic_complete_name_err) && empty($basic_address_err) && empty($basic_contact_err) && empty($basic_relationship_err) && empty($basic_info_smoking_err) && empty($basic_info_smoking_pack_day_err)&& empty($basic_info_smoking_years_err) && empty($basic_info_alcohol_drinking_err)){
     
-    $sql = "INSERT INTO basic_info (basic_info_firstname, basic_info_middlename, basic_info_lastname, basic_info_date, basic_info_birthday, basic_info_sex, basic_info_age, basic_info_home_address, basic_college_course, basic_college_clinic_file_number, basic_contact_number, basic_religion, basic_occupation, basic_civil_status, basic_complete_name, basic_address, basic_contact, basic_relationship, basic_info_smoking, basic_info_smoking_pack_day, basic_info_smoking_years, basic_info_alcohol_drinking) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+    $sql = "INSERT INTO basic_info (basic_info_firstname, basic_info_middlename, basic_info_lastname, basic_info_date, basic_info_birthday, basic_info_sex, basic_info_age, basic_info_home_address, basic_college_course, basic_college_clinic_file_number, basic_contact_number, basic_religion, basic_occupation, basic_civil_status, basic_complete_name, basic_address, basic_contact, basic_relationship, basic_info_smoking, basic_info_smoking_pack_day, basic_info_smoking_years, basic_info_alcohol_drinking, drug_use, drug_kind, sexually_active, sexual_partners_male, sexual_partners_female, sexual_partners_both, allergy_food, allergy_drug, epilepsy, asthma, heart_disorder, thyroid_disease, skin_disorder, cancer, diabetes, ulcer, tuberculosis, coronary_disease, pcos, hypertension, psychological_disorder, hepatitis, diagnosis_1, when_1, diagnosis_2, when_2, operation_type_1, when_surgery_1, operation_type_2, when_surgery_2, disability_status, disability_description, donate_blood, family_history_mother, family_history_father, newborn_immunizations, hpv_doses, tetanus_doses, influenza_year, pneumococcal_doses, covid_vaccine_brand_1, covid_vaccine_brand_2, covid_booster_1, covid_booster_2, covid_unvaccinated_reason) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
     if($stmt = mysqli_prepare($link, $sql)){
-        mysqli_stmt_bind_param($stmt, "ssssssissssssssssssiis", 
+        mysqli_stmt_bind_param($stmt, "ssssssissssssssssssiisssssssssssssssssssssssssssssssssss", 
             $param_firstname, 
             $param_middlename, 
             $param_lastname, 
@@ -231,9 +232,53 @@ if(empty($firstname_err) && empty($middlename_err) && empty($lastname_err) && em
             $param_smoking, 
             $param_smoking_pack_day, 
             $param_smoking_years, 
-            $param_alcohol_drinking
+            $param_alcohol_drinking, 
+            $param_drug_use, 
+            $param_drug_kind, 
+            $param_sexually_active, 
+            $param_sexual_partners_male, 
+            $param_sexual_partners_female, 
+            $param_sexual_partners_both, 
+            $param_allergy_food, 
+            $param_allergy_drug, 
+            $param_epilepsy, 
+            $param_asthma, 
+            $param_heart_disorder, 
+            $param_thyroid_disease, 
+            $param_skin_disorder, 
+            $param_cancer, 
+            $param_diabetes, 
+            $param_ulcer, 
+            $param_tuberculosis, 
+            $param_coronary_disease, 
+            $param_pcos, 
+            $param_hypertension, 
+            $param_psychological_disorder, 
+            $param_hepatitis, 
+            $param_diagnosis_1, 
+            $param_when_1, 
+            $param_diagnosis_2, 
+            $param_when_2, 
+            $param_operation_type_1, 
+            $param_when_surgery_1, 
+            $param_operation_type_2, 
+            $param_when_surgery_2, 
+            $param_disability_status, 
+            $param_disability_description, 
+            $param_donate_blood, 
+            $param_family_history_mother, 
+            $param_family_history_father, 
+            $param_newborn_immunizations, 
+            $param_hpv_doses, 
+            $param_tetanus_doses, 
+            $param_influenza_year, 
+            $param_pneumococcal_doses, 
+            $param_covid_vaccine_brand_1, 
+            $param_covid_vaccine_brand_2, 
+            $param_covid_booster_1, 
+            $param_covid_booster_2, 
+            $param_covid_unvaccinated_reason
         );
-
         // Set parameters
         $param_firstname = $firstname;
         $param_middlename = $middlename;
@@ -257,6 +302,51 @@ if(empty($firstname_err) && empty($middlename_err) && empty($lastname_err) && em
         $param_smoking_pack_day = (int)$basic_info_smoking_pack_day;
         $param_smoking_years = (int)$basic_info_smoking_years;
         $param_alcohol_drinking = $basic_info_alcohol_drinking;
+        $param_drug_use = $drug_use;
+$param_drug_kind = $drug_kind;
+$param_sexually_active = $sexually_active;
+$param_sexual_partners_male = (int)$sexual_partners_male;
+$param_sexual_partners_female = (int)$sexual_partners_female;
+$param_sexual_partners_both = (int)$sexual_partners_both;
+$param_allergy_food = $allergy_food;
+$param_allergy_drug = $allergy_drug;
+$param_epilepsy = $epilepsy;
+$param_asthma = $asthma;
+$param_heart_disorder = $heart_disorder;
+$param_thyroid_disease = $thyroid_disease;
+$param_skin_disorder = $skin_disorder;
+$param_cancer = $cancer;
+$param_diabetes = $diabetes;
+$param_ulcer = $ulcer;
+$param_tuberculosis = $tuberculosis;
+$param_coronary_disease = $coronary_disease;
+$param_pcos = $pcos;
+$param_hypertension = $hypertension;
+$param_psychological_disorder = $psychological_disorder;
+$param_hepatitis = $hepatitis;
+$param_diagnosis_1 = $diagnosis_1;
+$param_when_1 = $when_1;
+$param_diagnosis_2 = $diagnosis_2;
+$param_when_2 = $when_2;
+$param_operation_type_1 = $operation_type_1;
+$param_when_surgery_1 = $when_surgery_1;
+$param_operation_type_2 = $operation_type_2;
+$param_when_surgery_2 = $when_surgery_2;
+$param_disability_status = $disability_status;
+$param_disability_description = $disability_description;
+$param_donate_blood = $donate_blood;
+$param_family_history_mother = $family_history_mother;
+$param_family_history_father = $family_history_father;
+$param_newborn_immunizations = $newborn_immunizations;
+$param_hpv_doses = (int)$hpv_doses;
+$param_tetanus_doses = (int)$tetanus_doses;
+$param_influenza_year = (int)$influenza_year;
+$param_pneumococcal_doses = (int)$pneumococcal_doses;
+$param_covid_vaccine_brand_1 = $covid_vaccine_brand_1;
+$param_covid_vaccine_brand_2 = $covid_vaccine_brand_2;
+$param_covid_booster_1 = $covid_booster_1;
+$param_covid_booster_2 = $covid_booster_2;
+$param_covid_unvaccinated_reason = $covid_unvaccinated_reason;
 
         if(mysqli_stmt_execute($stmt)){
             header("location: ../nurse/medical_record.php");
@@ -331,6 +421,7 @@ mysqli_close($link);
     });
     </script>
 </head>
+<body>
 <body class="bg-gray-100">
 <h10 class="text-lg font-bold mb-10">Create Record</h10>
 <p class="text-gray-600 mb-4">Please fill this form.</p>
@@ -501,6 +592,256 @@ mysqli_close($link);
                         </div>
                     </div>
 
+                    <div class="space-y-6">
+    <div>
+        <label class="block text-gray-700 font-semibold">Illegal Drug Use:</label>
+        <div class="flex space-x-4 mt-2">
+            <label class="flex items-center"><input type="radio" name="drug" class="mr-2">YES</label>
+            <label class="flex items-center"><input type="radio" name="drug" class="mr-2">NO</label>
+            <label class="flex items-center"><input type="radio" name="drug" class="mr-2">QUITTED</label>
+        </div>
+        <input type="text" class="w-full border border-gray-300 p-2 mt-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="What kind?">
+    </div>
+    <div>
+        <label class="block text-gray-700 font-semibold">Sexually Active:</label>
+        <div class="flex space-x-4 mt-2">
+            <label class="flex items-center"><input type="radio" name="sexually_active" class="mr-2">YES</label>
+            <label class="flex items-center"><input type="radio" name="sexually_active" class="mr-2">NO</label>
+        </div>
+        <input type="text" class="w-full border border-gray-300 p-2 mt-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="How many sexual partners within this year? ( ) male ( ) female ( ) both">
+    </div>
+    
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">PAST MEDICAL HISTORY:</label>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+            <div>
+                <label class="block text-gray-700">Allergy:</label>
+                <div class="flex space-x-4">
+                    <label class="flex items-center"><input type="checkbox" name="allergy_food" class="mr-2">Food</label>
+                    <label class="flex items-center"><input type="checkbox" name="allergy_drug" class="mr-2">Drug</label>
+                </div>
+            </div>
+            <div>
+                <label class="block text-gray-700">Epilepsy/Seizure Disorder:</label>
+                <input type="checkbox" name="epilepsy" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Asthma:</label>
+                <input type="checkbox" name="asthma" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Congenital Heart Disorder:</label>
+                <input type="checkbox" name="heart_disorder" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Thyroid Disease:</label>
+                <input type="checkbox" name="thyroid_disease" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Skin Disorder:</label>
+                <input type="checkbox" name="skin_disorder" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Cancer:</label>
+                <input type="checkbox" name="cancer" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Diabetes Mellitus:</label>
+                <input type="checkbox" name="diabetes" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Peptic Ulcer:</label>
+                <input type="checkbox" name="ulcer" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Tuberculosis:</label>
+                <input type="checkbox" name="tuberculosis" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Coronary Artery Disease:</label>
+                <input type="checkbox" name="coronary_disease" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">PCOS:</label>
+                <input type="checkbox" name="pcos" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Hypertension/ Elevated BP:</label>
+                <input type="checkbox" name="hypertension" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Psychological Disorder:</label>
+                <input type="checkbox" name="psychological_disorder" class="mr-2">
+            </div>
+            <div>
+                <label class="block text-gray-700">Hepatitis:</label>
+                <input type="checkbox" name="hepatitis" class="mr-2">
+            </div>
+        </div>
+    </div>
+    
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Hospital Admissions:</label>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+            <div>
+                <label class="block text-gray-700">Diagnosis:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">When?</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">Diagnosis:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">When?</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+    </div>
+    
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">PAST SURGICAL HISTORY:</label>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+            <div>
+                <label class="block text-gray-700">Operation Type:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">When?</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">Operation Type:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">When?</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Person with Disability:</label>
+        <div class="flex space-x-4 mt-2">
+            <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Specify">
+            <label class="flex items-center"><input type="radio" name="disability" class="mr-2">Registered</label>
+            <label class="flex items-center"><input type="radio" name="disability" class="mr-2">Not Registered</label>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">WILLING TO DONATE BLOOD:</label>
+        <div class="flex space-x-4 mt-2">
+            <label class="flex items-center"><input type="radio" name="donate_blood" class="mr-2">YES</label>
+            <label class="flex items-center"><input type="radio" name="donate_blood" class="mr-2">NO</label>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Family History:</label>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+            <div>
+                <label class="block text-gray-700">Mother:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Specify conditions">
+            </div>
+            <div>
+                <label class="block text-gray-700">Father:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Specify conditions">
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Immunization History:</label>
+        <div class="grid grid-cols-3 gap-4 mt-2">
+            <div>
+                <label class="block text-gray-700">Newborn Immunizations:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">HPV Vaccine:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">Tetanus Toxoid:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">Influenza:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">Pneumococcal Vaccine:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700">COVID Vaccine:</label>
+                <input type="text" class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Head to Toe Assessment:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Neurological Assessment:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">HEENT:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Respiratory Assessment:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Cardiovascular Assessment:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Gastrointestinal Assessment:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Urinary Assessment:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Integumentary Assessment:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Musculoskeletal Assessment:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Other Pertinent Findings:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold">Certification:</label>
+        <textarea class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+</div>
+
+
 
 
 
@@ -511,5 +852,6 @@ mysqli_close($link);
             </div>
         </div>
     </div>
+</body>
 </body>
 </html>
