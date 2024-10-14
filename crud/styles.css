@@ -1,0 +1,101 @@
+        /* Navbar custom styling */
+        .navbar-custom {
+            background-color: #003366; /* Dark blue */
+            padding: 15px;
+        }
+
+        .navbar-custom .navbar-brand {
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .navbar-custom .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+        .navbar-custom .navbar-toggler {
+            border-color: #fff;
+        }
+
+        .navbar-custom .navbar-nav .dropdown-menu {
+            background-color: #003366;
+        }
+
+        .navbar-custom .dropdown-menu .dropdown-item {
+            color: white;
+        }
+
+        .navbar-custom .dropdown-menu .dropdown-item:hover {
+            background-color: #004080; /* Lighter shade of dark blue */
+        }
+        /* Custom styles for a professional look */
+        .form-label {
+            display: inline-block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .form-input {
+            border: 1px solid #000;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            width: 100%;
+        }
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+        .checkbox-label {
+            display: inline-block;
+            margin-right: 1rem;
+        }
+
+        input[type="submit"] {
+            background-color: #1535ee; /* Dodger Blue */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* Darker Blue */
+        }
+        .back-button {
+            background-color: #f0f0f0; /* Light Gray */
+            border: 1px solid #ccc;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #e0e0e0; /* Darker Gray */
+        }
+        a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+        }
+
+        a:hover {
+        background-color: #ddd;
+        color: black;
+        }
+
+        .previous {
+        background-color: #f1f1f1;
+        color: black;
+        }
+
+        .next {
+        background-color: #1535ee;
+        color: white;
+        }
+
+        .round {
+        border-radius: 50%;
+        }
