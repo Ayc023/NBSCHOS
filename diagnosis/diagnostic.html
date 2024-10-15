@@ -1,0 +1,293 @@
+<html>
+<head>
+    <title>Physical Screening Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1329f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+  z-index: 1000;
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.navbar a {
+  color: #333;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  color: #337ab7;
+}
+.content-container {
+  margin-top: 64px; /* adjust this value based on the height of your navbar */
+}
+    </style>
+</head>
+<body class="bg-white text-black font-sans">
+    <nav class="navbar fixed top-0 left-0 w-full bg-white shadow-md p-4">
+        <div class="container mx-auto flex justify-between">
+          <a href="#" class="text-lg font-bold">Physical Screening Form</a>
+          <ul class="flex items-center">
+            <li class="mr-4"><a href="#" class="text-gray-600 hover:text-blue-500">Home</a></li>
+            <li class="mr-4"><a href="#" class="text-gray-600 hover:text-blue-500">About</a></li>
+            <li><a href="#" class="text-gray-600 hover:text-blue-500">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="mt-16 max-w-4xl mx-auto p-4">
+        <h1 class="text-center font-bold text-lg mb-4">II. Physical Screening. Please check (√) appropriate box or supply needed information.</h1>
+        <form id="screeningForm">
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label>Height (cm)</label>
+                    <input type="text" class="border border-gray-400 w-full p-1" name="height">
+                </div>
+                <div>
+                    <label>Weight (kg)</label>
+                    <input type="text" class="border border-gray-400 w-full p-1" name="weight">
+                </div>
+                <div>
+                    <label>Blood Pressure</label>
+                    <input type="text" class="border border-gray-400 w-full p-1" name="bloodPressure">
+                </div>
+                <div>
+                    <label>Pulse Rate</label>
+                    <input type="text" class="border border-gray-400 w-full p-1" name="pulseRate">
+                </div>
+                <div>
+                    <label>Respiration</label>
+                    <input type="text" class="border border-gray-400 w-full p-1" name="respiration">
+                </div>
+                <div>
+                    <label>SPO2</label>
+                    <input type="text" class="border border-gray-400 w-full p-1" name="spo2">
+                </div>
+                <div>
+                    <label>BMI</label>
+                    <input type="text" class="border border-gray-400 w-full p-1" name="bmi">
+                </div>
+                <div>
+                    <label>BMI Class</label>
+                    <input type="text" class="border border-gray-400 w-full p-1" name="bmiClass">
+                </div>
+            </div>
+            <div class="mb-4">
+                <h2 class="font-bold mb-2">Visual Acuity</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label>OD</label>
+                        <div>
+                            <input type="checkbox" name="odCorrected"> Corrected
+                            <input type="checkbox" name="odUncorrected"> Uncorrected
+                        </div>
+                    </div>
+                    <div>
+                        <label>OS</label>
+                        <div>
+                            <input type="checkbox" name="osCorrected"> Corrected
+                            <input type="checkbox" name="osUncorrected"> Uncorrected
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <h2 class="font-bold mb-2">Color Vision</h2>
+                <div>
+                    <input type="checkbox" name="colorVisionAdequate"> Adequate
+                    <input type="checkbox" name="colorVisionDefective"> Defective
+                </div>
+            </div>
+            <div class="mb-4">
+                <h2 class="font-bold mb-2">Ear Hearing & Testing</h2>
+                <div>
+                    <input type="checkbox" name="hearingAdequate"> Adequate
+                    <input type="checkbox" name="hearingInadequate"> Inadequate
+                </div>
+            </div>
+            <div class="mb-4">
+                <h2 class="font-bold mb-2">Speech</h2>
+                <div>
+                    <input type="checkbox" name="speechClear"> Clear
+                    <input type="checkbox" name="speechUnclear"> Unclear
+                </div>
+            </div>
+            <div class="mb-4">
+                <h2 class="font-bold mb-2">III. Physical Examination. Please Check (√) Normal or Specify ABNORMAL Findings</h2>
+                <table class="w-full border-collapse border border-gray-400">
+                    <thead>
+                        <tr>
+                            <th class="border border-gray-400 p-1">A. Normal</th>
+                            <th class="border border-gray-400 p-1">Findings</th>
+                            <th class="border border-gray-400 p-1">B. Abnormal</th>
+                            <th class="border border-gray-400 p-1">Findings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="skinNormal"> Skin</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="skinFindings"></td>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="chestNormal"> Chest, Breast, Lungs</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="chestFindings"></td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="headNormal"> Head, Scalp</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="headFindings"></td>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="heartNormal"> Heart</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="heartFindings"></td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="eyesNormal"> Eyes, Ears, Nose</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="eyesFindings"></td>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="abdomenNormal"> Abdomen</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="abdomenFindings"></td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="oropharynxNormal"> Oropharynx</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="oropharynxFindings"></td>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="genitaliaNormal"> Genitalia</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="genitaliaFindings"></td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="neckNormal"> Neck, Thyroid</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="neckFindings"></td>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="anusNormal"> Anus, Rectum</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="anusFindings"></td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="spineNormal"> Spine, Back</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="spineFindings"></td>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="extremitiesNormal"> Extremities</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="extremitiesFindings"></td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="thoraxNormal"> Thorax, Breast</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="thoraxFindings"></td>
+                            <td class="border border-gray-400 p-1"><input type="checkbox" name="neurologicNormal"> Neurologic</td>
+                            <td class="border border-gray-400 p-1"><input type="text" class="w-full p-1" name="neurologicFindings"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mb-4">
+                <h2 class="font-bold mb-2">IV. Laboratory Examination. Please check (√) NORMAL and specify any ABNORMAL FINDINGS</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label>Urinalysis</label>
+                        <div>
+                            <input type="checkbox" name="urinalysisNormal"> Normal
+                            <input type="checkbox" name="urinalysisFindings"> With Findings
+                        </div>
+                    </div>
+                    <div>
+                        <label>Fecalysis/Stool Exam</label>
+                        <div>
+                            <input type="checkbox" name="fecalysisNormal"> Normal
+                            <input type="checkbox" name="fecalysisFindings"> With Findings
+                        </div>
+                    </div>
+                    <div>
+                        <label>CBC</label>
+                        <div>
+                            <input type="checkbox" name="cbcNormal"> Normal
+                            <input type="checkbox" name="cbcFindings"> With Findings
+                        </div>
+                    </div>
+                    <div>
+                        <label>Chest X-Ray</label>
+                        <div>
+                            <input type="checkbox" name="chestXrayNormal"> Normal
+                            <input type="checkbox" name="chestXrayFindings"> With Findings
+                        </div>
+                    </div>
+                    <div>
+                        <label>Blood Type</label>
+                        <div>
+                            <input type="checkbox" name="bloodTypeA"> A
+                            <input type="checkbox" name="bloodTypeB"> B
+                            <input type="checkbox" name="bloodTypeAB"> AB
+                            <input type="checkbox" name="bloodTypeO"> O
+                        </div>
+                    </div>
+                    <div>
+                        <label>Pregnancy Test</label>
+                        <div>
+                            <input type="checkbox" name="pregnancyPositive"> Positive
+                            <input type="checkbox" name="pregnancyNegative"> Negative
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <h2 class="font-bold mb-2">V. Medical Classification. Please check (√) appropriate box according to your assessment of the examinee</h2>
+                <div>
+                    <input type="checkbox" name="classificationA"> A - Medically, physically, and mentally fit for any work or study
+                    <input type="checkbox" name="classificationB"> B - With abnormal findings but is acceptable for work or study
+                    <input type="checkbox" name="classificationC"> C - Unfit for work or study
+                </div>
+            </div>
+            <div class="mb-4">
+                <h2 class="font-bold mb-2">VI. Evaluating Physician's Recommendations</h2>
+                <div>
+                    <textarea class="border border-gray-400 w-full p-1" rows="4" name="recommendations"></textarea>
+                </div>
+            </div>
+            <div class="mb-4">
+                <h2 class="font-bold mb-2">VII. Filing Information</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label>School Name</label>
+                        <input type="text" class="border border-gray-400 w-full p-1" name="schoolName">
+                    </div>
+                    <div>
+                        <label>School Physician</label>
+                        <input type="text" class="border border-gray-400 w-full p-1" name="schoolPhysician">
+                    </div>
+                    <div>
+                        <label>Date</label>
+                        <input type="text" class="border border-gray-400 w-full p-1" name="date">
+                    </div>
+                    <div>
+                        <label>File No.</label>
+                        <input type="text" class="border border-gray-400 w-full p-1" name="fileNo">
+                    </div>
+                    <div>
+                        <label>Recorded by</label>
+                        <input type="text" class="border border-gray-400 w-full p-1" name="recordedBy">
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('screeningForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            console.log('Form Data Submitted:', data);
+            alert('Form submitted successfully!');
+        });
+    </script>
+</body>
+</html>

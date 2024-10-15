@@ -67,10 +67,10 @@ if ($patient_id) {
             $immunizations_tetanus_toxoid = $row['immunizations_tetanus_toxoid'];
             $immunizations_influenza = $row['immunizations_influenza'];
             $immunizations_pneumococcal_vaccine = $row['immunizations_pneumococcal_vaccine'];
-            $covid_brand_1st_dose = $row['covid_19_brand_name_first_dose'];
-            $covid_brand_2nd_dose = $row['covid_19_brand_name_second_dose'];
-            $covid_brand_1st_booster = $row['covid_19_brand_name_first_booster'];
-            $covid_brand_2nd_booster = $row['covid_19_brand_name_second_booster'];
+            $covid_19_brand_name_first_dose = $row['covid_19_brand_name_first_dose'];
+            $covid_19_brand_name_second_dose = $row['covid_19_brand_name_second_dose'];
+            $covid_19_brand_name_first_booster = $row['covid_19_brand_name_first_booster'];
+            $covid_19_brand_name_second_booster = $row['covid_19_brand_name_second_booster'];
             $unvaccinated_with_covid_19_reason = $row['unvaccinated_with_covid_19_reason'];
         } else {
             echo "No record found for the given ID.";
@@ -231,9 +231,6 @@ mysqli_close($link); // Close the connection at the end
                     HEALTH PROFILE
                 </h5>
             </div>
-            <div class="profile" id="printableProfile">
-                <h4>Basic Information</h4>
-                <div class="row">
                 <div class="profile" id="printableProfile">
                 <h4>PERSONAL PROFILE</h4>
 <div class="row">
@@ -275,20 +272,22 @@ mysqli_close($link); // Close the connection at the end
         <div>Alcohol Drinking: <span><?php echo htmlspecialchars($alcohol_drinking); ?></span></div>
         <div>Illegal Drug Use: <span><?php echo htmlspecialchars($illegal_drug_use); ?></span></div>
         <div>Sexually Active: <span><?php echo htmlspecialchars($sexually_active); ?></span></div>
-        <div>Allergy: <span><?php echo htmlspecialchars($allergy); ?></span></div>
+<h4>Allergy</h4>
+<div class="row">
         <div>Food: <span><?php echo htmlspecialchars($food); ?></span></div>
-    </div>
-    <div class="col-md-6">
         <div>Drug: <span><?php echo htmlspecialchars($drug); ?></span></div>
+    </div>
+</div>
+</div>
+
+<h4>PAST MEDICAL HISTORY:</h4>
+<div class="row">
+<div class="col-md-6">
         <div>Epilepsy Seizure Disorder: <span><?php echo htmlspecialchars($epilepsy_seizure_disorder); ?></span></div>
         <div>Asthma: <span><?php echo htmlspecialchars($asthma); ?></span></div>
         <div>Congenital Heart Disorder: <span><?php echo htmlspecialchars($congenital_heart_disorder); ?></span></div>
         <div>Thyroid Disease: <span><?php echo htmlspecialchars($thyroid_disease); ?></span></div>
     </div>
-</div>
-
-<h4>PAST MEDICAL HISTORY:</h4>
-<div class="row">
     <div class="col-md-6">
         <div>Skin Disorder: <span><?php echo htmlspecialchars($skin_disorder); ?></span></div>
         <div>Cancer: <span><?php echo htmlspecialchars($cancer); ?></span></div>
