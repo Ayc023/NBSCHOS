@@ -37,58 +37,65 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $password = trim($_POST["password"]);
     }
 
-    // Validate credentials
-    if(empty($username_err) && empty($password_err)){
-        // Prepare a select statement
-        $sql = "SELECT id, username, password, is_admin FROM users WHERE username = :username";
+// ...
+
+// Validate credentials
+if(empty($username_err) && empty($password_err)){
+    // Prepare a select statement
+    $sql = "SELECT id, username, password, is_admin, role FROM users WHERE username = :username";
+    
+    if($stmt = $pdo->prepare($sql)){
+        // Bind variables to the prepared statement as parameters
+        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
         
-        if($stmt = $pdo->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":username", $username, PDO::PARAM_STR);
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // Check if username exists, if yes then verify password
-                if($stmt->rowCount() == 1){
-                    if($row = $stmt->fetch()){
-                        $id = $row["id"];
-                        $username = $row["username"];
-                        $hashed_password = $row["password"];
-                        $is_admin = $row["is_admin"]; // Retrieve the admin status
+        // Attempt to execute the prepared statement
+        if($stmt->execute()){
+            // Check if username exists, if yes then verify password
+            if($stmt->rowCount() == 1){
+                if($row = $stmt->fetch()){
+                    $id = $row["id"];
+                    $username = $row["username"];
+                    $hashed_password = $row["password"];
+                    $is_admin = $row["is_admin"];
+                    $role = $row["role"]; // Retrieve the role
+                    
+                    if(password_verify($password, $hashed_password)){
+                        // Password is correct, so store data in session variables
+                        $_SESSION["loggedin"] = true;
+                        $_SESSION["id"] = $id;
+                        $_SESSION["username"] = $username;
+                        $_SESSION["is_admin"] = $is_admin;
+                        $_SESSION["role"] = $role; // Store the role in session
                         
-                        if(password_verify($password, $hashed_password)){
-                            // Password is correct, so store data in session variables
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;
-                            $_SESSION["is_admin"] = $is_admin; // Store admin status in session
-                            
-                            // Redirect based on admin status
-                            if((int)$is_admin === 1){
-                                header("location: welcome.php"); // Admin dashboard
-                            } else {
-                                header("location: nurse/welcome2.php"); // User dashboard
-                            }
-                            
-                            exit;
-                        } else{
-                            // Password is not valid, display a generic error message
-                            $login_err = "Invalid username or password.";
+                        // Redirect based on role
+                        if((int)$is_admin === 1){
+                            header("location: welcome.php"); // Admin dashboard
+                        } elseif($role === 'patient'){
+                            header("location: patients/welcome.php"); // Patient dashboard
+                        } else {
+                            header("location: nurse/welcome2.php"); // User dashboard
                         }
+                        
+                        exit;
+                    } else{
+                        // Password is not valid, display a generic error message
+                        $login_err = "Invalid username or password.";
                     }
-                } else{
-                    // Username doesn't exist, display a generic error message
-                    $login_err = "Invalid username or password.";
                 }
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                // Username doesn't exist, display a generic error message
+                $login_err = "Invalid username or password.";
             }
-
-            // Close statement
-            unset($stmt);
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
         }
+
+        // Close statement
+        unset($stmt);
     }
-    
+}
+
+// ...
     // Close connection
     unset($pdo);
 }

@@ -60,33 +60,39 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
     
-    // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-        
-        // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
-         
-        if($stmt = $pdo->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
-            $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
-            
-            // Set parameters
-            $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // Redirect to login page
-                header("location: index.php");
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
+// ...
 
-            // Close statement
-            unset($stmt);
+// Check input errors before inserting in database
+if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    
+    // Prepare an insert statement
+    $sql = "INSERT INTO users (username, password, role) VALUES (:username, :password, :role)";
+     
+    if($stmt = $pdo->prepare($sql)){
+        // Bind variables to the prepared statement as parameters
+        $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+        $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
+        $stmt->bindParam(":role", $param_role, PDO::PARAM_STR);
+        
+        // Set parameters
+        $param_username = $username;
+        $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+        $param_role = 'patient'; // Set the role as 'patient'
+        
+        // Attempt to execute the prepared statement
+        if($stmt->execute()){
+            // Redirect to login page
+            header("location: index.php");
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
         }
+
+        // Close statement
+        unset($stmt);
     }
+}
+
+// ...
     
     // Close connection
     unset($pdo);

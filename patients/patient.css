@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.search-bar input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    width: 200px;
+}
+.search-bar button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 20px 20px 0;
+    background-color: white;
+    cursor: pointer;
+}
+.search-bar button i {
+    color: #888;
+}
+.calendar-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.calendar {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 60%;
+}
+.calendar table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.calendar th, .calendar td {
+    text-align: center;
+    padding: 10px;
+}
+.calendar th {
+    color: #888;
+}
+.calendar td {
+    color: #333;
+}
+.calendar .current-month {
+    font-weight: bold;
+}
+.calendar .prev-month, .calendar .next-month {
+    color: #ccc;
+}
+.calendar .dot {
+    height: 5px;
+    width: 5px;
+    background-color: #333;
+    border-radius: 50%;
+    display: inline-block;
+}
+.details {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+}
+.details input, .details textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+.details textarea {
+    resize: none;
+    height: 100px;
+}
+.details button {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #d3e4ff;
+    cursor: pointer;
+    color: #333;
+}
