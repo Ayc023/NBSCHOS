@@ -202,7 +202,7 @@ form button[type="submit"]:hover {
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Add Dental Information</h2>
-                        <a href="crud2/create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Information</a>
+                        <a href="crud2/dental.html" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Information</a>
                     </div>
                     
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get" class="mb-4">
@@ -218,7 +218,7 @@ form button[type="submit"]:hover {
                     require_once "config.php";
                     
                     // Attempt select query execution
-                    $sql = "SELECT * FROM dental";
+                    $sql = "SELECT * FROM dental_records";
                     if($result = mysqli_query($link, $sql)){
                         if(mysqli_num_rows($result) > 0){
                             echo '<table class="table table-bordered table-striped">';
@@ -238,18 +238,18 @@ form button[type="submit"]:hover {
                                 echo "<tbody>";
                                 while($row = mysqli_fetch_array($result)){
                                     echo "<tr>";
-                                        echo "<td>" . $row['dental_id'] . "</td>";
-                                        echo "<td>" . $row['dental_date'] . "</td>";
-                                        echo "<td>" . $row['dental_name'] . "</td>";
-                                        echo "<td>" . $row['dental_age'] . "</td>";
-                                        echo "<td>" . $row['dental_address'] . "</td>";
-                                        echo "<td>" . $row['dental_tel_no'] . "</td>";
-                                        echo "<td>" . $row['dental_course_taken_year'] . "</td>";
-                                        echo "<td>" . $row['dental_date_of_birth'] . "</td>";       
+                                        echo "<td>" . $row['id'] . "</td>";
+                                        echo "<td>" . $row['date'] . "</td>";
+                                        echo "<td>" . $row['given_name'] . "</td>";
+                                        echo "<td>" . $row['age'] . "</td>";
+                                        echo "<td>" . $row['address'] . "</td>";
+                                        echo "<td>" . $row['tel_no'] . "</td>";
+                                        echo "<td>" . $row['course_year'] . "</td>";
+                                        echo "<td>" . $row['dob'] . "</td>";       
                                         echo "<td>";
-                                        echo '<a href="crud2/read.php?dental_id=' . $row['dental_id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                        echo '<a href="crud2/update.php?id='. $row['dental_id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                        echo '<a href="crud2/delete.php?id='. $row['dental_id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                        echo '<a href="crud2/read.php?dental_id=' . $row['id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                        echo '<a href="crud2/update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                        echo '<a href="crud2/delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }
