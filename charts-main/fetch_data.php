@@ -10,7 +10,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-    $stmt = $pdo->query("SELECT basic_info_id, basic_info_date FROM basic_info");
+    $stmt = $pdo->query("SELECT form_id, form_date FROM medical_form");
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode(["data" => $data]);
 

@@ -20,12 +20,12 @@ fetch('fetch_data.php')
     const patientData = data.data;
 
     // Extract relevant data
-    const ages = patientData.map(item => item.basic_info_age);
-    const labels = patientData.map(item => item.basic_info_firstname); // Using first names as labels
+    const ages = patientData.map(item => item.age);
+    const labels = patientData.map(item => item.name); // Using first names as labels
     const counts = Array(12).fill(0); // For 12 months
 
     patientData.forEach(item => {
-      const date = new Date(item.basic_info_date);
+      const date = new Date(item.form_date);
       if (!isNaN(date)) {
         const month = date.getMonth(); // Get month (0-11)
         counts[month]++;

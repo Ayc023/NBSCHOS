@@ -1,0 +1,202 @@
+<html></html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-white">
+    <div class="max-w-4xl mx-auto p-4">
+        <div class="bg-blue-900 text-white p-4 flex items-center">
+            <img alt="Northern Bukidnon State College logo" class="mr-4" height="50" src="https://storage.googleapis.com/a1aa/image/tsI0Q42VZqpuH95U0Vz3bGiR7rSo06UfkrMg5eJ0KeW2hDPnA.jpg" width="50"/>
+            <div>
+                <h1 class="text-xl font-bold">NORTHERN BUKIDNON STATE COLLEGE</h1>
+                <p class="text-sm">(Formerly Northern Bukidnon Community College) R.A.11284</p>
+                <p class="text-sm">Manolo Fortich, 8703 Bukidnon • 0976-303 • nbsccadmin@nbsc.ph</p>
+                <p class="text-sm">Creando futura, Transformations</p>
+            </div>
+        </div>
+        <form id="dental-record-form" class="mt-4">
+            <div class="flex justify-end space-x-4">
+                <label class="flex items-center">
+                    <input class="mr-2" type="checkbox" name="non_teaching"/>
+                    Non-Teaching
+                </label>
+                <label class="flex items-center">
+                    <input class="mr-2" type="checkbox" name="teaching"/>
+                    Teaching
+                </label>
+                <label class="flex items-center">
+                    <input class="mr-2" type="checkbox" name="student"/>
+                    Student
+                </label>
+            </div>
+            <div class="mt-4">
+                <label class="block">
+                    Date: <input type="date" name="date" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/>
+                </label>
+            </div>
+            <h2 class="text-center text-xl font-bold mt-4">Permanent Dental Record</h2>
+            <div class="mt-4">
+                <label class="block">
+                    Name: <input type="text" name="surname" placeholder="Surname" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/> 
+                    <input type="text" name="given_name" placeholder="Given Name" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/> 
+                    <input type="text" name="middle_name" placeholder="Middle Name" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/>
+                </label>
+                <label class="block mt-2">
+                    Address: <input type="text" name="address" class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-full"/>
+                </label>
+                <label class="block mt-2">
+                    Course Taken & Year: <input type="text" name="course_year" class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-full"/>
+                </label>
+                <div class="flex mt-2">
+                    <label class="mr-4">
+                        Sex: <input type="text" name="sex" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/>
+                    </label>
+                    <label>
+                        Civil Status: <input type="text" name="civil_status" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/>
+                    </label>
+                </div>
+                <div class="flex mt-2">
+                    <label class="mr-4">
+                        Age: <input type="number" name="age" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/>
+                    </label>
+                    <label>
+                        Tel No: <input type="text" name="tel_no" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/>
+                    </label>
+                </div>
+                <label class="block mt-2">
+                    Date of Birth: <input type="date" name="dob" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/>
+                </label>
+            </div>
+            <h3 class="text-center text-lg font-bold mt-4">History</h3>
+            <div class="mt-4">
+                <label class="block">
+                    Allergy to Medication/Food: <input type="text" name="allergy" class="border-b border-gray-400 focus:outline-none focus:border-blue-500 w-full"/>
+                </label>
+                <div class="mt-4">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="border px-2 py-1"></th>
+                                <th class="border px-2 py-1">Yes</th>
+                                <th class="border px-2 py-1">No</th>
+                                <th class="border px-2 py-1"></th>
+                                <th class="border px-2 py-1">Yes</th>
+                                <th class="border px-2 py-1">No</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border px-2 py-1">1. Are you under current medical treatment?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="medical_treatment" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="medical_treatment" value="no"/></td>
+                                <td class="border px-2 py-1">5. Are you allergic to any food or medicine resulting in hives, asthma, eczema, etc.?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="allergic_food_medicine" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="allergic_food_medicine" value="no"/></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-2 py-1">2. Has a physician informed you that you have or had:</td>
+                                <td class="border px-2 py-1 text-center"></td>
+                                <td class="border px-2 py-1 text-center"></td>
+                                <td class="border px-2 py-1">6. Are you taking any drugs or medication?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="taking_drugs" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="taking_drugs" value="no"/></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-2 py-1 pl-8">a) Heart ailment</td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="heart_ailment" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"> <input type="checkbox" name="heart_ailment" value="no"> </td>
+                                <td class="border px-2 py-1">7. Are you on any kind of special diet?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="special_diet" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="special_diet" value="no"/></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-2 py-1 pl-8">b) High blood pressure</td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="high_blood_pressure" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="high_blood_pressure" value="no"/></td>
+                                <td class="border px-2 py-1">8. Do you experience shortness of breath when climbing up stairs?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="shortness_breath" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="shortness_breath" value="no"/></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-2 py-1 pl-8">c) Diabetes</td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="diabetes" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="diabetes" value="no"/></td>
+                                <td class="border px-2 py-1">9. Have you experienced any complication with healing?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="complication_healing" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="complication_healing" value="no"/></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-2 py-1 pl-8">d) Rheumatic Fever</td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="rheumatic_fever" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="rheumatic_fever" value="no"/></td>
+                                <td class="border px-2 py-1">10. Are you in good general health at this time?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="general_health" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="general_health" value="no"/></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-2 py-1 pl-8">e) Lung Disease</td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="lung_disease" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="lung_disease" value="no"/></td>
+                                <td class="border px-2 py-1">11. Are you pregnant? If so, how many months?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="pregnant" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="pregnant" value="no"/></td>
+                            </tr>
+                            <tr>    
+                                <td class="border px-2 py-1 pl-8">f) Any Liver Disease</td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="liver_disease" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="checkbox" name="liver_disease" value="no"/></td>
+                                <td class="border px-2 py-1">12. Have experienced profuse bleeding after tooth extraction?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="profuse_bleeding" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="profuse_bleeding" value="no"/></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-2 py-1">3. Have you had any major operation? If so what?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="major_operation" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="major_operation" value="no"/></td>
+                                <td class="border px-2 py-1"></td>
+                                <td class="border px-2 py-1 text-center"></td>
+                                <td class="border px-2 py-1 text-center"></td>
+                            </tr>
+                            <tr>
+                                <td class="border px-2 py-1">4. Do you have might sweat nights, cough and weight loss?</td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="sweat_nights" value="yes"/></td>
+                                <td class="border px-2 py-1 text-center"><input type="radio" name="sweat_nights" value="no"/></td>
+                                <td class="border px-2 py-1"></td>
+                                <td class="border px-2 py-1 text-center"></td>
+                                <td class="border px-2 py-1 text-center"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mt-4 text-right">
+                <label class="block">
+                    Signature of patient/patient's guardian: <input type="text" name="signature" class="border-b border-gray-400 focus:outline-none focus:border-blue-500"/>
+                </label>
+            </div>
+            <div class="mt-4 text-right">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('dental-record-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (data[key]) {
+                    if (!Array.isArray(data[key])) {
+                        data[key] = [data[key]];
+                    }
+                    data[key].push(value);
+                } else {
+                    data[key] = value;
+                }
+            });
+            console.log(data);
+            alert('Form submitted! Check the console for data.');
+        });
+    </script>
+</body>
+</html>

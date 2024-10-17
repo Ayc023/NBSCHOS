@@ -2,8 +2,8 @@
 require_once "../config.php";
 
 // Initialize variables for patient data
-$patient_id = isset($_GET['id']) ? trim($_GET['id']) : '';
-$date = $college_clinic_file_number = $college_course = $year = $name = $age_sex = $birthday = $home_address = $religion = $municipal_address = $occupation = $contact_number = $civil_status = '';
+$patient_id = isset($_GET['form_id']) ? trim($_GET['form_id']) : '';
+$form_date = $college_clinic_file_number = $college_course = $year = $name = $age_sex = $birthday = $home_address = $religion = $municipal_address = $occupation = $contact_number = $civil_status = '';
 $emergency_contact_name = $emergency_contact_number = $emergency_contact_address = $emergency_contact_relationship = $smoking = $alcohol_drinking = $illegal_drug_use = $sexually_active = $allergy = $food = $drug = '';
 $epilepsy_seizure_disorder = $asthma = $congenital_heart_disorder = $thyroid_disease = $skin_disorder = $cancer = $diabetes_mellitus = $peptic_ulcer = $tuberculosis = $coronary_artery_disease = '';
 $pcos = $hepatitis = $hypertension_elevated_bp = $psychological_disorder = $hospital_admissions_diagnosis = $hospital_admissions_when = $past_surgical_history_operation_type = $past_surgical_history_when = $person_with_disability = $willing_to_donate_blood = '';
@@ -11,14 +11,14 @@ $family_history_mother_side = $family_history_father_side = $immunizations_compl
 
 // Fetch patient data from the database
 if ($patient_id) {
-    $sql = "SELECT * FROM medical_form WHERE id = ?";
+    $sql = "SELECT * FROM medical_form WHERE form_id = ?";
     if ($stmt = mysqli_prepare($link, $sql)) {
         mysqli_stmt_bind_param($stmt, "i", $patient_id);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
         if ($row = mysqli_fetch_assoc($result)) {
-            $date = $row['date'];
+            $form_date = $row['form_date'];
             $college_clinic_file_number = $row['college_clinic_file_number'];
             $college_course = $row['college_course'];
             $year_level = $row['year'];
@@ -88,7 +88,7 @@ $search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : '';
 
 // Fetch all or filtered patient names for the sidebar
 if ($search_term) {
-    $sql = "SELECT id, name FROM medical_form WHERE name LIKE ?";
+    $sql = "SELECT form_id, name FROM medical_form WHERE name LIKE ?";
     if ($stmt = mysqli_prepare($link, $sql)) {
         $search_param = '%' . $search_term . '%';
         mysqli_stmt_bind_param($stmt, 's', $search_param);
@@ -103,7 +103,7 @@ if ($search_term) {
         echo "Error preparing search statement.";
     }
 } else {
-    $sql = "SELECT id, name FROM medical_form";
+    $sql = "SELECT form_id, name FROM medical_form";
     if ($result = mysqli_query($link, $sql)) {
         while ($row = mysqli_fetch_assoc($result)) {
             $sidebar_patients[] = $row;
@@ -208,8 +208,8 @@ mysqli_close($link); // Close the connection at the end
             </div>
             <ul class="list-group">
                 <?php foreach ($sidebar_patients as $patient) : ?>
-                <li class="list-group-item <?php echo $patient_id == $patient['id'] ? 'active' : ''; ?>">
-                    <a href="?id=<?php echo $patient['id']; ?>">
+                <li class="list-group-item <?php echo $patient_id == $patient['form_id'] ? 'active' : ''; ?>">
+                    <a href="?form_id=<?php echo $patient['form_id']; ?>">
                         <?php echo htmlspecialchars($patient['name']); ?>
                     </a>
                 </li>
@@ -235,7 +235,7 @@ mysqli_close($link); // Close the connection at the end
                 <h4>PERSONAL PROFILE</h4>
 <div class="row">
     <div class="col-md-6">
-        <div>Date: <span><?php echo htmlspecialchars($date); ?></span></div>
+        <div>Date: <span><?php echo htmlspecialchars($form_date); ?></span></div>
         <div>Name: <span><?php echo htmlspecialchars($name); ?></span></div>
         <div>College Clinic File Number: <span><?php echo htmlspecialchars($college_clinic_file_number); ?></span></div>
         <div>College Course: <span><?php echo htmlspecialchars($college_course); ?></span></div>

@@ -38,7 +38,7 @@ $psychological_disorder = isset($_POST['psychological_disorder']) ? 1 : 0;
 
 // Insert data into database
 $sql = "INSERT INTO medical_form (
-    date,
+    form_date,
     college_clinic_file_number,
     college_course,
     year,
@@ -94,7 +94,7 @@ $sql = "INSERT INTO medical_form (
     covid_19_brand_name_second_booster,
     unvaccinated_with_covid_19_reason
 ) VALUES (
-    :date,
+    :form_date,
     :college_clinic_file_number,
     :college_course,
     :year,
@@ -170,7 +170,7 @@ $stmt->bindValue(':psychological_disorder', $psychological_disorder);
 
 // Provide a default value for each field
 $parameters = [
-    'date',
+    'form_date',
     'college_clinic_file_number',
     'college_course',
     'year',

@@ -27,7 +27,7 @@ class ChartCreator {
         };
 
         data.forEach(record => {
-            const date = new Date(record.basic_info_date);
+            const date = new Date(record.form_date);
             if (isNaN(date)) return; // Skip invalid dates
 
             const week = Math.floor((date - new Date(date.getFullYear(), 0, 1)) / (1000 * 60 * 60 * 24 * 7));

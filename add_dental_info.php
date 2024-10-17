@@ -202,7 +202,7 @@ form button[type="submit"]:hover {
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Add Dental Information</h2>
-                        <a href="crud2/create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Information</a>
+                        <a href="crud2/dental.html" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Information</a>
                     </div>
                     
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get" class="mb-4">
