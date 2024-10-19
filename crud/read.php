@@ -1,529 +1,353 @@
 <?php
-// Check existence of id parameter before processing further
-if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
-    // Include config file
-    require_once "../config.php";
+require_once "../config.php";
 
-    // Prepare a select statement
-    $sql = "SELECT * FROM personal_health_profile WHERE medical_id = ?"; // Change 'basic_info' to 'personal_health_profile'
+// Initialize variables for patient data
+$patient_id = isset($_GET['id']) ? trim($_GET['id']) : '';
+$date = $college_clinic_file_number = $college_course = $year = $name = $age_sex = $birthday = $home_address = $religion = $municipal_address = $occupation = $contact_number = $civil_status = '';
+$emergency_contact_name = $emergency_contact_number = $emergency_contact_address = $emergency_contact_relationship = $smoking = $alcohol_drinking = $illegal_drug_use = $sexually_active = $allergy = $food = $drug = '';
+$epilepsy_seizure_disorder = $asthma = $congenital_heart_disorder = $thyroid_disease = $skin_disorder = $cancer = $diabetes_mellitus = $peptic_ulcer = $tuberculosis = $coronary_artery_disease = '';
+$pcos = $hepatitis = $hypertension_elevated_bp = $psychological_disorder = $hospital_admissions_diagnosis = $hospital_admissions_when = $past_surgical_history_operation_type = $past_surgical_history_when = $person_with_disability = $willing_to_donate_blood = '';
+$family_history_mother_side = $family_history_father_side = $immunizations_completed_newborn_immunizations = $immunizations_tetanus_toxoid = $immunizations_influenza = $immunizations_pneumococcal_vaccine = $covid_19_brand_name_first_dose = $covid_19_brand_name_second_dose = $covid_19_brand_name_first_booster = $covid_19_brand_name_second_booster = $unvaccinated_with_covid_19_reason = '';
 
+// Fetch patient data from the database
+if ($patient_id) {
+    $sql = "SELECT * FROM medical_form WHERE id = ?";
     if ($stmt = mysqli_prepare($link, $sql)) {
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_id);
+        mysqli_stmt_bind_param($stmt, "i", $patient_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-        // Set parameters
-        $param_id = trim($_GET["id"]);
-
-        // Attempt to execute the prepared statement
-        if (mysqli_stmt_execute($stmt)) {
-            $result = mysqli_stmt_get_result($stmt);
-
-            if (mysqli_num_rows($result) == 1) {
-                // Fetch result row as an associative array
-                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-                // Retrieve individual field values
-                $date = $row["date"];
-                $clinic_file_number = $row["clinic_file_number"];
-                $college_course = $row["college_course"];
-                $name = $row["name"];
-                $age_sex = $row["age_sex"];
-                $birthday = $row["birthday"];
-                $home_address = $row["home_address"];
-                $religion = $row["religion"];
-                $municipal_address = $row["municipal_address"];
-                $occupation = $row["occupation"];
-                $contact_number = $row["contact_number"];
-                $civil_status = $row["civil_status"];
-                $emergency_contact_name = $row["emergency_contact_name"];
-                $emergency_contact_number = $row["emergency_contact_number"];
-                $emergency_contact_address = $row["emergency_contact_address"];
-                $emergency_contact_relationship = $row["emergency_contact_relationship"];
-                $smoking = $row["smoking"];
-                $alcohol_drinking = $row["alcohol_drinking"];
-                $drug_use = $row["drug_use"];
-                $sexually_active = $row["sexually_active"];
-                $smoking_details = $row["smoking_details"];
-                $alcohol_details = $row["alcohol_details"];
-                $alcohol_frequency = $row["alcohol_frequency"];
-                $sexual_partners_male = $row["sexual_partners_male"];
-                $sexual_partners_female = $row["sexual_partners_female"];
-                $sexual_partners_both = $row["sexual_partners_both"];
-                $allergies = $row["allergies"];
-                $medical_conditions = $row["medical_conditions"];
-                $hospital_admissions = $row["hospital_admissions"];
-                $diagnosis_1 = $row["diagnosis_1"];
-                $when_1 = $row["when_1"];
-                $diagnosis_2 = $row["diagnosis_2"];
-                $when_2 = $row["when_2"];
-                $operation_type_1 = $row["operation_type_1"];
-                $when_surgery_1 = $row["when_surgery_1"];
-                $operation_type_2 = $row["operation_type_2"];
-                $when_surgery_2 = $row["when_surgery_2"];
-                $disability_status = $row["disability_status"];
-                $disability_description = $row["disability_description"];
-                $registration_status = $row["registration_status"];
-                $donate_blood = $row["donate_blood"];
-                $family_history_mother = $row["family_history_mother"];
-                $family_history_father = $row["family_history_father"];
-                $newborn_immunizations = $row["newborn_immunizations"];
-                $hpv_vaccine = $row["hpv_vaccine"];
-                $hpv_doses = $row["hpv_doses"];
-                $tetanus_toxoid = $row["tetanus_toxoid"];
-                $tetanus_doses = $row["tetanus_doses"];
-                $influenza = $row["influenza"];
-                $influenza_year = $row["influenza_year"];
-                $pneumococcal_vaccine = $row["pneumococcal_vaccine"];
-                $pneumococcal_doses = $row["pneumococcal_doses"];
-                $covid_vaccine = $row["covid_vaccine"];
-            } else {
-                // URL doesn't contain valid id parameter. Redirect to error page
-                header("location: error.php");
-                exit();
-            }
+        if ($row = mysqli_fetch_assoc($result)) {
+            $date = $row['date'];
+            $college_clinic_file_number = $row['college_clinic_file_number'];
+            $college_course = $row['college_course'];
+            $year_level = $row['year'];
+            $name = $row['name'];
+            $age_sex = $row['age_sex'];
+            $birthday = $row['birthday'];
+            $home_address = $row['home_address'];
+            $religion = $row['religion'];
+            $municipal_address = $row['municipal_address'];
+            $occupation = $row['occupation'];
+            $contact_number = $row['contact_number'];
+            $civil_status = $row['civil_status'];
+            $emergency_contact_name = $row['emergency_contact_name'];
+            $emergency_contact_number = $row['emergency_contact_number'];
+            $emergency_contact_address = $row['emergency_contact_address'];
+            $emergency_contact_relationship = $row['emergency_contact_relationship'];
+            $smoking = $row['smoking'];
+            $alcohol_drinking = $row['alcohol_drinking'];
+            $illegal_drug_use = $row['illegal_drug_use'];
+            $sexually_active = $row['sexually_active'];
+            $food = $row['food'];
+            $drug = $row['drug'];
+            $epilepsy_seizure_disorder = $row['epilepsy_seizure_disorder'];
+            $asthma = $row['asthma'];
+            $congenital_heart_disorder = $row['congenital_heart_disorder'];
+            $thyroid_disease = $row['thyroid_disease'];
+            $skin_disorder = $row['skin_disorder'];
+            $cancer = $row['cancer'];
+            $diabetes_mellitus = $row['diabetes_mellitus'];
+            $peptic_ulcer = $row['peptic_ulcer'];
+            $tuberculosis = $row['tuberculosis'];
+            $coronary_artery_disease = $row['coronary_artery_disease'];
+            $pcos = $row['pcos'];
+            $hepatitis = $row['hepatitis'];
+            $hypertension_elevated_bp = $row['hypertension_elevated_bp'];
+            $psychological_disorder = $row['psychological_disorder'];
+            $hospital_admissions_diagnosis = $row['hospital_admissions_diagnosis'];
+            $hospital_admissions_when = $row['hospital_admissions_when'];
+            $past_surgical_history_operation_type = $row['past_surgical_history_operation_type'];
+            $past_surgical_history_when1 = $row['past_surgical_history_when'];
+            $person_with_disability = $row['person_with_disability'];
+            $willing_to_donate_blood = $row['willing_to_donate_blood'];
+            $family_history_mother_side = $row['family_history_mother_side'];
+            $family_history_father_side = $row['family_history_father_side'];
+            $immunizations_completed_newborn_immunizations = $row['immunizations_completed_newborn_immunizations'];
+            $immunizations_tetanus_toxoid = $row['immunizations_tetanus_toxoid'];
+            $immunizations_influenza = $row['immunizations_influenza'];
+            $immunizations_pneumococcal_vaccine = $row['immunizations_pneumococcal_vaccine'];
+            $covid_19_brand_name_first_dose = $row['covid_19_brand_name_first_dose'];
+            $covid_19_brand_name_second_dose = $row['covid_19_brand_name_second_dose'];
+            $covid_19_brand_name_first_booster = $row['covid_19_brand_name_first_booster'];
+            $covid_19_brand_name_second_booster = $row['covid_19_brand_name_second_booster'];
+            $unvaccinated_with_covid_19_reason = $row['unvaccinated_with_covid_19_reason'];
         } else {
-            echo "Oops! Something went wrong. Please try again later.";
+            echo "No record found for the given ID.";
         }
 
-        // Close statement
         mysqli_stmt_close($stmt);
+    } else {
+        echo "Error preparing statement.";
     }
-
-    // Close connection
-    mysqli_close($link);
-} else {
-    // URL doesn't contain id parameter. Redirect to error page
-    header("location: error.php");
-    exit();
 }
+
+// Fetch all patient names for the sidebar
+$sidebar_patients = [];
+$search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : '';
+
+// Fetch all or filtered patient names for the sidebar
+if ($search_term) {
+    $sql = "SELECT id, name FROM medical_form WHERE name LIKE ?";
+    if ($stmt = mysqli_prepare($link, $sql)) {
+        $search_param = '%' . $search_term . '%';
+        mysqli_stmt_bind_param($stmt, 's', $search_param);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sidebar_patients[] = $row;
+        }
+        mysqli_stmt_close($stmt);
+    } else {
+        echo "Error preparing search statement.";
+    }
+} else {
+    $sql = "SELECT id, name FROM medical_form";
+    if ($result = mysqli_query($link, $sql)) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sidebar_patients[] = $row;
+        }
+        mysqli_free_result($result);
+    } else {
+        echo "Error fetching patient names.";
+    }
+}
+
+mysqli_close($link); // Close the connection at the end
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>View Record</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles/read.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../styles/medicalrecs.css">
+    <style>
+        /* Add custom styles if needed */
+
+        /* Print Styles */
+        @media print {
+            body * {
+                visibility: hidden; /* Hide everything */
+            }
+
+            #printableProfile, #printableProfile * {
+                visibility: visible; /* Show only the profile */
+            }
+
+            #printableProfile {
+                position: absolute; /* Position profile for print */
+                left: 0;
+                top: 0;
+                background: #fff; /* White background for print */
+                padding: 20px; /* Add padding for better layout */
+                margin: 0; /* Ensure there's no margin */
+                box-shadow: none; /* Remove any box shadow */
+            }
+
+            .print-button {
+                display: none; /* Hide print button during printing */
+            }
+        }
+
+        /* Additional styles for profile formatting */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile h4 {
+            margin-top: 20px;
+        }
+
+        .profile div {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none; /* Hide sidebar on small screens */
+            }
+        }
+    </style>
 </head>
-<style>
-  /* General Styling */
-body {
-    background-color: #f0f8ff; /* Light blue background */
-    margin: 0;
-    padding-top: 70px; /* Ensure content starts below the navbar */
-    font-family: 'Arial', sans-serif;
-}
-
-    /* Navbar Customization */
-.navbar {
-    background-color: #003366; /* Dark blue background for navbar */
-    padding: 15px 20px; /* Increased padding for a more prominent navbar */
-    position: fixed; /* Fix the navbar to the top */
-    width: 100%;
-    top: 0;
-    z-index: 1000; /* Ensure the navbar stays above other elements */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
-
-.navbar-brand {
-    color: white; /* White text for brand */
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-}
-
-.navbar-brand img {
-    margin-right: 10px; /* Spacing between logo and text */
-}
-
-.navbar-nav .nav-link {
-    color: white; /* White text for nav links */
-}
-
-.navbar-nav .nav-link:hover {
-    color: #f0f8ff; /* Light blue on hover */
-}
-
-.navbar-toggler {
-    border-color: #f0f8ff; /* Light blue border for toggler */
-}
-
-.navbar-toggler-icon {
-    background-image: url("src/Nbsc_logo-removebg-preview.png"); /* Light blue icon */
-}
-
-/* Dropdown Menu */
-.dropdown-menu {
-    background-color: #f0f8ff; /* Light blue background for dropdown */
-    border: 1px solid #d0d0d0; /* Subtle border for dropdown */
-}
-
-.dropdown-item {
-    color: #003366; /* DodgerBlue text for dropdown items */
-    padding: 10px 20px; /* Increased padding for dropdown items */
-}
-
-
-.dropdown-item:hover {
-    background-color: #003366; /* Slightly darker blue on hover */
-    color: white; /* White text on hover */
-}
-
-
-    /* Wrapper Styling */
-    .wrapper {
-    width: 90%; /* Increased width for the wrapper */
-    max-width: 1200px; /* Limit the maximum width */
-    margin: 0 auto;
-    padding: 40px; /* Adjusted padding */
-    background-color: #ffffff; /* White background for the container */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
-}
-
-/* Table Container */
-.table-container {
-    margin-top: 30px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
-}
-
-    /* Horizontal Table Styling */
-    .horizontal-table {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px; /* Adding space between rows */
-    }
-
-    .horizontal-table .row {
-        display: flex;
-        width: 100%;
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
-    }
-
-    .horizontal-table .row:last-child {
-        border-bottom: none;
-    }
-
-    .horizontal-table .row .column {
-        flex: 1 1 250px;
-        padding: 0 15px;
-    }
-
-    .horizontal-table .label {
-        font-weight: bold;
-        background-color: #003366;
-        color: white;
-        padding: 10px;
-        border-radius: 4px;
-        display: inline-block;
-        width: 100%;
-        margin-bottom: 5px;
-        text-align: center; /* Center-align label text */
-    }
-
-    .horizontal-table .value {
-        padding: 10px;
-        background-color: #f7f7f7;
-        border-radius: 4px;
-        font-size: 1rem; /* Uniform font size */
-    }
-
-    /* Button Styling */
-    .btn-primary {
-        background-color: #003366;
-        border-color: #003366;
-        color: white;
-        padding: 10px 20px;
-        font-size: 1rem;
-        border-radius: 5px;
-        transition: background-color 0.3s, transform 0.3s;
-    }
-
-    .btn-primary:hover {
-        background-color: #00509e; /* Lighter blue for hover */
-        transform: scale(1.05); /* Slightly enlarge button */
-    }
-</style>
-
 <body>
-     <!-- Navbar -->
-     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom px-1">
-        <a class="navbar-brand ps-2" href="#">
-            <img src="../src/Nbsc_logo-removebg-preview.png" style="height: 0.3in;">
-            NBSC HOS
-        </a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-expanded="false">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main_nav">
-            <ul class="navbar-nav ms-auto mb-1 mb-lg-0 flex-nowrap">
-            <li class="nav-item">
-                <a class="nav-link" href="add_medical_info.php">Medical</a>
-            </li> 
-            <li class="nav-item">
-                <a class="nav-link" href="add_dental_info.php">Dental</a>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <a class="navbar-brand" href="#">
+        <img src="../src/Nbsc_logo-removebg-preview.png" alt="NBSC HOS" width="50" height="50"> NBSC HOS
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main_nav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Panel</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
+                    <li><a class="dropdown-item" href="../add_medical_info.php">Home</a></li>
+                </ul>
             </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Panel</a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-                        <li><a class="dropdown-item" href="welcome.php">Home</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="wrapper">
-        <h2 class="text-center">Personal Health Profile</h2>
-        <div class="table-container">
-            <div class="horizontal-table">
-                <div class="row">
-                    <div class="column">
-                        <div class="label">Date</div>
-                        <div class="value"><?php echo htmlspecialchars($date); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Clinic File Number</div>
-                        <div class="value"><?php echo htmlspecialchars($clinic_file_number); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">College Course</div>
-                        <div class="value"><?php echo htmlspecialchars($college_course); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Name</div>
-                        <div class="value"><?php echo htmlspecialchars($name); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Age & Sex</div>
-                        <div class="value"><?php echo htmlspecialchars($age_sex); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Birthday</div>
-                        <div class="value"><?php echo htmlspecialchars($birthday); ?></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <div class="label">Home Address</div>
-                        <div class="value"><?php echo htmlspecialchars($home_address); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Religion</div>
-                        <div class="value"><?php echo htmlspecialchars($religion); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Municipal Address</div>
-                        <div class="value"><?php echo htmlspecialchars($municipal_address); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Occupation</div>
-                        <div class="value"><?php echo htmlspecialchars($occupation); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Contact Number</div>
-                        <div class="value"><?php echo htmlspecialchars($contact_number); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Civil Status</div>
-                        <div class="value"><?php echo htmlspecialchars($civil_status); ?></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <div class="label">Emergency Contact Name</div>
-                        <div class="value"><?php echo htmlspecialchars($emergency_contact_name); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Emergency Contact Number</div>
-                        <div class="value"><?php echo htmlspecialchars($emergency_contact_number); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Emergency Contact Address</div>
-                        <div class="value"><?php echo htmlspecialchars($emergency_contact_address); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Emergency Contact Relationship</div>
-                        <div class="value"><?php echo htmlspecialchars($emergency_contact_relationship); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Smoking</div>
-                        <div class="value"><?php echo htmlspecialchars($smoking); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Alcohol Drinking</div>
-                        <div class="value"><?php echo htmlspecialchars($alcohol_drinking); ?></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <div class="label">Drug Use</div>
-                        <div class="value"><?php echo htmlspecialchars($drug_use); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Sexually Active</div>
-                        <div class="value"><?php echo htmlspecialchars($sexually_active); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Smoking Details</div>
-                        <div class="value"><?php echo htmlspecialchars($smoking_details); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Alcohol Details</div>
-                        <div class="value"><?php echo htmlspecialchars($alcohol_details); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Alcohol Frequency</div>
-                        <div class="value"><?php echo htmlspecialchars($alcohol_frequency); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Sexual Partners (Male)</div>
-                        <div class="value"><?php echo htmlspecialchars($sexual_partners_male); ?></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <div class="label">Sexual Partners (Female)</div>
-                        <div class="value"><?php echo htmlspecialchars($sexual_partners_female); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Sexual Partners (Both)</div>
-                        <div class="value"><?php echo htmlspecialchars($sexual_partners_both); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Allergies</div>
-                        <div class="value"><?php echo htmlspecialchars($allergies); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Medical Conditions</div>
-                        <div class="value"><?php echo htmlspecialchars($medical_conditions); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Hospital Admissions</div>
-                        <div class="value"><?php echo htmlspecialchars($hospital_admissions); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Diagnosis 1</div>
-                        <div class="value"><?php echo htmlspecialchars($diagnosis_1); ?></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <div class="label">When 1</div>
-                        <div class="value"><?php echo htmlspecialchars($when_1); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Diagnosis 2</div>
-                        <div class="value"><?php echo htmlspecialchars($diagnosis_2); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">When 2</div>
-                        <div class="value"><?php echo htmlspecialchars($when_2); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Operation Type 1</div>
-                        <div class="value"><?php echo htmlspecialchars($operation_type_1); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">When Surgery 1</div>
-                        <div class="value"><?php echo htmlspecialchars($when_surgery_1); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Operation Type 2</div>
-                        <div class="value"><?php echo htmlspecialchars($operation_type_2); ?></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <div class="label">When Surgery 2</div>
-                        <div class="value"><?php echo htmlspecialchars($when_surgery_2); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Disability Status</div>
-                        <div class="value"><?php echo htmlspecialchars($disability_status); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Disability Description</div>
-                        <div class="value"><?php echo htmlspecialchars($disability_description); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Registration Status</div>
-                        <div class="value"><?php echo htmlspecialchars($registration_status); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Donate Blood</div>
-                        <div class="value"><?php echo htmlspecialchars($donate_blood); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Family History (Mother)</div>
-                        <div class="value"><?php echo htmlspecialchars($family_history_mother); ?></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <div class="label">Family History (Father)</div>
-                        <div class="value"><?php echo htmlspecialchars($family_history_father); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Newborn Immunizations</div>
-                        <div class="value"><?php echo htmlspecialchars($newborn_immunizations); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">HPV Vaccine</div>
-                        <div class="value"><?php echo htmlspecialchars($hpv_vaccine); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">HPV Doses</div>
-                        <div class="value"><?php echo htmlspecialchars($hpv_doses); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Tetanus Toxoid</div>
-                        <div class="value"><?php echo htmlspecialchars($tetanus_toxoid); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Tetanus Doses</div>
-                        <div class="value"><?php echo htmlspecialchars($tetanus_doses); ?></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <div class="label">Influenza</div>
-                        <div class="value"><?php echo htmlspecialchars($influenza); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Influenza Year</div>
-                        <div class="value"><?php echo htmlspecialchars($influenza_year); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Pneumococcal Vaccine</div>
-                        <div class="value"><?php echo htmlspecialchars($pneumococcal_vaccine); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">Pneumococcal Doses</div>
-                        <div class="value"><?php echo htmlspecialchars($pneumococcal_doses); ?></div>
-                    </div>
-                    <div class="column">
-                        <div class="label">COVID Vaccine</div>
-                        <div class="value"><?php echo htmlspecialchars($covid_vaccine); ?></div>
-                    </div>
-                    <div class="text-center mt-4">
-            <button class="btn btn-primary" onclick="history.back()">Go Back</button>
-        </div>
-                </div>
-            </div>
-        </div>
+        </ul>
     </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 sidebar">
+            <h5>Patient List</h5>
+            <div class="input-group mb-3">
+                <form method="GET" action="" class="d-flex align-items-center">
+                    <input type="text" class="form-control custom-search-bar" placeholder="Search patient" aria-label="Search patient" value="<?php echo isset($_GET['search_term']) ? htmlspecialchars($_GET['search_term']) : ''; ?>">
+                    <button class="btn btn-primary custom-search-btn" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+        <main class="col-md-9 content">
+            <div class="profile-header">
+                <img src="../src/Nbsc_logo-removebg-preview.png" alt="Profile Logo">
+                <h5>
+                    Republic of the Philippines
+                    <br/>
+                    Province of Bukidnon
+                    <br/>
+                    NORTHERN BUKIDNON STATE COLLEGE
+                    <br/>
+                    Municipality of Manolo Fortich
+                    <br/>
+                    HEALTH PROFILE
+                </h5>
+            </div>
+                <div class="profile" id="printableProfile">
+                <h4>PERSONAL PROFILE</h4>
+<div class="row">
+    <div class="col-md-6">
+        <div>Date: <span><?php echo htmlspecialchars($date); ?></span></div>
+        <div>Name: <span><?php echo htmlspecialchars($name); ?></span></div>
+        <div>College Clinic File Number: <span><?php echo htmlspecialchars($college_clinic_file_number); ?></span></div>
+        <div>College Course: <span><?php echo htmlspecialchars($college_course); ?></span></div>
+        <div>Year: <span><?php echo htmlspecialchars($year); ?></span></div>
+        <div>Age/Sex: <span><?php echo htmlspecialchars($age_sex); ?></span></div>
+        <div>Birthday: <span><?php echo htmlspecialchars($birthday); ?></span></div>
+    </div>
+    <div class="col-md-6">
+        <div>Municipal Address: <span><?php echo htmlspecialchars($municipal_address); ?></span></div>
+        <div>Occupation: <span><?php echo htmlspecialchars($occupation); ?></span></div>
+        <div>Contact Number: <span><?php echo htmlspecialchars($contact_number); ?></span></div>
+        <div>Civil Status: <span><?php echo htmlspecialchars($civil_status); ?></span></div>
+        <div>Home Address: <span><?php echo htmlspecialchars($home_address); ?></span></div>
+        <div>Religion: <span><?php echo htmlspecialchars($religion); ?></span></div>
+    </div>
+</div>
+
+<h4>In Case of Emergency (Please Contact):</h4>
+<div class="row">
+    <div class="col-md-6">
+        <div>Emergency Contact Name: <span><?php echo htmlspecialchars($emergency_contact_name); ?></span></div>
+        <div>Emergency Contact Number: <span><?php echo htmlspecialchars($emergency_contact_number); ?></span></div>
+        <div>Emergency Contact Address: <span><?php echo htmlspecialchars($emergency_contact_address); ?></span></div>
+    </div>
+    <div class="col-md-6">
+        <div>Emergency Contact Relationship: <span><?php echo htmlspecialchars($emergency_contact_relationship); ?></span></div>
+    </div>
+</div>
+
+<h4>PERSONAL/ SOCIAL HISTORY:</h4>
+<div class="row">
+    <div class="col-md-6">
+        <div>Smoking: <span><?php echo htmlspecialchars($smoking); ?></span></div>
+        <div>Alcohol Drinking: <span><?php echo htmlspecialchars($alcohol_drinking); ?></span></div>
+        <div>Illegal Drug Use: <span><?php echo htmlspecialchars($illegal_drug_use); ?></span></div>
+        <div>Sexually Active: <span><?php echo htmlspecialchars($sexually_active); ?></span></div>
+<h4>Allergy</h4>
+<div class="row">
+        <div>Food: <span><?php echo htmlspecialchars($food); ?></span></div>
+        <div>Drug: <span><?php echo htmlspecialchars($drug); ?></span></div>
+    </div>
+</div>
+</div>
+
+<h4>PAST MEDICAL HISTORY:</h4>
+<div class="row">
+<div class="col-md-6">
+        <div>Epilepsy Seizure Disorder: <span><?php echo htmlspecialchars($epilepsy_seizure_disorder); ?></span></div>
+        <div>Asthma: <span><?php echo htmlspecialchars($asthma); ?></span></div>
+        <div>Congenital Heart Disorder: <span><?php echo htmlspecialchars($congenital_heart_disorder); ?></span></div>
+        <div>Thyroid Disease: <span><?php echo htmlspecialchars($thyroid_disease); ?></span></div>
+    </div>
+    <div class="col-md-6">
+        <div>Skin Disorder: <span><?php echo htmlspecialchars($skin_disorder); ?></span></div>
+        <div>Cancer: <span><?php echo htmlspecialchars($cancer); ?></span></div>
+        <div>Diabetes Mellitus: <span><?php echo htmlspecialchars($diabetes_mellitus); ?></span></div>
+        <div>Peptic Ulcer: <span><?php echo htmlspecialchars($peptic_ulcer); ?></span></div>
+        <div>Tuberculosis: <span><?php echo htmlspecialchars($tuberculosis); ?></span></div>
+        <div>Coronary Artery Disease: <span><?php echo htmlspecialchars($coronary_artery_disease); ?></span></div>
+    </div>
+    <div class="col-md-6">
+        <div>PCOS: <span><?php echo htmlspecialchars($pcos); ?></span></div>
+        <div>Hepatitis: <span><?php echo htmlspecialchars($hepatitis); ?></span></div>
+        <div>Hypertension Elevated BP: <span><?php echo htmlspecialchars($hypertension_elevated_bp); ?></span></div>
+        <div>Psychological Disorder: <span><?php echo htmlspecialchars($psychological_disorder); ?></span></div>
+        <div>Hospital Admissions Diagnosis: <span><?php echo htmlspecialchars($hospital_admissions_diagnosis); ?></span></div>
+        <div>Hospital Admissions When: <span><?php echo htmlspecialchars($hospital_admissions_when); ?></span></div>
+    </div>
+</div>
+
+<h4>PAST SURGICAL HISTORY:</h4>
+<div class="row">
+    <div class="col-md-6">
+        <div>Past Surgical History Operation Type: <span><?php echo htmlspecialchars($past_surgical_history_operation_type); ?></span></div>
+        <div>Past Surgical History When: <span><?php echo htmlspecialchars($past_surgical_history_when); ?></span></div>
+    </div>
+    <div class="col-md-6">
+        <div>Person with Disability: <span><?php echo htmlspecialchars($person_with_disability); ?></span></div>
+    </div>
+</div>
+
+<h4>WILLING TO DONATE BLOOD:</h4>
+<div>Willing to Donate Blood: <?php echo htmlspecialchars($willing_to_donate_blood); ?></div>
+
+<h4>Family History:</h4>
+<div class="row">
+    <div class="col-md-6">
+        <div>Family History Mother Side: <span><?php echo htmlspecialchars($family_history_mother_side); ?></span></div>
+        <div>Family History Father Side: <span><?php echo htmlspecialchars($family_history_father_side); ?></span></div>
+    </div>
+</div>
+
+<h4>Immunizations:</h4>
+<div class="row">
+    <div class="col-md-6">
+        <div>Immunizations Completed Newborn Immunizations: <span><?php echo htmlspecialchars($immunizations_completed_newborn_immunizations); ?></span></div>
+        <div>Immunizations Tetanus Toxoid: <span><?php echo htmlspecialchars($immunizations_tetanus_toxoid); ?></span></div>
+        <div>Immunizations Influenza: <span><?php echo htmlspecialchars($immunizations_influenza); ?></span></div>
+        <div>Immunizations Pneumococcal Vaccine: <span><?php echo htmlspecialchars($immunizations_pneumococcal_vaccine); ?></span></div>
+    </div>
+    <div class="col-md-6">
+        <div>COVID-19 Brand Name First Dose: <span><?php echo htmlspecialchars($covid_19_brand_name_first_dose); ?></span></div>
+        <div>COVID-19 Brand Name Second Dose: <span><?php echo htmlspecialchars($covid_19_brand_name_second_dose); ?></span></div>
+        <div>COVID-19 Brand Name First Booster: <span><?php echo htmlspecialchars($covid_19_brand_name_first_booster); ?></span></div>
+        <div>COVID-19 Brand Name Second Booster: <span><?php echo htmlspecialchars($covid_19_brand_name_second_booster); ?></span></div>
+    </div>
+</div>
+
+<h4>Unvaccinated with COVID-19 Reason:</h4>
+<div><?php echo htmlspecialchars($unvaccinated_with_covid_19_reason); ?></div>
+
+<div class="print-button mt-3">
+    <button class="btn btn-success" id="printButton">Print</button>
+</div>
+<script>
+document.getElementById('printButton').addEventListener('click', function() {
+    window.print(); // Directly trigger the print dialog
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

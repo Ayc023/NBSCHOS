@@ -21,7 +21,6 @@
             margin-bottom: 30px;
             font-weight: 600;
         }
-
         /* Back button styling */
         .back-button {
             background-color: #1535ee; /* Your preferred button color */
@@ -80,11 +79,8 @@
     </style>
 </head>
 <body>
-    <h1>Medical Records Data Visualization</h1>
-
-    <!-- Back button -->
+    <h1>Dental Records Data Visualization</h1>
     <a href="chartdisplay.html" class="back-button">Back</a>
-
     <div class="charts-wrapper">
         <div class="chart-container">
             <canvas id="barChart"></canvas>
@@ -105,7 +101,7 @@
 
     <script>
         // Fetch data from PHP using AJAX
-        fetch('fetch_data.php')
+        fetch('fetch_dental.php')
             .then(response => response.json())
             .then(data => {
                 const weeklyPatients = {};
@@ -297,7 +293,9 @@
                             borderColor: 'rgba(153, 102, 255, 1)',
                             fill: true,
                             borderWidth: 1,
-                            tension: 0.4 // for smoother lines
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            tension: 0.3 // for smoother curves
                         }]
                     },
                     options: {
@@ -342,8 +340,7 @@
                         }
                     }
                 });
-            })
-            .catch(error => console.error('Error fetching data:', error));
+            });
     </script>
 </body>
 </html>

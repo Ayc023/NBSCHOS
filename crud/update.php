@@ -1,397 +1,601 @@
 <?php
-// Include config file
 require_once "../config.php";
- 
-// Define variables and initialize with empty values
-$basic_info_firstname = $basic_info_middlename = $basic_info_lastname = $basic_info_birthday = $basic_info_sex = $basic_info_age = $basic_info_home_address = "";
-$basic_college_course = $basic_college_clinic_file_number = $basic_contact_number = $basic_religion = $basic_occupation = $basic_civil_status = "";
-$basic_complete_name = $basic_address = $basic_contact = $basic_relationship = "";
 
-$basic_info_firstname_err = $basic_info_middlename_err = $basic_info_lastname_err = $basic_info_birthday_err = $basic_info_sex_err = $basic_info_age_err = $basic_info_home_address_err = "";
-$basic_college_course_err = $basic_college_clinic_file_number_err = $basic_contact_number_err = $basic_religion_err = $basic_occupation_err = $basic_civil_status_err = "";
-$basic_complete_name_err = $basic_address_err = $basic_contact_err = $basic_relationship_err = "";
+// Initialize variables
+$patient_id = isset($_GET['id']) ? trim($_GET['id']) : '';
+$date = $college_clinic_file_number = $college_course = $year = '';
+$name = $age_sex = $birthday = $home_address = $religion = $municipal_address = $occupation = $contact_number = $civil_status = '';
+$emergency_contact_name = $emergency_contact_number = $emergency_contact_address = $emergency_contact_relationship = '';
+$smoking = $alcohol_drinking = $illegal_drug_use = $sexually_active = $allergy = '';
+$epilepsy_seizure_disorder = $asthma = $congenital_heart_disorder = $thyroid_disease = $skin_disorder = '';
+$cancer = $diabetes_mellitus = $peptic_ulcer = $tuberculosis = $coronary_artery_disease = '';
+$pcos = $hepatitis = $hypertension_elevated_bp = $psychological_disorder = '';
+$hospital_admissions_diagnosis = $hospital_admissions_when = $past_surgical_history_operation_type = $past_surgical_history_when = '';
+$person_with_disability = $willing_to_donate_blood = '';
+$family_history_mother_side = $family_history_father_side = '';
+$immunizations_completed_newborn_immunizations = $immunizations_tetanus_toxoid = $immunizations_influenza = $immunizations_pneumococcal_vaccine = '';
+$covid_19_brand_name_first_dose = $covid_19_brand_name_second_dose = $covid_19_brand_name_first_booster = $covid_19_brand_name_second_booster = '';
+$unvaccinated_with_covid_19_reason = '';
 
-// Processing form data when form is submitted
-if(isset($_POST["id"]) && !empty($_POST["id"])){
-    // Get hidden input value
-    $id = $_POST["id"];
-    
-    // Validate firstname
-    $input_firstname = trim($_POST["basic_info_firstname"]);
-    if(empty($input_firstname)){
-        $basic_info_firstname_err = "Please enter a first name.";
-    } else{
-        $basic_info_firstname = $input_firstname;
-    }
-    
-    // Validate middlename
-    $input_middlename = trim($_POST["basic_info_middlename"]);
-    if(empty($input_middlename)){
-        $basic_info_middlename_err = "Please enter a middle name.";     
-    } else{
-        $basic_info_middlename = $input_middlename;
-    }
-    
-    // Validate lastname
-    $input_lastname = trim($_POST["basic_info_lastname"]);
-    if(empty($input_lastname)){
-        $basic_info_lastname_err = "Please enter a last name.";     
-    } else{
-        $basic_info_lastname = $input_lastname;
-    }
-    
-    // Validate birthday
-    $input_birthday = trim($_POST["basic_info_birthday"]);
-    if(empty($input_birthday)){
-        $basic_info_birthday_err = "Please enter a birthday.";     
-    } else{
-        $basic_info_birthday = $input_birthday;
-    }
-    
-    // Validate sex
-    $input_sex = trim($_POST["basic_info_sex"]);
-    if(empty($input_sex)){
-        $basic_info_sex_err = "Please select a gender.";     
-    } else{
-        $basic_info_sex = $input_sex;
-    }
+// Fetch patient data from the database
+if ($patient_id) {
+    $sql = "SELECT * FROM medical_form WHERE id = ?";
+    if ($stmt = mysqli_prepare($link, $sql)) {
+        mysqli_stmt_bind_param($stmt, "i", $patient_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-    // Validate age
-    $input_age = trim($_POST["basic_info_age"]);
-    if(empty($input_age)){
-        $basic_info_age_err = "Please enter the age.";     
-    } elseif(!ctype_digit($input_age)){
-        $basic_info_age_err = "Please enter a valid age.";
-    } else{
-        $basic_info_age = $input_age;
-    }
-    
-    // Validate home address
-    $input_home_address = trim($_POST["basic_info_home_address"]);
-    if(empty($input_home_address)){
-        $basic_info_home_address_err = "Please enter a home address.";     
-    } else{
-        $basic_info_home_address = $input_home_address;
-    }
-
-    // Validate new fields
-    $input_college_course = trim($_POST["basic_college_course"]);
-    if(empty($input_college_course)){
-        $basic_college_course_err = "Please enter the college course.";     
-    } else{
-        $basic_college_course = $input_college_course;
-    }
-
-    $input_clinic_file_number = trim($_POST["basic_college_clinic_file_number"]);
-    if(empty($input_clinic_file_number)){
-        $basic_college_clinic_file_number_err = "Please enter the clinic file number.";     
-    } else{
-        $basic_college_clinic_file_number = $input_clinic_file_number;
-    }
-
-    $input_contact_number = trim($_POST["basic_contact_number"]);
-    if(empty($input_contact_number)){
-        $basic_contact_number_err = "Please enter the contact number.";     
-    } else{
-        $basic_contact_number = $input_contact_number;
-    }
-
-    $input_religion = trim($_POST["basic_religion"]);
-    if(empty($input_religion)){
-        $basic_religion_err = "Please enter the religion.";     
-    } else{
-        $basic_religion = $input_religion;
-    }
-
-    $input_occupation = trim($_POST["basic_occupation"]);
-    if(empty($input_occupation)){
-        $basic_occupation_err = "Please enter the occupation.";     
-    } else{
-        $basic_occupation = $input_occupation;
-    }
-
-    // Validate civil status
-    $input_civil_status = trim($_POST["basic_civil_status"]);
-    if(empty($input_civil_status)){
-        $basic_civil_status_err = "Please enter the civil status.";     
-    } else{
-        $basic_civil_status = $input_civil_status;
-    }
-
-    // Validate new fields: complete name, address, contact, relationship
-    $input_complete_name = trim($_POST["basic_complete_name"]);
-    if(empty($input_complete_name)){
-        $basic_complete_name_err = "Please enter the complete name.";     
-    } else{
-        $basic_complete_name = $input_complete_name;
-    }
-
-    $input_address = trim($_POST["basic_address"]);
-    if(empty($input_address)){
-        $basic_address_err = "Please enter the address.";     
-    } else{
-        $basic_address = $input_address;
-    }
-
-    $input_contact = trim($_POST["basic_contact"]);
-    if(empty($input_contact)){
-        $basic_contact_err = "Please enter the contact.";     
-    } else{
-        $basic_contact = $input_contact;
-    }
-
-    $input_relationship = trim($_POST["basic_relationship"]);
-    if(empty($input_relationship)){
-        $basic_relationship_err = "Please enter the relationship.";     
-    } else{
-        $basic_relationship = $input_relationship;
-    }
-
-    // Check input errors before updating in the database
-    if(empty($basic_info_firstname_err) && empty($basic_info_middlename_err) && empty($basic_info_lastname_err) && empty($basic_info_birthday_err) && empty($basic_info_sex_err) && empty($basic_info_age_err) && empty($basic_info_home_address_err) && empty($basic_college_course_err) && empty($basic_college_clinic_file_number_err) && empty($basic_contact_number_err) && empty($basic_religion_err) && empty($basic_complete_name_err) && empty($basic_address_err) && empty($basic_contact_err) && empty($basic_relationship_err)){
-        // Prepare an update statement
-        $sql = "UPDATE basic_info SET basic_info_firstname=:basic_info_firstname, basic_info_middlename=:basic_info_middlename, basic_info_lastname=:basic_info_lastname, basic_info_birthday=:basic_info_birthday, basic_info_sex=:basic_info_sex, basic_info_age=:basic_info_age, basic_info_home_address=:basic_info_home_address, basic_college_course=:basic_college_course, basic_college_clinic_file_number=:basic_college_clinic_file_number, basic_contact_number=:basic_contact_number, basic_religion=:basic_religion, basic_occupation=:basic_occupation, basic_civil_status=:basic_civil_status, basic_complete_name=:basic_complete_name, basic_address=:basic_address, basic_contact=:basic_contact, basic_relationship=:basic_relationship WHERE basic_info_id=:id";
-
-        if($stmt = $pdo->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":basic_info_firstname", $param_firstname);
-            $stmt->bindParam(":basic_info_middlename", $param_middlename);
-            $stmt->bindParam(":basic_info_lastname", $param_lastname);
-            $stmt->bindParam(":basic_info_birthday", $param_birthday);
-            $stmt->bindParam(":basic_info_sex", $param_sex);
-            $stmt->bindParam(":basic_info_age", $param_age);
-            $stmt->bindParam(":basic_info_home_address", $param_home_address);
-            $stmt->bindParam(":basic_college_course", $param_college_course);
-            $stmt->bindParam(":basic_college_clinic_file_number", $param_clinic_file_number);
-            $stmt->bindParam(":basic_contact_number", $param_contact_number);
-            $stmt->bindParam(":basic_religion", $param_religion);
-            $stmt->bindParam(":id", $param_id);
-            $stmt->bindParam(":basic_occupation", $param_occupation);
-            $stmt->bindParam(":basic_civil_status", $param_civil_status);
-            $stmt->bindParam(":basic_complete_name", $param_complete_name);
-            $stmt->bindParam(":basic_address", $param_address);
-            $stmt->bindParam(":basic_contact", $param_contact);
-            $stmt->bindParam(":basic_relationship", $param_relationship);
-            
-            // Set parameters
-            $param_firstname = $basic_info_firstname;
-            $param_middlename = $basic_info_middlename;
-            $param_lastname = $basic_info_lastname;
-            $param_birthday = $basic_info_birthday;
-            $param_sex = $basic_info_sex;
-            $param_age = $basic_info_age;
-            $param_home_address = $basic_info_home_address;
-            $param_college_course = $basic_college_course;
-            $param_clinic_file_number = $basic_college_clinic_file_number;
-            $param_contact_number = $basic_contact_number;
-            $param_religion = $basic_religion;
-            $param_id = $id;
-            $param_occupation = $basic_occupation;
-            $param_civil_status = $basic_civil_status;
-            $param_complete_name = $basic_complete_name;
-            $param_address = $basic_address;
-            $param_contact = $basic_contact;
-            $param_relationship = $basic_relationship;
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // Records updated successfully. Redirect to landing page
-                header("location: ../add_medical_info.php");
-                exit();
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
+        if ($row = mysqli_fetch_assoc($result)) {
+            // Assign fetched data to variables
+            $date = $row['date'];
+            $college_clinic_file_number = $row['college_clinic_file_number'];
+            $college_course = $row['college_course'];
+            $year = $row['year'];
+            $name = $row['name'];
+            $age_sex = $row['age_sex'];
+            $birthday = $row['birthday'];
+            $home_address = $row['home_address'];
+            $religion = $row['religion'];
+            $municipal_address = $row['municipal_address'];
+            $occupation = $row['occupation'];
+            $contact_number = $row['contact_number'];
+            $civil_status = $row['civil_status'];
+            $emergency_contact_name = $row['emergency_contact_name'];
+            $emergency_contact_number = $row['emergency_contact_number'];
+            $emergency_contact_address = $row['emergency_contact_address'];
+            $emergency_contact_relationship = $row['emergency_contact_relationship'];
+            $smoking = $row['smoking'];
+            $alcohol_drinking = $row['alcohol_drinking'];
+            $illegal_drug_use = $row['illegal_drug_use'];
+            $sexually_active = $row['sexually_active'];
+            $allergy = $row['allergy'];
+            $epilepsy_seizure_disorder = $row['epilepsy_seizure_disorder'];
+            $asthma = $row['asthma'];
+            $congenital_heart_disorder = $row['congenital_heart_disorder'];
+            $thyroid_disease = $row['thyroid_disease'];
+            $skin_disorder = $row['skin_disorder'];
+            $cancer = $row['cancer'];
+            $diabetes_mellitus = $row['diabetes_mellitus'];
+            $peptic_ulcer = $row['peptic_ulcer'];
+            $tuberculosis = $row['tuberculosis'];
+            $coronary_artery_disease = $row['coronary_artery_disease'];
+            $pcos = $row['pcos'];
+            $hepatitis = $row['hepatitis'];
+            $hypertension_elevated_bp = $row['hypertension_elevated_bp'];
+            $psychological_disorder = $row['psychological_disorder'];
+            $hospital_admissions_diagnosis = $row['hospital_admissions_diagnosis'];
+            $hospital_admissions_when = $row['hospital_admissions_when'];
+            $past_surgical_history_operation_type = $row['past_surgical_history_operation_type'];
+            $past_surgical_history_when = $row['past_surgical_history_when'];
+            $person_with_disability = $row['person_with_disability'];
+            $willing_to_donate_blood = $row['willing_to_donate_blood'];
+            $family_history_mother_side = $row['family_history_mother_side'];
+            $family_history_father_side = $row['family_history_father_side'];
+            $immunizations_completed_newborn_immunizations = $row['immunizations_completed_newborn_immunizations'];
+            $immunizations_tetanus_toxoid = $row['immunizations_tetanus_toxoid'];
+            $immunizations_influenza = $row['immunizations_influenza'];
+            $immunizations_pneumococcal_vaccine = $row['immunizations_pneumococcal_vaccine'];
+            $covid_19_brand_name_first_dose = $row['covid_19_brand_name_first_dose'];
+            $covid_19_brand_name_second_dose = $row['covid_19_brand_name_second_dose'];
+            $covid_19_brand_name_first_booster = $row['covid_19_brand_name_first_booster'];
+            $covid_19_brand_name_second_booster = $row['covid_19_brand_name_second_booster'];
+            $unvaccinated_with_covid_19_reason = $row['unvaccinated_with_covid_19_reason'];
+        } else {
+            echo "No record found for the given ID.";
+            exit;
         }
 
-        // Close statement
-        unset($stmt);
-    }
-    
-    // Close connection
-    unset($pdo);
-} else{
-    // Check existence of id parameter before processing further
-    if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
-        // Get URL parameter
-        $id =  trim($_GET["id"]);
-        
-        // Prepare a select statement
-        $sql = "SELECT * FROM basic_info WHERE basic_info_id = :id";
-        if($stmt = $pdo->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":id", $param_id);
-            
-            // Set parameters
-            $param_id = $id;
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                if($stmt->rowCount() == 1){
-                    /* Fetch result row as an associative array. Since the result set contains only one row, we don't need to use while loop */
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                    
-                    // Retrieve individual field values
-                    $basic_info_firstname = $row["basic_info_firstname"];
-                    $basic_info_middlename = $row["basic_info_middlename"];
-                    $basic_info_lastname = $row["basic_info_lastname"];
-                    $basic_info_birthday = $row["basic_info_birthday"];
-                    $basic_info_sex = $row["basic_info_sex"];
-                    $basic_info_age = $row["basic_info_age"];
-                    $basic_info_home_address = $row["basic_info_home_address"];
-                    $basic_college_course = $row["basic_college_course"];
-                    $basic_college_clinic_file_number = $row["basic_college_clinic_file_number"];
-                    $basic_contact_number = $row["basic_contact_number"];
-                    $basic_religion = $row["basic_religion"];
-                    $basic_occupation = $row["basic_occupation"];
-                    $basic_civil_status = $row["basic_civil_status"];
-                    $basic_complete_name = $row["basic_complete_name"];
-                    $basic_address = $row["basic_address"];
-                    $basic_contact = $row["basic_contact"];
-                    $basic_relationship = $row["basic_relationship"];
-                } else{
-                    // URL doesn't contain valid id. Redirect to error page
-                    header("location: error.php");
-                    exit();
-                }
-                
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }
-        
-        // Close statement
-        unset($stmt);
-        
-        // Close connection
-        unset($pdo);
-    }  else{
-        // URL doesn't contain id parameter. Redirect to error page
-        header("location: error.php");
-        exit();
+        mysqli_stmt_close($stmt);
+    } else {
+        echo "Error preparing statement.";
+        exit;
     }
 }
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Sanitize and retrieve form data
+    $date = trim($_POST['date']);
+    $college_clinic_file_number = trim($_POST['college_clinic_file_number']);
+    $college_course = trim($_POST['college_course']);
+    $year = trim($_POST['year']);
+    $name = trim($_POST['name']);
+    $age_sex = trim($_POST['age_sex']);
+    $birthday = trim($_POST['birthday']);
+    $home_address = trim($_POST['home_address']);
+    $religion = trim($_POST['religion']);
+    $municipal_address = trim($_POST['municipal_address']);
+    $occupation = trim($_POST['occupation']);
+    $contact_number = trim($_POST['contact_number']);
+    $civil_status = trim($_POST['civil_status']);
+    $emergency_contact_name = trim($_POST['emergency_contact_name']);
+    $emergency_contact_number = trim($_POST['emergency_contact_number']);
+    $emergency_contact_address = trim($_POST['emergency_contact_address']);
+    $emergency_contact_relationship = trim($_POST['emergency_contact_relationship']);
+    $smoking = trim($_POST['smoking']);
+    $alcohol_drinking = trim($_POST['alcohol_drinking']);
+    $illegal_drug_use = trim($_POST['illegal_drug_use']);
+    $sexually_active = trim($_POST['sexually_active']);
+    $allergy = trim($_POST['allergy']);
+    $epilepsy_seizure_disorder = trim($_POST['epilepsy_seizure_disorder']);
+    $asthma = trim($_POST['asthma']);
+    $congenital_heart_disorder = trim($_POST['congenital_heart_disorder']);
+    $thyroid_disease = trim($_POST['thyroid_disease']);
+    $skin_disorder = trim($_POST['skin_disorder']);
+    $cancer = trim($_POST['cancer']);
+    $diabetes_mellitus = trim($_POST['diabetes_mellitus']);
+    $peptic_ulcer = trim($_POST['peptic_ulcer']);
+    $tuberculosis = trim($_POST['tuberculosis']);
+    $coronary_artery_disease = trim($_POST['coronary_artery_disease']);
+    $pcos = trim($_POST['pcos']);
+    $hepatitis = trim($_POST['hepatitis']);
+    $hypertension_elevated_bp = trim($_POST['hypertension_elevated_bp']);
+    $psychological_disorder = trim($_POST['psychological_disorder']);
+    $hospital_admissions_diagnosis = trim($_POST['hospital_admissions_diagnosis']);
+    $hospital_admissions_when = trim($_POST['hospital_admissions_when']);
+    $past_surgical_history_operation_type = trim($_POST['past _surgical_history_operation_type']);
+    $past_surgical_history_when = trim($_POST['past_surgical_history_when']);
+    $person_with_disability = trim($_POST['person_with_disability']);
+    $willing_to_donate_blood = trim($_POST['willing_to_donate_blood']);
+    $family_history_mother_side = trim($_POST['family_history_mother_side']);
+    $family_history_father_side = trim($_POST['family_history_father_side']);
+    $immunizations_completed_newborn_immunizations = trim($_POST['immunizations_completed_newborn_immunizations']);
+    $immunizations_tetanus_toxoid = trim($_POST['immunizations_tetanus_toxoid']);
+    $immunizations_influenza = trim($_POST['immunizations_influenza']);
+    $immunizations_pneumococcal_vaccine = trim($_POST['immunizations_pneumococcal_vaccine']);
+    $covid_19_brand_name_first_dose = trim($_POST['covid_19_brand_name_first_dose']);
+    $covid_19_brand_name_second_dose = trim($_POST['covid_19_brand_name_second_dose']);
+    $covid_19_brand_name_first_booster = trim($_POST['covid_19_brand_name_first_booster']);
+    $covid_19_brand_name_second_booster = trim($_POST['covid_19_brand_name_second_booster']);
+    $unvaccinated_with_covid_19_reason = trim($_POST['unvaccinated_with_covid_19_reason']);
+
+   // Prepare the SQL update statement
+$sql = "UPDATE medical_form SET 
+date = ?, 
+college_clinic_file_number = ?, 
+college_course = ?, 
+year = ?, 
+name = ?, 
+age_sex = ?, 
+birthday = ?, 
+home_address = ?, 
+religion = ?, 
+municipal_address = ?, 
+occupation = ?, 
+contact_number = ?, 
+civil_status = ?, 
+emergency_contact_name = ?, 
+emergency_contact_number = ?, 
+emergency_contact_address = ?, 
+emergency_contact_relationship = ?, 
+smoking = ?, 
+alcohol_drinking = ?, 
+illegal_drug_use = ?, 
+sexually_active = ?, 
+allergy = ?, 
+epilepsy_seizure_disorder = ?, 
+asthma = ?, 
+congenital_heart_disorder = ?, 
+thyroid_disease = ?, 
+skin_disorder = ?, 
+cancer = ?, 
+diabetes_mellitus = ?, 
+peptic_ulcer = ?, 
+tuberculosis = ?, 
+coronary_artery_disease = ?, 
+pcos = ?, 
+hepatitis = ?, 
+hypertension_elevated_bp = ?, 
+psychological_disorder = ?, 
+hospital_admissions_diagnosis = ?, 
+hospital_admissions_when = ?, 
+past_surgical_history_operation_type = ?, 
+past_surgical_history_when = ?, 
+person_with_disability = ?, 
+willing_to_donate_blood = ?, 
+family_history_mother_side = ?, 
+family_history_father_side = ?, 
+immunizations_completed_newborn_immunizations = ?, 
+immunizations_tetanus_toxoid = ?, 
+immunizations_influenza = ?, 
+immunizations_pneumococcal_vaccine = ?, 
+covid_19_brand_name_first_dose = ?, 
+covid_19_brand_name_second_dose = ?, 
+covid_19_brand_name_first_booster = ?, 
+covid_19_brand_name_second_booster = ?, 
+unvaccinated_with_covid_19_reason = ? 
+WHERE id = ?";
+
+// Prepare the statement
+if ($stmt = mysqli_prepare($link, $sql)) {
+// Define your parameters in an array
+$params = [
+    $date,
+    $college_clinic_file_number,
+    $college_course,
+    $year,
+    $name,
+    $age_sex,
+    $birthday,
+    $home_address,
+    $religion,
+    $municipal_address,
+    $occupation,
+    $contact_number,
+    $civil_status,
+    $emergency_contact_name,
+    $emergency_contact_number,
+    $emergency_contact_address,
+    $emergency_contact_relationship,
+    $smoking,
+    $alcohol_drinking,
+    $illegal_drug_use,
+    $sexually_active,
+    $allergy,
+    $epilepsy_seizure_disorder,
+    $asthma,
+    $congenital_heart_disorder,
+    $thyroid_disease,
+    $skin_disorder,
+    $cancer,
+    $diabetes_mellitus,
+    $peptic_ulcer,
+    $tuberculosis,
+    $coronary_artery_disease,
+    $pcos,
+    $hepatitis,
+    $hypertension_elevated_bp,
+    $psychological_disorder,
+    $hospital_admissions_diagnosis,
+    $hospital_admissions_when,
+    $past_surgical_history_operation_type,
+    $past_surgical_history_when,
+    $person_with_disability,
+    $willing_to_donate_blood,
+    $family_history_mother_side,
+    $family_history_father_side,
+    $immunizations_completed_newborn_immunizations,
+    $immunizations_tetanus_toxoid,
+    $immunizations_influenza,
+    $immunizations_pneumococcal_vaccine,
+    $covid_19_brand_name_first_dose,
+    $covid_19_brand_name_second_dose,
+    $covid_19_brand_name_first_booster,
+    $covid_19_brand_name_second_booster,
+    $unvaccinated_with_covid_19_reason,
+    $patient_id // Make sure to include the ID at the end
+];
+
+// Create a dynamic type string based on the parameter types
+$typeString = str_repeat('s', count($params) - 1) . 'i'; // Assuming all are strings except the last one (ID as integer)
+
+// Bind the parameters
+if (mysqli_stmt_bind_param($stmt, $typeString, ...$params)) {
+    // Execute the statement
+    if (mysqli_stmt_execute($stmt)) {
+        echo "Patient information updated successfully.";
+        // Redirect to a confirmation page or back to the patient list
+        header("Location:../add_medical_info.php"); // Change this to your desired redirection
+        exit;
+    } else {
+        echo "Error updating record: " . mysqli_error($link);
+    }
+} else {
+    echo "Error binding parameters.";
+}
+
+mysqli_stmt_close($stmt);
+} else {
+echo "Error preparing update statement.";
+}
+}
+
+mysqli_close($link); // Close the connection
 ?>
 
-<!-- HTML form starts here -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Update Record</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .wrapper{
-            width: 600px;
-            margin: 0 auto;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Patient</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="mt-5">Update Record</h2>
-                    <p>Please edit the input values and submit to update the record.</p>
-                    <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" name="basic_info_firstname" class="form-control <?php echo (!empty($basic_info_firstname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_firstname; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_info_firstname_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Middle Name</label>
-                            <input type="text" name="basic_info_middlename" class="form-control <?php echo (!empty($basic_info_middlename_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_middlename; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_info_middlename_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" name="basic_info_lastname" class="form-control <?php echo (!empty($basic_info_lastname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_lastname; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_info_lastname_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Birthday</label>
-                            <input type="date" name="basic_info_birthday" class="form-control <?php echo (!empty($basic_info_birthday_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_birthday; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_info_birthday_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Gender</label>
-                            <select name="basic_info_sex" class="form-control <?php echo (!empty($basic_info_sex_err)) ? 'is-invalid' : ''; ?>">
-                                <option value="male" <?php echo ($basic_info_sex == 'male') ? 'selected' : ''; ?>>Male</option>
-                                <option value="female" <?php echo ($basic_info_sex == 'female') ? 'selected' : ''; ?>>Female</option>
-                            </select>
-                            <span class="invalid-feedback"><?php echo $basic_info_sex_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Age</label>
-                            <input type="number" name="basic_info_age" class="form-control <?php echo (!empty($basic_info_age_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_age; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_info_age_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Home Address</label>
-                            <input type="text" name="basic_info_home_address" class="form-control <?php echo (!empty($basic_info_home_address_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_info_home_address; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_info_home_address_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>College Course</label>
-                            <input type="text" name="basic_college_course" class="form-control <?php echo (!empty($basic_college_course_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_college_course; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_college_course_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Clinic File Number</label>
-                            <input type="text" name="basic_college_clinic_file_number" class="form-control <?php echo (!empty($basic_college_clinic_file_number_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_college_clinic_file_number; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_college_clinic_file_number_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Contact Number</label>
-                            <input type="text" name="basic_contact_number" class="form-control <?php echo (!empty($basic_contact_number_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_contact_number; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_contact_number_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Religion</label>
-                            <input type="text" name="basic_religion" class="form-control <?php echo (!empty($basic_religion_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_religion; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_religion_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Occupation</label>
-                            <input type="text" name="basic_occupation" class="form-control <?php echo (!empty($basic_occupation_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_occupation; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_occupation_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Civil Status</label>
-                            <input type="text" name="basic_civil_status" class="form-control <?php echo (!empty($basic_civil_status_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_civil_status; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_civil_status_err;?></span>
-                        </div>
-                        <h4>In Case of Emergency (Please Contact):</h4>
-                        <div class="form-group">
-                            <label>Complete Name</label>
-                            <input type="text" name="basic_complete_name" class="form-control <?php echo (!empty($basic_complete_name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_complete_name; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_complete_name_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <input type="text" name="basic_address" class="form-control <?php echo (!empty($basic_address_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_address; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_address_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Contact</label>
-                            <input type="text" name="basic_contact" class="form-control <?php echo (!empty($basic_contact_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_contact; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_contact_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Relationship</label>
-                            <input type="text" name="basic_relationship" class="form-control <?php echo (!empty($basic_relationship_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $basic_relationship; ?>">
-                            <span class="invalid-feedback"><?php echo $basic_relationship_err;?></span>
-                        </div>
-                        <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-primary" value="Submit">
-                            <a href="../add_medical_info.php" class="btn btn-secondary">Cancel</a>
-                        </div>
-                    </form>
+<body class="bg-gray-100">
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Edit Patient Information</h2>
+    <form method="POST" action="">
+        <div class="flex flex-wrap justify-between mb-4">
+            <div class="w-full md:w-1/3 mb-4">
+                <label class="block text-gray-700">Date:</label>
+                <input type="text" class="border border-gray-300 p-2 w-full rounded" id="date" name="date" value="<?php echo htmlspecialchars($date); ?>">
+            </div>
+            <div class="w-full md:w-1/3 mb-4">
+                <label class="block text-gray-700">College Clinic File Number:</label>
+                <input type="text" class="border border-gray-300 p-2 w-full rounded" id="college_clinic_file_number" name="college_clinic_file_number" value="<?php echo htmlspecialchars($college_clinic_file_number); ?>">
+            </div>
+            <div class="w-full md:w-1/3 mb-4">
+                <label class="block text-gray-700">College Course:</label>
+                <input type="text" class="border border-gray-300 p-2 w-full rounded" id="college_course" name="college_course" value="<?php echo htmlspecialchars($college_course); ?>">
+            </div>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Year:</label>
+            <input type="text" class="border border-gray-300 p-2 w-full rounded mt-2" placeholder="Year level" id="year" name="year" value="<?php echo htmlspecialchars($year); ?>">
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">PERSONAL PROFILE:</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">Name:</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Age/Sex:</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" id="age_sex" name="age_sex" value="<?php echo htmlspecialchars($age_sex); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Birthday:</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" id="birthday" name="birthday" value="<?php echo htmlspecialchars($birthday); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Home Address:</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" id="home_address" name="home_address" value="<?php echo htmlspecialchars($home_address); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Religion:</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" id="religion" name="religion" value="<?php echo htmlspecialchars($religion); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Municipal Address:</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" id="municipal_address" name="municipal_address" value="<?php echo htmlspecialchars($municipal_address); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Occupation:</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" id="occupation" name="occupation" value="<?php echo htmlspecialchars($occupation); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Contact Number(s):</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" id="contact_number" name="contact_number" value="<?php echo htmlspecialchars($contact_number); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Civil Status:</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" id="civil_status" name="civil_status" value="<?php echo htmlspecialchars($civil_status); ?>">
                 </div>
             </div>
         </div>
-    </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">In Case of Emergency (Please Contact):</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">Complete Name:</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="emergency_contact_name" name="emergency_contact_name" value="<?php echo htmlspecialchars($emergency_contact_name); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Contact Number:</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="emergency_contact_number" name="emergency_contact_number" value="<?php echo htmlspecialchars($emergency_contact_number); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Address:</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="emergency_contact_address" name="emergency_contact_address" value="<?php echo htmlspecialchars($emergency_contact_address); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Relationship:</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="emergency_contact_relationship" name="emergency_contact_relationship" value="<?php echo htmlspecialchars($emergency_contact_relationship); ?>">
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">PERSONAL/ SOCIAL HISTORY:</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">Smoking</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full mt-2" placeholder="If yes how many packs/sticks a day? how many years you've been smoking?" id="smoking" name="smoking" value="<?php echo htmlspecialchars($smoking); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Alcohol Drinking</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full mt-2" placeholder="If yes how many bottles? (occasionally/monthly)" id="alcohol_drinking" name="alcohol_drinking" value="<?php echo htmlspecialchars($alcohol_drinking); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Illegal Drug Use</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full mt-2" placeholder="If yes what kind? (YES) (NO) (QUITTED) " id="illegal_drug_use" name="illegal_drug_use" value="<?php echo htmlspecialchars($illegal_drug_use); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Sexually Active</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full mt-2" placeholder="How many sexual partners within this year? (male) (female) (both)" id="sexually_active" name="sexually_active" value="<?php echo htmlspecialchars($sexually_active); ?>">
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">PAST MEDICAL HISTORY:</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <div class="flex space-x-4">
+                        <label><input type="checkbox" id="food" name="food" class="mr-2">Food</label>
+                        <label><input type="checkbox" id="drug" name="drug" class="mr-2">Drug</label>
+                    </div>
+                    <input type="text" class="border border-gray-300 p-1 w-full mt-2" placeholder="what is your allergy?" id="allergy" name="allergy" value="<?php echo htmlspecialchars($allergy); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Epilepsy/Seizure Disorder:</label>
+                    <input type="checkbox" name="epilepsy_seizure_disorder" class="mr-2" <?php if ($epilepsy_seizure_disorder == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Asthma:</label>
+                    <input type="checkbox" name="asthma" class="mr-2" <?php if ($asthma == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Congenital Heart Disorder:</label>
+                    <input type="checkbox" name="congenital_heart_disorder" class="mr-2" <?php if ($congenital_heart_disorder == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Thyroid Disease:</label>
+                    <input type="checkbox" name="thyroid_disease" class="mr-2" <?php if ($thyroid_disease == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Skin Disorder:</label>
+                    <input type="checkbox" name="skin_disorder" class="mr-2" <?php if ($skin_disorder == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Cancer:</label>
+                    <input type="checkbox" name="cancer" class="mr-2" <?php if ($cancer == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Diabetes Mellitus:</label>
+                    <input type="checkbox" name="diabetes_mellitus" class="mr-2" <?php if ($diabetes_mellitus == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Peptic Ulcer:</label>
+                    <input type="checkbox" name="peptic_ulcer" class="mr-2" <?php if ($peptic_ulcer == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Tuberculosis:</label>
+                    <input type="checkbox" name="tuberculosis" class="mr-2" <?php if ($tuberculosis == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Coronary Artery Disease:</label>
+                    <input type="checkbox" name="coronary_artery_disease" class="mr-2" <?php if ($coronary_artery_disease == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">PCOS:</label>
+                    <input type="checkbox" name="pcos" class="mr-2" <?php if ($pcos == 'on') echo 'checked'; ?>>
+                </div >
+                <div>
+                    <label class="block text-gray-700">Hepatitis:</label>
+                    <input type="checkbox" name="hepatitis" class="mr-2" <?php if ($hepatitis == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Hypertension/ Elevated BP:</label>
+                    <input type="checkbox" name="hypertension_elevated_bp" class="mr-2" <?php if ($hypertension_elevated_bp == 'on') echo 'checked'; ?>>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Psychological Disorder:</label>
+                    <input type="checkbox" name="psychological_disorder" class="mr-2" <?php if ($psychological_disorder == 'on') echo 'checked'; ?>>
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">Hospital admissions:</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">Diagnosis:</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="hospital_admissions_diagnosis" name="hospital_admissions_diagnosis" value="<?php echo htmlspecialchars($hospital_admissions_diagnosis); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">When?</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="hospital_admissions_when" name="hospital_admissions_when" value="<?php echo htmlspecialchars($hospital_admissions_when); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Diagnosis:</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="hospital_admissions_diagnosis" name="hospital_admissions_diagnosis" value="<?php echo htmlspecialchars($hospital_admissions_diagnosis); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">When?</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="hospital_admissions_when" name="hospital_admissions_when" value="<?php echo htmlspecialchars($hospital_admissions_when); ?>">
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">PAST SURGICAL HISTORY:</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">Operation type:</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="past_surgical_history_operation_type" name="past_surgical_history_operation_type" value="<?php echo htmlspecialchars($past_surgical_history_operation_type); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">When?</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="past_surgical_history_when" name="past_surgical_history_when" value="<?php echo htmlspecialchars($past_surgical_history_when); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Operation type:</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="past_surgical_history_operation_type" name="past_surgical_history_operation_type" value="<?php echo htmlspecialchars($past_surgical_history_operation_type); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">When?</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="past_surgical_history_when" name="past_surgical_history_when" value="<?php echo htmlspecialchars($past_surgical_history_when); ?>">
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Person with Disability: Specify</label>
+            <input type="text" class="border border-gray-300 p-1 w-full" id="person_with_disability" name="person_with_disability" value="<?php echo htmlspecialchars($person_with_disability); ?>">
+            <div class="flex space-x-4 mt-2">
+                <label><input type="radio" name="person_with_disability" class="mr-2" <?php if ($person_with_disability == 'Registered') echo 'checked'; ?>>Registered</label>
+                <label><input type="radio" name ="person_with_disability" class="mr-2" <?php if ($person_with_disability == 'Not Registered') echo 'checked'; ?>>Not Registered</label>
+            </div>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">WILLING TO DONATE BLOOD:</h2>
+            <div class="flex space-x-4">
+                <label><input type="radio" name="willing_to_donate_blood" class="mr-2" <?php if ($willing_to_donate_blood == 'YES') echo 'checked'; ?>>YES</label>
+                <label><input type="radio" name="willing_to_donate_blood" class="mr-2" <?php if ($willing_to_donate_blood == 'NO') echo 'checked'; ?>>NO</label>
+            </div>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">Family History:</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">Mother side (Please enumerate)</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="family_history_mother_side" name="family_history_mother_side" value="<?php echo htmlspecialchars($family_history_mother_side); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Father side (Please enumerate)</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="family_history_father_side" name="family_history_father_side" value="<?php echo htmlspecialchars($family_history_father_side); ?>">
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">Immunizations:</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">Completed Newborn Immunizations during childhood</label>
+                    <div class="flex space-x-4">
+                        <label><input type="radio" id="immunizations_completed_newborn_immunizations" name="immunizations_completed_newborn_immunizations" class="mr-2" <?php if ($immunizations_completed_newborn_immunizations == 'Yes') echo 'checked'; ?>>Yes</label>
+                        <label><input type="radio" id="immunizations_completed_newborn_immunizations" name="immunizations_completed_newborn_immunizations" class="mr-2" <?php if ($immunizations_completed_newborn_immunizations == 'No') echo 'checked'; ?>>No</label>
+                        <label><input type="radio" id="immunizations_completed_newborn_immunizations" name="immunizations_completed_newborn_immunizations" class="mr-2" <?php if ($immunizations_completed_newborn_immunizations == 'Unknown') echo 'checked'; ?>>Unknown</label>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Tetanus toxoid How many doses?</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="immunizations_tetanus_toxoid" name="immunizations_tetanus_toxoid" value="<?php echo htmlspecialchars($immunizations_tetanus_toxoid); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Influenza/Flu (year)</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="immunizations_influenza" name="immunizations_influenza" value="<?php echo htmlspecialchars($immunizations_influenza); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Pneumococcal Vaccine How many doses?</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="immunizations_pneumococcal_vaccine" name="immunizations_pneumococcal_vaccine" value="<?php echo htmlspecialchars($immunizations_pneumococcal_vaccine); ?>">
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <h2 class="text-lg font-bold">COVID-19 Brand Name:</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">1<sup>st</sup> Dose</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="covid_19_brand_name_first_dose" name="covid_19_brand_name_first_dose" value="<?php echo htmlspecialchars($covid_19_brand_name_first_dose); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">2<sup>nd</sup> Dose</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="covid_19_brand_name_second_dose" name="covid_19_brand_name_second_dose" value="<?php echo htmlspecialchars($covid_19_brand_name_second_dose); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">1<sup>st</sup> Booster</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="covid_19_brand_name_first_booster" name="covid_19_brand_name_first_booster" value="<?php echo htmlspecialchars($covid_19_brand_name_first_booster); ?>">
+                </div>
+                <div>
+                    <label class="block text-gray-700">2<sup>nd</sup> Booster</label>
+                    <input type="text" class="border border-gray-300 p-1 w-full" id="covid_19_brand_name_second_booster" name="covid_19_brand_name_second_booster" value="<?php echo htmlspecialchars($covid_19_brand_name_second_booster); ?>">
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Unvaccinated w/ Covid-19: Reason</label>
+            <input type="text" class="border border-gray-300 p-1 w-full" id="unvaccinated_with_covid_19_reason" name="unvaccinated_with_covid_19_reason" value="<?php echo htmlspecialchars($unvaccinated_with_covid_19_reason); ?>">
+        </div>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update Patient</button>
+    </form>
+</div>
 </body>
 </html>

@@ -5,7 +5,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     require_once "../config.php";
     
     // Prepare a delete statement
-    $sql = "DELETE FROM basic_info WHERE basic_info_id = :id";
+    $sql = "DELETE FROM medical_form WHERE id = :id";
     
     if($stmt = $pdo->prepare($sql)){
         // Bind variables to the prepared statement as parameters

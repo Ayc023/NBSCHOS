@@ -5,6 +5,12 @@ class ChartCreator {
         this.pieCtx = document.getElementById('pieChart');
         this.lineCtx = document.getElementById('lineChart');
         this.areaCtx = document.getElementById('areaChart');
+
+        // Check if canvas elements exist
+        if (!this.barCtx || !this.pieCtx || !this.lineCtx || !this.areaCtx) {
+            console.error('One or more chart elements are missing from the HTML.');
+            throw new Error('Chart elements missing');
+        }
     }
 
     async fetchData() {
@@ -13,9 +19,15 @@ class ChartCreator {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
             }
-            return await response.json();
+            const data = await response.json();
+            // Validate the structure of the data
+            if (!data || !Array.isArray(data.data)) {
+                throw new Error('Invalid data format');
+            }
+            return data;
         } catch (error) {
             console.error('There has been a problem with your fetch operation:', error);
+            return null; // Return null if there's an error
         }
     }
 
@@ -27,7 +39,7 @@ class ChartCreator {
         };
 
         data.forEach(record => {
-            const date = new Date(record.basic_info_date);
+            const date = new Date(record.date);
             if (isNaN(date)) return; // Skip invalid dates
 
             const week = Math.floor((date - new Date(date.getFullYear(), 0, 1)) / (1000 * 60 * 60 * 24 * 7));
@@ -81,34 +93,8 @@ class ChartCreator {
                 datasets: [{
                     label: 'Patients per Month',
                     data: data.months,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(201, 203, 207, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(201, 203, 207, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)'
-                    ],
+                    backgroundColor: this.getPieChartColors(monthNames.length),
+                    borderColor: this.getPieChartColors(monthNames.length, true),
                     borderWidth: 1
                 }]
             },
@@ -172,7 +158,7 @@ class ChartCreator {
             }
         });
     }
-    
+
     createAreaChart(data) {
         new Chart(this.areaCtx, {
             type: 'line',
@@ -215,7 +201,14 @@ class ChartCreator {
             }
         });
     }
-    
+
+    getPieChartColors(count, isBorder) {
+        const colors = [];
+        for (let i = 0; i < count; i++) {
+            colors.push(isBorder ? `rgba(255, 99, 132, 1)` : `rgba(255, 99, 132, 0.2)`);
+        }
+        return colors;
+    }
 
     async init() {
         const data = await this.fetchData();

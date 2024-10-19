@@ -43,6 +43,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Panel</a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
+                    <li><a class="dropdown-item" href="../diagnosis/diagnostic.html">Diagnosis</a></li>
                 </ul>
             </li>
         </ul>
@@ -125,7 +126,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         </div>
 
         <div class="col-md-4">
-            <a href="inventory_page.html" class="card-link">
+            <a href="inventory.php" class="card-link">
                 <div class="card">
                     <div class="card-header">
                         Inventory

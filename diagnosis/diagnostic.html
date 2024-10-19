@@ -4,48 +4,47 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: #0000ff; /* Changed to blue */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 1em;
-        z-index: 1000;
-}
-
-.navbar ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar li {
-  display: inline-block;
-  margin-right: 20px;
-}
-
-.navbar a {
-  color: #333;
-  text-decoration: none;
-}
-
-.navbar a:hover {
-  color: #337ab7;
-}
-.content-container {
-  margin-top: 64px; /* adjust this value based on the height of your navbar */
-}
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #004080; /* Changed to requested color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1em;
+            z-index: 1000;
+        }
+    
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .navbar li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+    
+        .navbar a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+    
+        .navbar a:hover {
+            color: #337ab7;
+        }
+    
+        .content-container {
+            margin-top: 64px; /* adjust this value based on the height of your navbar */
+        }
     </style>
 </head>
 <body class="bg-white text-black font-sans">
-    <nav class="navbar fixed top-0 left-0 w-full bg-blue-004080 shadow-md p-4">
+    <nav class="navbar fixed top-0 left-0 w-full shadow-md p-4">
         <div class="container mx-auto flex justify-between">
           <a href="#" class="text-lg font-bold">Physical Screening Form</a>
           <ul class="flex items-center">
-            <li class="mr-4"><a href="#" class="text-gray-600 hover:text-blue-500">Home</a></li>
-            <li class="mr-4"><a href="#" class="text-gray-600 hover:text-blue-500">About</a></li>
-            <li><a href="#" class="text-gray-600 hover:text-blue-500">Contact</a></li>
+            <li class="mr-4"><a href="../nurse/welcome2.php" class="text-gray-600 hover:text-blue-500">Home</a></li>
           </ul>
         </div>
       </nav>

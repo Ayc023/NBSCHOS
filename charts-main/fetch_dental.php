@@ -16,7 +16,7 @@ try {
             YEAR(date) AS year,
             MONTH(date) AS month,
             WEEK(date) AS week
-        FROM medical_form
+        FROM dental_records
         GROUP BY year, month, week
         ORDER BY year, month, week";
         
@@ -32,7 +32,7 @@ try {
             COUNT(id) AS patient_count,
             YEAR(date) AS year,
             MONTH(date) AS month
-        FROM medical_form
+        FROM dental_records
         GROUP BY year, month
         ORDER BY year, month";
         
