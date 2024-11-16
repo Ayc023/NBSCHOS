@@ -1,284 +1,439 @@
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-table, th, td {
-  border: 1px solid black;
+<?php
+require_once "../config.php";
+
+// Initialize variables
+$patient_id = isset($_GET['id']) ? trim($_GET['id']) : '';
+$date = $college_clinic_file_number = $college_course = $year = '';
+$name = $age_sex = $birthday = $home_address = $religion = $municipal_address = $occupation = $contact_number = $civil_status = '';
+$emergency_contact_name = $emergency_contact_number = $emergency_contact_address = $emergency_contact_relationship = '';
+$smoking = $alcohol_drinking = $illegal_drug_use = $sexually_active = $allergy = '';
+$epilepsy_seizure_disorder = $asthma = $congenital_heart_disorder = $thyroid_disease = $skin_disorder = '';
+$cancer = $diabetes_mellitus = $peptic_ulcer = $tuberculosis = $coronary_artery_disease = '';
+$pcos = $hepatitis = $hypertension_elevated_bp = $psychological_disorder = '';
+$hospital_admissions_diagnosis = $hospital_admissions_when = $past_surgical_history_operation_type = $past_surgical_history_when = '';
+$person_with_disability = $willing_to_donate_blood = '';
+$family_history_mother_side = $family_history_father_side = '';
+$immunizations_completed_newborn_immunizations = $immunizations_tetanus_toxoid = $immunizations_influenza = $immunizations_pneumococcal_vaccine = '';
+$covid_19_brand_name_first_dose = $covid_19_brand_name_second_dose = $covid_19_brand_name_first_booster = $covid_19_brand_name_second_booster = '';
+$unvaccinated_with_covid_19_reason = '';
+
+// Fetch patient data from the database
+if ($patient_id) {
+    $sql = "SELECT * FROM medical_form WHERE id = ?";
+    if ($stmt = mysqli_prepare($link, $sql)) {
+        mysqli_stmt_bind_param($stmt, "i", $patient_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($row = mysqli_fetch_assoc($result)) {
+            // Assign fetched data to variables
+            $date = $row['date'];
+            $college_clinic_file_number = $row['college_clinic_file_number'];
+            $college_course = $row['college_course'];
+            $year = $row['year'];
+            $name = $row['name'];
+            $age_sex = $row['age_sex'];
+            $birthday = $row['birthday'];
+            $home_address = $row['home_address'];
+            $religion = $row['religion'];
+            $municipal_address = $row['municipal_address'];
+            $occupation = $row['occupation'];
+            $contact_number = $row['contact_number'];
+            $civil_status = $row['civil_status'];
+            $emergency_contact_name = $row['emergency_contact_name'];
+            $emergency_contact_number = $row['emergency_contact_number'];
+            $emergency_contact_address = $row['emergency_contact_address'];
+            $emergency_contact_relationship = $row['emergency_contact_relationship'];
+            $smoking = $row['smoking'];
+            $alcohol_drinking = $row['alcohol_drinking'];
+            $illegal_drug_use = $row['illegal_drug_use'];
+            $sexually_active = $row['sexually_active'];
+            $allergy = $row['allergy'];
+            $epilepsy_seizure_disorder = $row['epilepsy_seizure_disorder'];
+            $asthma = $row['asthma'];
+            $congenital_heart_disorder = $row['congenital_heart_disorder'];
+            $thyroid_disease = $row['thyroid_disease'];
+            $skin_disorder = $row['skin_disorder'];
+            $cancer = $row['cancer'];
+            $diabetes_mellitus = $row['diabetes_mellitus'];
+            $peptic_ulcer = $row['peptic_ulcer'];
+            $tuberculosis = $row['tuberculosis'];
+            $coronary_artery_disease = $row['coronary_artery_disease'];
+            $pcos = $row['pcos'];
+            $hepatitis = $row['hepatitis'];
+            $hypertension_elevated_bp = $row['hypertension_elevated_bp'];
+            $psychological_disorder = $row['psychological_disorder'];
+            $hospital_admissions_diagnosis = $row['hospital_admissions_diagnosis'];
+            $hospital_admissions_when = $row['hospital_admissions_when'];
+            $past_surgical_history_operation_type = $row['past_surgical_history_operation_type'];
+            $past_surgical_history_when = $row['past_surgical_history_when'];
+            $person_with_disability = $row['person_with_disability'];
+            $willing_to_donate_blood = $row['willing_to_donate_blood'];
+            $family_history_mother_side = $row['family_history_mother_side'];
+            $family_history_father_side = $row['family_history_father_side'];
+            $immunizations_completed_newborn_immunizations = $row['immunizations_completed_newborn_immunizations'];
+            $immunizations_tetanus_toxoid = $row['immunizations_tetanus_toxoid'];
+            $immunizations_influenza = $row['immunizations_influenza'];
+            $immunizations_pneumococcal_vaccine = $row['immunizations_pneumococcal_vaccine'];
+            $covid_19_brand_name_first_dose = $row['covid_19_brand_name_first_dose'];
+            $covid_19_brand_name_second_dose = $row['covid_19_brand_name_second_dose'];
+            $covid_19_brand_name_first_booster = $row['covid_19_brand_name_first_booster'];
+            $covid_19_brand_name_second_booster = $row['covid_19_brand_name_second_booster'];
+            $unvaccinated_with_covid_19_reason = $row['unvaccinated_with_covid_19_reason'];
+        } else {
+            echo "No record found for the given ID.";
+            exit;
+        }
+
+        mysqli_stmt_close($stmt);
+    } else {
+        echo "Error preparing statement.";
+        exit;
+    }
 }
-</style>
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Sanitize and retrieve form data
+    $date = trim($_POST['date']);
+    $college_clinic_file_number = trim($_POST['college_clinic_file_number']);
+    $college_course = trim($_POST['college_course']);
+    $year = trim($_POST['year']);
+    $name = trim($_POST['name']);
+    $age_sex = trim($_POST['age_sex']);
+    $birthday = trim($_POST['birthday']);
+    $home_address = trim($_POST['home_address']);
+    $religion = trim($_POST['religion']);
+    $municipal_address = trim($_POST['municipal_address']);
+    $occupation = trim($_POST['occupation']);
+    $contact_number = trim($_POST['contact_number']);
+    $civil_status = trim($_POST['civil_status']);
+    $emergency_contact_name = trim($_POST['emergency_contact_name']);
+    $emergency_contact_number = trim($_POST['emergency_contact_number']);
+    $emergency_contact_address = trim($_POST['emergency_contact_address']);
+    $emergency_contact_relationship = trim($_POST['emergency_contact_relationship']);
+    $smoking = trim($_POST['smoking']);
+    $alcohol_drinking = trim($_POST['alcohol_drinking']);
+    $illegal_drug_use = trim($_POST['illegal_drug_use']);
+    $sexually_active = trim($_POST['sexually_active']);
+    $allergy = trim($_POST['allergy']);
+    $epilepsy_seizure_disorder = trim($_POST['epilepsy_seizure_disorder']);
+    $asthma = trim($_POST['asthma']);
+    $congenital_heart_disorder = trim($_POST['congenital_heart_disorder']);
+    $thyroid_disease = trim($_POST['thyroid_disease']);
+    $skin_disorder = trim($_POST['skin_disorder']);
+    $cancer = trim($_POST['cancer']);
+    $diabetes_mellitus = trim($_POST['diabetes_mellitus']);
+    $peptic_ulcer = trim($_POST['peptic_ulcer']);
+    $tuberculosis = trim($_POST['tuberculosis']);
+    $coronary_artery_disease = trim($_POST['coronary_artery_disease']);
+    $pcos = trim($_POST['pcos']);
+    $hepatitis = trim($_POST['hepatitis']);
+    $hypertension_elevated_bp = trim($_POST['hypertension_elevated_bp']);
+    $psychological_disorder = trim($_POST['psychological_disorder']);
+    $hospital_admissions_diagnosis = trim($_POST['hospital_admissions_diagnosis']);
+    $hospital_admissions_when = trim($_POST['hospital_admissions_when']);
+    $past_surgical_history_operation_type = trim($_POST['past _surgical_history_operation_type']);
+    $past_surgical_history_when = trim($_POST['past_surgical_history_when']);
+    $person_with_disability = trim($_POST['person_with_disability']);
+    $willing_to_donate_blood = trim($_POST['willing_to_donate_blood']);
+    $family_history_mother_side = trim($_POST['family_history_mother_side']);
+    $family_history_father_side = trim($_POST['family_history_father_side']);
+    $immunizations_completed_newborn_immunizations = trim($_POST['immunizations_completed_newborn_immunizations']);
+    $immunizations_tetanus_toxoid = trim($_POST['immunizations_tetanus_toxoid']);
+    $immunizations_influenza = trim($_POST['immunizations_influenza']);
+    $immunizations_pneumococcal_vaccine = trim($_POST['immunizations_pneumococcal_vaccine']);
+    $covid_19_brand_name_first_dose = trim($_POST['covid_19_brand_name_first_dose']);
+    $covid_19_brand_name_second_dose = trim($_POST['covid_19_brand_name_second_dose']);
+    $covid_19_brand_name_first_booster = trim($_POST['covid_19_brand_name_first_booster']);
+    $covid_19_brand_name_second_booster = trim($_POST['covid_19_brand_name_second_booster']);
+    $unvaccinated_with_covid_19_reason = trim($_POST['unvaccinated_with_covid_19_reason']);
+
+   // Prepare the SQL update statement
+$sql = "UPDATE medical_form SET 
+date = ?, 
+college_clinic_file_number = ?, 
+college_course = ?, 
+year = ?, 
+name = ?, 
+age_sex = ?, 
+birthday = ?, 
+home_address = ?, 
+religion = ?, 
+municipal_address = ?, 
+occupation = ?, 
+contact_number = ?, 
+civil_status = ?, 
+emergency_contact_name = ?, 
+emergency_contact_number = ?, 
+emergency_contact_address = ?, 
+emergency_contact_relationship = ?, 
+smoking = ?, 
+alcohol_drinking = ?, 
+illegal_drug_use = ?, 
+sexually_active = ?, 
+allergy = ?, 
+epilepsy_seizure_disorder = ?, 
+asthma = ?, 
+congenital_heart_disorder = ?, 
+thyroid_disease = ?, 
+skin_disorder = ?, 
+cancer = ?, 
+diabetes_mellitus = ?, 
+peptic_ulcer = ?, 
+tuberculosis = ?, 
+coronary_artery_disease = ?, 
+pcos = ?, 
+hepatitis = ?, 
+hypertension_elevated_bp = ?, 
+psychological_disorder = ?, 
+hospital_admissions_diagnosis = ?, 
+hospital_admissions_when = ?, 
+past_surgical_history_operation_type = ?, 
+past_surgical_history_when = ?, 
+person_with_disability = ?, 
+willing_to_donate_blood = ?, 
+family_history_mother_side = ?, 
+family_history_father_side = ?, 
+immunizations_completed_newborn_immunizations = ?, 
+immunizations_tetanus_toxoid = ?, 
+immunizations_influenza = ?, 
+immunizations_pneumococcal_vaccine = ?, 
+covid_19_brand_name_first_dose = ?, 
+covid_19_brand_name_second_dose = ?, 
+covid_19_brand_name_first_booster = ?, 
+covid_19_brand_name_second_booster = ?, 
+unvaccinated_with_covid_19_reason = ? 
+WHERE id = ?";
+
+// Prepare the statement
+if ($stmt = mysqli_prepare($link, $sql)) {
+// Define your parameters in an array
+$params = [
+    $date,
+    $college_clinic_file_number,
+    $college_course,
+    $year,
+    $name,
+    $age_sex,
+    $birthday,
+    $home_address,
+    $religion,
+    $municipal_address,
+    $occupation,
+    $contact_number,
+    $civil_status,
+    $emergency_contact_name,
+    $emergency_contact_number,
+    $emergency_contact_address,
+    $emergency_contact_relationship,
+    $smoking,
+    $alcohol_drinking,
+    $illegal_drug_use,
+    $sexually_active,
+    $allergy,
+    $epilepsy_seizure_disorder,
+    $asthma,
+    $congenital_heart_disorder,
+    $thyroid_disease,
+    $skin_disorder,
+    $cancer,
+    $diabetes_mellitus,
+    $peptic_ulcer,
+    $tuberculosis,
+    $coronary_artery_disease,
+    $pcos,
+    $hepatitis,
+    $hypertension_elevated_bp,
+    $psychological_disorder,
+    $hospital_admissions_diagnosis,
+    $hospital_admissions_when,
+    $past_surgical_history_operation_type,
+    $past_surgical_history_when,
+    $person_with_disability,
+    $willing_to_donate_blood,
+    $family_history_mother_side,
+    $family_history_father_side,
+    $immunizations_completed_newborn_immunizations,
+    $immunizations_tetanus_toxoid,
+    $immunizations_influenza,
+    $immunizations_pneumococcal_vaccine,
+    $covid_19_brand_name_first_dose,
+    $covid_19_brand_name_second_dose,
+    $covid_19_brand_name_first_booster,
+    $covid_19_brand_name_second_booster,
+    $unvaccinated_with_covid_19_reason,
+    $patient_id // Make sure to include the ID at the end
+];
+
+// Create a dynamic type string based on the parameter types
+$typeString = str_repeat('s', count($params) - 1) . 'i'; // Assuming all are strings except the last one (ID as integer)
+
+// Bind the parameters
+if (mysqli_stmt_bind_param($stmt, $typeString, ...$params)) {
+    // Execute the statement
+    if (mysqli_stmt_execute($stmt)) {
+        echo "Patient information updated successfully.";
+        // Redirect to a confirmation page or back to the patient list
+        header("Location:medical_record.php"); // Change this to your desired redirection
+        exit;
+    } else {
+        echo "Error updating record: " . mysqli_error($link);
+    }
+} else {
+    echo "Error binding parameters.";
+}
+
+mysqli_stmt_close($stmt);
+} else {
+echo "Error preparing update statement.";
+}
+}
+
+mysqli_close($link); // Close the connection
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Patient Information</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Edit Patient Information</h2>
+        <form id="multiStepForm">
+            <!-- Step 1: Basic Information -->
+            <div class="step active" id="step-1">
+                <h3 class="text-lg font-bold mb-2">Step 1: Basic Information</h3>
+                <div class="flex flex-wrap justify-between mb-4">
+                    <div class="w-full md:w-1/3 mb-4">
+                        <label class="block text-gray-700">Date:</label>
+                        <input type="date" class="border border-gray-300 p-2 w-full rounded" id="date" name="date" required>
+                    </div>
+                    <div class="w-full md:w-1/3 mb-4">
+                        <label class="block text-gray-700">College Clinic File Number:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="college_clinic_file_number" name="college_clinic_file_number" required>
+                    </div>
+                    <div class="w-full md:w-1/3 mb-4">
+                        <label class="block text-gray-700">College Course:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="college_course" name="college_course" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Year:</label>
+                    <input type="text" class="border border-gray-300 p-2 w-full rounded" placeholder="Year level" id="year" name="year" required>
+                </div>
+                <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="nextStep()">Next</button>
+            </div>
 
-<h1>Appendix C. Student Health Profile</h1>
-<table style="width:100%">
-  <tr>
-    <td>Date:</td>
-    <td colspan="2"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>College Clinic File Number:</td>
-    <td colspan="2"><input type="text"></td>
-  </tr>
-</table>
+            <!-- Step 2: Personal Profile -->
+            <div class="step" id="step-2">
+                <h3 class="text-lg font-bold mb-2">Step 2: Personal Profile</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700">Name:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="name" name="name" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Age/Sex:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="age_sex" name="age_sex" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Birthday:</label>
+                        <input type="date" class="border border-gray-300 p-2 w-full rounded" id="birthday" name="birthday" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Home Address:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="home_address" name="home_address" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Religion:</label>
+                        < input type="text" class="border border-gray-300 p-2 w-full rounded" id="religion" name="religion" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Municipal Address:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="municipal_address" name="municipal_address" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Occupation:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="occupation" name="occupation" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Contact Number(s):</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="contact_number" name="contact_number" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Civil Status:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="civil_status" name="civil_status" required>
+                    </div>
+                </div>
+                <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onclick="prevStep()">Previous</button>
+                <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="nextStep()">Next</button>
+            </div>
 
-<p>Republic of the Philippines<br>
-Province of Bukidnon<br>
-Northern Bukidnon State College<br>
-Municipality of Manolo Fortich<br>
-<b>STUDENT HEALTH PROFILE</b></p>
+            <!-- Step 3: Emergency Contact -->
+            <div class="step" id="step-3">
+                <h3 class="text-lg font-bold mb-2">Step 3: Emergency Contact</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700">Complete Name:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="emergency_contact_name" name="emergency_contact_name" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Contact Number:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="emergency_contact_number" name="emergency_contact_number" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Address:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="emergency_contact_address" name="emergency_contact_address" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Relationship:</label>
+                        <input type="text" class="border border-gray-300 p-2 w-full rounded" id="emergency_contact_relationship" name="emergency_contact_relationship" required>
+                    </div>
+                </div>
+                <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onclick="prevStep()">Previous</button>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+            </div>
+        </form>
+    </div>
 
-<img src="2x2_picture_with_name_tag.jpg" alt="2x2 Picture with Name Tag">
+    <script>
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.step');
 
-<h2>PERSONAL PROFILE:</h2>
-<table style="width:100%">
-  <tr>
-    <td>Name:</td>
-    <td><input type="text"></td>
-    <td><input type="text"></td>
-    <td><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Home Address:</td>
-    <td colspan="3"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Municipal Address:</td>
-    <td colspan="3"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Contact Number (s):</td>
-    <td colspan="3"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>In Case of Emergency (Please Contact):</td>
-    <td colspan="3"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Complete Name:</td>
-    <td colspan="3"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Address:</td>
-    <td><input type="text"></td>
-    <td><input type="text"></td>
-    <td><input type="text"></td>
-  </tr>
-  <tr>
-    <td>College Course:</td>
-    <td colspan="3"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>1 yr</td>
-    <td>2 yr</td>
-    <td>3 yr</td>
-    <td>4 yr</td>
-  </tr>
-  <tr>
-    <td> <input type="radio" name="year" value="1">1
-<input type="radio" name="year" value="2">2
-<input type="radio" name="year" value="3">3
-<input type="radio" name="year" value="4">4
-</td>
-</tr>
-</table>
+        function showStep(step) {
+            steps.forEach((s, index) => {
+                s.classList.toggle('active', index === step);
+            });
+        }
 
-<h2>HEALTH HISTORY:</h2>
-<table style="width:100%">
-  <tr>
-    <td>Do you smoke?</td>
-    <td><input type="radio" name="smoke" value="yes"> Yes</td>
-    <td><input type="radio" name="smoke" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>If yes, how many packs per day?</td>
-    <td colspan="2"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Do you drink alcohol?</td>
-    <td><input type="radio" name="alcohol" value="yes"> Yes</td>
-    <td><input type="radio" name="alcohol" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>How often do you drink alcohol?</td>
-    <td colspan="2">
-      <select name="alcohol_frequency">
-        <option value="occasionally">Occasionally</option>
-        <option value="regularly">Regularly</option>
-        <option value="never">Never</option>
-      </select>
-    </td>
-  </tr>
-  <tr>
-    <td>Do you use illegal drugs?</td>
-    <td><input type="radio" name="drugs" value="yes"> Yes</td>
-    <td><input type="radio" name="drugs" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>If yes, which drugs?</td>
-    <td colspan="2"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Are you sexually active?</td>
-    <td><input type="radio" name="sex_active" value="yes"> Yes</td>
-    <td><input type="radio" name="sex_active" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>How many sexual partners have you had in the past year?</td>
-    <td colspan="2"><input type="number"></td>
-  </tr>
-</table>
+        function nextStep() {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
 
-<h2>PAST MEDICAL HISTORY:</h2>
-<table style="width:100%">
-  <tr>
-    <td>Have you ever been diagnosed with any of the following?</td>
-  </tr>
-  <tr>
-    <td>Allergies:</td>
-    <td>
-      <input type="checkbox" name="allergies" value="food"> Food Allergies
-      <div style="margin-left: 20px;">
-        <input type="checkbox" name="food_allergy" value="dairy"> Dairy<br>
-        <input type="checkbox" name="food_allergy" value="soy"> Soy<br>
-        <input type="checkbox" name="food_allergy" value="nuts"> Nuts<br>
-        <input type="checkbox" name="food_allergy" value="shellfish"> Shellfish<br>
-        <input type="checkbox" name ="food_allergy" value="gluten"> Gluten<br>
-        <input type="checkbox" name="food_allergy" value="other"> Other: <input type="text">
-      </div>
-    </td>
-  </tr>
-  <tr>
-    <td>Other Allergies:</td>
-    <td>
-      <input type="checkbox" name="other_allergies" value="dust"> Dust<br>
-      <input type="checkbox" name="other_allergies" value="pollen"> Pollen<br>
-      <input type="checkbox" name="other_allergies" value="mold"> Mold<br>
-      <input type="checkbox" name="other_allergies" value="animal_dander"> Animal dander<br>
-      <input type="checkbox" name="other_allergies" value="other"> Other: <input type="text">
-    </td>
-  </tr>
-  <tr>
-    <td>Asthma:</td>
-    <td><input type="radio" name="asthma" value="yes"> Yes</td>
-    <td><input type="radio" name="asthma" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>Congenital Heart Disease:</td>
-    <td><input type="radio" name="heart_disease" value="yes"> Yes</td>
-    <td><input type="radio" name="heart_disease" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>Thyroid Disease:</td>
-    <td><input type="radio" name="thyroid_disease" value="yes"> Yes</td>
-    <td><input type="radio" name="thyroid_disease" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>Diabetes Mellitus:</td>
-    <td><input type="radio" name="diabetes" value="yes"> Yes</td>
-    <td><input type="radio" name="diabetes" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>Peptic Ulcer Disease:</td>
-    <td><input type="radio" name="peptic_ulcer" value="yes"> Yes</td>
-    <td><input type="radio" name="peptic_ulcer" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>Coronary Artery Disease:</td>
-    <td><input type="radio" name="coronary_disease" value="yes"> Yes</td>
-    <td><input type="radio" name="coronary_disease" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>Skin Disorders:</td>
-    <td><input type="radio" name="skin_disorder" value="yes"> Yes</td>
-    <td><input type="radio" name="skin_disorder" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>If yes, please specify:</td>
-    <td colspan="2"><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Tuberculosis:</td>
-    <td><input type="radio" name="tuberculosis" value="yes"> Yes</td>
-    <td><input type="radio" name="tuberculosis" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>Hepatitis:</td>
-    <td><input type="radio" name="hepatitis" value="yes"> Yes</td>
-    <td><input type="radio" name="hepatitis" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>PCOS:</td>
-    <td><input type="radio" name="pcos" value="yes"> Yes</td>
-    <td><input type="radio" name="pcos" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>Epilepsy/Seizure Disorder:</td>
-    <td><input type="radio" name="epilepsy" value="yes"> Yes</td>
-    <td><input type="radio" name="epilepsy" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>Cancer:</td>
-    <td><input type="radio" name="cancer" value="yes"> Yes</td>
-    <td><input type="radio" name="cancer" value="no"> No</td>
- </tr>
-    <tr>
-      <td>If yes, please specify type:</td>
-      <td>
-        <input type="checkbox" name="cancer_type" value="breast"> Breast Cancer<br>
-        <input type="checkbox" name="cancer_type" value="lung"> Lung Cancer<br>
-        <input type="checkbox" name="cancer_type" value="prostate"> Prostate Cancer<br>
-        <input type="checkbox" name="cancer_type" value="skin"> Skin Cancer<br>
-        <input type="checkbox" name="cancer_type" value="other"> Other: <input type="text">
-      </td>
-    </tr>
-</table>
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
 
-<h2>CURRENT MEDICATIONS:</h2>
-<table style="width:100%">
-  <tr>
-    <td>Are you currently taking any medications?</td>
-    <td><input type="radio" name="medications" value="yes"> Yes</td>
-    <td><input type="radio" name="medications" value="no"> No</td>
-  </tr>
-  <tr>
-    <td>If yes, please list them:</td>
-    <td colspan="2"><input type="text"></td>
-  </tr>
-</table>
-
-<h2>LIFESTYLE AND PREFERENCES:</h2>
-<table style="width:100%">
-  <tr>
-    <td>How would you rate your stress level?</td>
-    <td>
-      <select name="stress_level">
-        <option value="low">Low</option>
-        <option value="moderate">Moderate</option>
-        <option value="high">High</option>
-      </select>
-    </td>
-  </tr>
-  <tr>
-    <td>What activities do you enjoy for relaxation?</td>
-    <td>
-      <input type="checkbox" name="relaxation_activities" value="reading"> Reading<br>
-      <input type="checkbox" name="relaxation_activities" value="exercise"> Exercise<br>
-      <input type="checkbox" name="relaxation_activities" value="meditation"> Meditation<br>
-      <input type="checkbox" name="relaxation_activities" value="family_friends"> Spending time with family/friends<br>
-      <input type="checkbox" name="relaxation_activities" value="other"> Other: <input type="text">
-    </td>
-  </tr>
-</table>
-
-<h2>ADDITIONAL COMMENTS OR CONCERNS:</h2>
-<table style="width:100%">
-  <tr>
-    <td>Please share any other information you think is important for us to know:</td>
-    <td colspan="2"><textarea rows="4" cols="50"></textarea></td>
-  </tr>
-</table>
-
-<input type="submit" value="Submit">
-
+        showStep(currentStep);
+    </script>
 </body>
 </html>

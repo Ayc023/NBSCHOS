@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f9;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+}
+.section-title {
+    font-weight: bold;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+}
+.form-section {
+    margin-bottom: 20px;
+}
+.form-section label {
+    display: block;
+    margin-bottom: 5px;
+}
+.form-section input[type="text"],
+.form-section input[type="number"],
+.form-section input[type="date"],
+.form-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.form-section input[type="checkbox"],
+.form-section input[type="radio"] {
+    margin-right: 10px;
+}
+.form-section .inline {
+    display: inline-block;
+    margin-right: 20px;
+}
+.form-section .inline input[type="text"] {
+    width: auto;
+}
+.toggle-section {
+    display: none;
+}
+.toggle-section.active {
+    display: block;
+}
+.step {
+    display: none;
+}
+.step.active {
+    display: block;
+}
+.step-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+.step-buttons button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+.step-buttons button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+@media (max-width: 600px) {
+    .form-section label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    .form-section .inline {
+        display: block;
+        margin-bottom: 10px;
+    }
+}
