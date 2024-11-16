@@ -1,5 +1,4 @@
 <?php
-include 'admin.php';
 require_once "../config.php";
 
 // Initialize variables
@@ -174,13 +173,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (mysqli_stmt_execute($stmt)) {
                 echo "Patient information updated successfully.";
                 // Redirect to a confirmation page or back to the patient list
-                header("Location:../add_dental_info.php"); // Change this to your desired redirection
+                header("Location:dental_record.php"); // Change this to your desired redirection
                 exit;
             } else {
                 echo "Error updating record: " . mysqli_error($link);
             }
         } else {
-            echo "Error binding parameters.";
+            echo "Error binding parameters."; 
         }
 
         mysqli_stmt_close($stmt);

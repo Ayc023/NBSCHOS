@@ -1,12 +1,10 @@
 <?php
 session_start();
 
-// Database connection configuration
-$host = 'localhost';
-$dbname = 'medical';
-$username = 'root';
-$password = '';
-
+$db_host = 'localhost';
+$db_username = 'u593341949_devHOS2024';
+$db_password = 'NBSC-Clinic2024';
+$db_name = ' u593341949_dev_nbsc_hosl';
 // Create a new PDO instance
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

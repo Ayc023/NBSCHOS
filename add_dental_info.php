@@ -1,4 +1,10 @@
 <?php
+
+
+include 'admin.php';
+
+
+
 // Enable error reporting for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -202,7 +208,7 @@ form button[type="submit"]:hover {
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Add Dental Information</h2>
-                        <a href="crud2/dental.html" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Information</a>
+                        <a href="crud2/dental.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Information</a>
                     </div>
                     
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get" class="mb-4">
@@ -247,7 +253,7 @@ form button[type="submit"]:hover {
                                         echo "<td>" . $row['course_year'] . "</td>";
                                         echo "<td>" . $row['dob'] . "</td>";       
                                         echo "<td>";
-                                        echo '<a href="crud2/read.php?dental_id=' . $row['id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                        echo '<a href="crud2/read.php?id=' . $row['id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                         echo '<a href="crud2/update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
                                         echo '<a href="crud2/delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";

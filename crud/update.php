@@ -1,4 +1,5 @@
 <?php
+include 'admin.php';
 require_once "../config.php";
 
 // Initialize variables

@@ -1,267 +1,266 @@
 <?php
-// Check existence of dental_id parameter before processing further
-if(isset($_GET["dental_id"]) && !empty(trim($_GET["dental_id"]))){
-    // Include config file
-    require_once "../config.php";
-    
-    // Prepare a select statement
-    $sql = "SELECT * FROM dental WHERE dental_id = :dental_id";
-    
-    if($stmt = $pdo->prepare($sql)){
-        // Bind variables to the prepared statement as parameters
-        $stmt->bindParam(":dental_id", $param_dental_id);
-        
-        // Set parameters
-        $param_dental_id = trim($_GET["dental_id"]);
-        
-        // Attempt to execute the prepared statement
-        if($stmt->execute()){
-            if($stmt->rowCount() == 1){
-                // Fetch result row as an associative array
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                
-                // Retrieve individual field values
-                $dental_type = $row["dental_type"];
-                $dental_date = $row["dental_date"];
-                $dental_name = $row["dental_name"];
-                $dental_age = $row["dental_age"];
-                $dental_address = $row["dental_address"];
-                $dental_tel_no = $row["dental_tel_no"];
-                $dental_course_taken_year = $row["dental_course_taken_year"];
-                $dental_date_of_birth = $row["dental_date_of_birth"];
-                $dental_sex = $row["dental_sex"];
-                $dental_civil_status = $row["dental_civil_status"];
-                $dental_allergy_medication_food = $row["dental_allergy_medication_food"];
-            } else{
-                // URL doesn't contain valid dental_id parameter. Redirect to error page
-                header("location: ../add_dental_info.php");
-                exit();
-            }
-            
-        } else{
-            echo "Oops! Something went wrong. Please try again later.";
-        }
-    }
-     
-    // Close statement
-    unset($stmt);
-    
-    // Close connection
-    unset($pdo);
-} else{
-    // URL doesn't contain dental_id parameter. Redirect to error page
-    header("location: error.php");
-    exit();
-}
-?>
+include 'admin.php';
+require_once "../config.php";
 
+// Initialize variables for patient data
+$patient_id = isset($_GET['id']) ? trim($_GET['id']) : '';
+$date = $surname = $given_name = $middle_name = $address = $course_year = $sex = $civil_status = $age = $tel_no = $dob = $allergy = $medical_treatment = $taking_drugs = $special_diet = $shortness_breath = $complication_healing = $general_health = $pregnant = $profuse_bleeding = $major_operation = $sweat_nights = $heart_ailment = $high_blood_pressure = $diabetes = $rheumatic_fever = $lung_disease = $liver_disease = $signature = '';
+
+// Fetch patient data from the database
+if ($patient_id) {
+    $sql = "SELECT * FROM dental_records WHERE id = ?";
+    if ($stmt = mysqli_prepare($link, $sql)) {
+        mysqli_stmt_bind_param($stmt, "i", $patient_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($row = mysqli_fetch_assoc($result)) {
+            $date = $row['date'];
+            $surname = $row['surname'];
+            $given_name = $row['given_name'];
+            $middle_name = $row['middle_name'];
+            $address = $row['address'];
+            $course_year = $row['course_year'];
+            $sex = $row['sex'];
+            $civil_status = $row['civil_status'];
+            $age = $row['age'];
+            $tel_no = $row['tel_no'];
+            $dob = $row['dob'];
+            $allergy = $row['allergy'];
+            $medical_treatment = $row['medical_treatment'];
+            $taking_drugs = $row['taking_drugs'];
+            $special_diet = $row['special_diet'];
+            $shortness_breath = $row['shortness_breath'];
+            $complication_healing = $row['complication_healing'];
+            $general_health = $row['general_health'];
+            $pregnant = $row['pregnant'];
+            $profuse_bleeding = $row['profuse_bleeding'];
+            $major_operation = $row['major_operation'];
+            $sweat_nights = $row['sweat_nights'];
+            $heart_ailment = $row['heart_ailment'];
+            $high_blood_pressure = $row['high_blood_pressure'];
+            $diabetes = $row['diabetes'];
+            $rheumatic_fever = $row['rheumatic_fever'];
+            $lung_disease = $row['lung_disease'];
+            $liver_disease = $row['liver_disease'];
+            $signature = $row['signature'];
+        } else {
+            echo "No record found for the given ID.";
+        }
+
+        mysqli_stmt_close($stmt);
+    } else {
+        echo "Error preparing statement.";
+    }
+}
+
+// Fetch all patient names for the sidebar
+$sidebar_patients = [];
+$search_term = isset($_GET['search_term']) ? trim($_GET['search_term']) : '';
+
+// Fetch all or filtered patient names for the sidebar
+if ($search_term) {
+    $sql = "SELECT id, given_name, surname FROM dental_records WHERE given_name LIKE ? OR surname LIKE ?";
+    if ($stmt = mysqli_prepare($link, $sql)) {
+        $search_param = '%' . $search_term . '%';
+        mysqli_stmt_bind_param($stmt, 'ss', $search_param, $search_param);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sidebar_patients[] = $row;
+        }
+        mysqli_stmt_close($stmt);
+    } else {
+        echo "Error preparing search statement.";
+    }
+} else {
+    $sql = "SELECT id, given_name, surname FROM dental_records";
+    if ($result = mysqli_query($link, $sql)) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sidebar_patients[] = $row;
+        }
+        mysqli_free_result($result);
+    } else {
+        echo "Error fetching patient names.";
+    }
+}
+
+mysqli_close($link); // Close the connection at the end
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Dental Record</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../styles/medicalrecs.css">
     <style>
-         /* General Styling */
-     body {
-            background-color: #f0f8ff; /* Light blue background */
-            margin: 0;
-            padding-top: 70px; /* Ensure content starts below the navbar */
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6; /* Improve readability */
+        /* Add custom styles if needed */
+
+        /* Print Styles */
+        @media print {
+            body * {
+                visibility: hidden; /* Hide everything */
+            }
+
+            #printableProfile, #printableProfile * {
+                visibility: visible; /* Show only the profile */
+            }
+
+            #printableProfile {
+                position: absolute; /* Position profile for print */
+                left: 0;
+                top: 0;
+                background: #fff; /* White background for print */
+                padding: 20px; /* Add padding for better layout */
+                margin: 0; /* Ensure there's no margin */
+                box-shadow: none; /* Remove any box shadow */
+            }
+
+            .print-button {
+                display: none; /* Hide print button during printing */
+            }
         }
 
-        /* Navbar Customization */
-        .navbar {
-            background-color: #003366; /* Dark blue background for navbar */
-            padding: 15px 20px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* Additional styles for profile formatting */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .navbar-brand img {
-            height: 0.3in;
+        .profile h4 {
+            margin-top: 20px;
         }
 
-        .navbar-custom .navbar-nav .nav-link {
-            color: #fff;
+        .profile div {
+            margin-bottom: 10px;
         }
 
-        .wrapper {
-    padding: 20px;
-}
-
-h1 {
-    color: #1535ee;
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 30px;
-}
-
-/* Table styling */
-.table-container {
-    margin-top: 20px;
-}
-
-.table {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.table th, .table td {
-    padding: 12px 20px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-.table th {
-    background-color: #003366;
-    color: white;
-    font-weight: bold;
-}
-
-.table td {
-    color: #555;
-    font-size: 1rem;
-}
-
-/* Button styling */
-.btn-primary {
-    background-color: #1535ee;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 4px;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 20px;
-}
-
-.btn-primary:hover {
-    background-color: #004080;
-    color: white;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 1.8rem;
-    }
-    
-    .table th, .table td {
-        font-size: 0.9rem;
-        padding: 10px;
-    }
-    
-    .btn-primary {
-        width: 100%;
-        text-align: center;
-    }
-}
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none; /* Hide sidebar on small screens */
+            }
+        }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom px-2">
-        <a class="navbar-brand ps-2" href="#">
-            <img src="../src/Nbsc_logo-removebg-preview.png" style="height: 0.3in;">
-            NBSC HOS
-        </a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-expanded="true">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main_nav">
-            <div class="navbar-collapse flex-grow-1 text-right" id="sampleid" style="padding-left: 20px">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 flex-nowrap">
-                    <li class="nav-item dropdown w-100" style="padding-top: 0px;">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Panel</a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="add_medical_info.php">Dashboard</a></li>
-                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-                            <li><a class="dropdown-item" href="../welcome.php">Home</a></li>
-                        </ul>
-                    </li>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <a class="navbar-brand" href="#">
+        <img src="../src/Nbsc_logo-removebg-preview.png" alt="NBSC HOS" width="50" height="50"> NBSC HOS
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main_nav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Panel</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
+                    <li><a class="dropdown-item" href="../add_dental_info.php">Home</a></li>
                 </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="wrapper">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="mt-5 mb-3">View Dental Record</h1>
-                <div class="table-container">
-                    <table class="table table-bordered table-striped">
-                        <tbody>
-                            <tr>
-                                <th>Type</th>
-                                <td><?php echo htmlspecialchars($row["dental_type"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Date</th>
-                                <td><?php echo htmlspecialchars($row["dental_date"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Name</th>
-                                <td><?php echo htmlspecialchars($row["dental_name"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Age</th>
-                                <td><?php echo htmlspecialchars($row["dental_age"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Address</th>
-                                <td><?php echo htmlspecialchars($row["dental_address"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Telephone No.</th>
-                                <td><?php echo htmlspecialchars($row["dental_tel_no"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Course Taken Year</th>
-                                <td><?php echo htmlspecialchars($row["dental_course_taken_year"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Date of Birth</th>
-                                <td><?php echo htmlspecialchars($row["dental_date_of_birth"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Sex</th>
-                                <td><?php echo htmlspecialchars($row["dental_sex"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Civil Status</th>
-                                <td><?php echo htmlspecialchars($row["dental_civil_status"]); ?></td>
-                            </tr>
-                            <tr>
-                                <th>Allergies (Medication/Food)</th>
-                                <td><?php echo htmlspecialchars($row["dental_allergy_medication_food"]); ?></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p><a href="../add_dental_info.php" class="btn btn-primary">Back</a></p>
-                </div>
-            </div>
-        </div>        
+            </li>
+        </ul>
     </div>
-</div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 sidebar">
+            <h5>Patient List</h5>
+            <div class="input-group mb-3">
+                <form method="GET" action="" class="d-flex align-items-center">
+                    <input type="text" class="form-control custom-search-bar" placeholder="Search patient" aria-label="Search patient" value="<?php echo isset($_GET['search_term']) ? htmlspecialchars($_GET['search_term']) : ''; ?>">
+                    <button class="btn btn-primary custom-search-btn" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+        <main class="col-md-9 content">
+            <div class="profile-header">
+                <img src="../src/Nbsc_logo-removebg-preview.png" alt="Profile Logo">
+                <h5>
+                    Republic of the Philippines
+                    <br/>
+                    Province of Bukidnon
+                    <br/>
+                    NORTHERN BUKIDNON STATE COLLEGE
+                    <br/>
+                    Municipality of Manolo Fortich
+                    <br/>
+                    HEALTH PROFILE
+                </h5>
+            </div>
+            <div class="profile" id="printableProfile">
+                <h4>PERSONAL PROFILE</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>Date: <span><?php echo htmlspecialchars($date); ?></span></div>
+                        <div>Surname: <span><?php echo htmlspecialchars($surname); ?></span></div>
+                        <div>Given Name: <span><?php echo htmlspecialchars($given_name); ?></span></div>
+                        <div>Middle Name: <span><?php echo htmlspecialchars($middle_name); ?></span></div>
+                        <div>Address: <span><?php echo htmlspecialchars($address); ?></span></div>
+                        <div>Course/Year: <span><?php echo htmlspecialchars($course_year); ?></span></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>Sex: <span><?php echo htmlspecialchars($sex); ?></span></div>
+                        <div>Civil Status: <span><?php echo htmlspecialchars($civil_status); ?></span></div>
+                        <div>Age: <span><?php echo htmlspecialchars($age); ?></span></div>
+                        <div>Contact Number: <span><?php echo htmlspecialchars($tel_no); ?></span></div>
+                        <div>Date of Birth: <span><?php echo htmlspecialchars($dob); ?></span></div>
+                    </div>
+                </div>
 
-</body>
-</html>
+                <h4>HEALTH PROFILE</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>Allergy: <span><?php echo htmlspecialchars($allergy); ?></span></div>
+                        <div>Medical Treatment: <span><?php echo htmlspecialchars($medical_treatment); ?></span></div>
+                        <div>Taking Drugs: <span><?php echo htmlspecialchars($taking_drugs); ?></span></div>
+                        <div>Special Diet: <span><?php echo htmlspecialchars($special_diet); ?></span></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>Shortness of Breath: <span><?php echo htmlspecialchars($shortness_breath); ?></span></div>
+                        <div>Complication Healing: <span><?php echo htmlspecialchars($complication_healing); ?></span></div>
+                        <div>General Health: <span><?php echo htmlspecialchars($general_health); ?></span></div>
+                        <div>Pregnant: <span><?php echo htmlspecialchars($pregnant); ?></span></div>
+                    </div>
+                </div>
+
+                <h4>ADDITIONAL HEALTH INFORMATION</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>Profuse Bleeding: <span><?php echo htmlspecialchars($profuse_bleeding); ?></span></div>
+                        <div>Major Operation: <span><?php echo htmlspecialchars($major_operation); ?></span></div>
+                        <div>Sweat Nights: <span><?php echo htmlspecialchars($sweat_nights); ?></span></div>
+                        <div>Heart Ailment: <span><?php echo htmlspecialchars($heart_ailment); ?></span></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>High Blood Pressure: <span><?php echo htmlspecialchars($high_blood_pressure); ?></span></div>
+                        <div>Diabetes: <span><?php echo htmlspecialchars($diabetes); ?></span></div>
+                        <div>Rheumatic Fever: <span><?php echo htmlspecialchars($rheumatic_fever); ?></span></div>
+                        <div>Lung Disease: <span><?php echo htmlspecialchars($lung_disease); ?></span></div>
+                    </div>
+                </div>
+
+                <h4>SIGNATURE</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>Signature: <span><?php echo htmlspecialchars($signature); ?></span></div>
+                    </div>
+                </div>
+
+                <div class="print-button mt-3">
+                    <button class="btn btn-success" id="printButton">Print</button>
+                </div>
+                <script>
+ document.getElementById('printButton').addEventListener('click', function() {
+                    window.print(); // Directly trigger the print dialog
+                });
+                </script>
+
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
+            </html>

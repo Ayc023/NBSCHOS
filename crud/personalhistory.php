@@ -1,3 +1,6 @@
+<?php
+include 'admin.php';
+?>
 <html>
 <head>
     <title>Medical Form</title>

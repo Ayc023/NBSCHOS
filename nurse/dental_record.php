@@ -183,11 +183,11 @@ mysqli_close($link); // Close the connection at the end
                         <?php echo htmlspecialchars($patient['given_name'] . ' ' . $patient['surname']); ?>
                     </a>
                     <!-- Edit Icon -->
-                    <a href="edit.php?id=<?php echo $patient['id']; ?>" class="text-success ms-2" title="Edit Patient">
+                    <a href="editdent.php?id=<?php echo $patient['id']; ?>" class="text-success ms-2" title="Edit Patient">
                         <i class="fas fa-edit"></i>
                     </a>
                     <!-- Delete Icon -->
-                    <a href="delete.php?id=<?php echo $patient['id']; ?>" class="text-danger ms-2" title="Delete Patient" onclick="return confirm('Are you sure you want to delete this patient?');">
+                    <a href="deletedent.php?id=<?php echo $patient['id']; ?>" class="text-danger ms-2" title="Delete Patient" onclick="return confirm('Are you sure you want to delete this patient?');">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                 </li>

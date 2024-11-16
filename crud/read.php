@@ -1,5 +1,6 @@
 <?php
 require_once "../config.php";
+include 'admin.php';
 
 // Initialize variables for patient data
 $patient_id = isset($_GET['id']) ? trim($_GET['id']) : '';

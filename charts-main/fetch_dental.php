@@ -1,9 +1,9 @@
 <?php
 // Database connection
 $host = 'localhost';
-$db = 'medical';
-$user = 'root';
-$pass = '';
+$db = 'u593341949_dev_nbsc_hos';
+$user = 'u593341949_devHOS2024';
+$pass = 'NBSC-Clinic2024';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
